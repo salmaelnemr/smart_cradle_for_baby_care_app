@@ -1,0 +1,80 @@
+name: smart_cradle_for_baby_care_app
+description: "A new Flutter project."
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Icons
+  cupertino_icons: ^1.0.8
+  # Responsive UI
+  flutter_screenutil: ^5.9.3
+  # Icon App
+  font_awesome_flutter: ^10.7.0
+  # Charts
+  fl_chart: ^0.69.0
+  simple_animation_progress_bar: ^1.8.2
+  dotted_dashed_line: ^0.0.3
+  simple_circular_progress_bar: ^1.0.2
+  calendar_agenda:
+    path: Calender/calendar_agenda/
+  intl: ^0.17.0
+  # Stata Management
+  flutter_bloc: ^8.1.6
+  # Firebase
+  firebase_core: ^3.6.0
+  firebase_auth: ^5.3.1
+  cloud_firestore: ^5.4.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - Assets/Images/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: Assets/Fonts/Poppins-Black.ttf
+          weight: 900
+        - asset: Assets/Fonts/Poppins-ExtraBold.ttf
+          weight: 800
+        - asset: Assets/Fonts/Poppins-Bold.ttf
+          weight: 700
+        - asset: Assets/Fonts/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: Assets/Fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: Assets/Fonts/Poppins-Regular.ttf
+          weight: 400
+        - asset: Assets/Fonts/Poppins-Light.ttf
+          weight: 300
+        - asset: Assets/Fonts/Poppins-ExtraLight.ttf
+          weight: 200
+
+    - family: Roboto
+      fonts:
+        - asset: Assets/Fonts/Roboto-Black.ttf
+          weight: 900
+        - asset: Assets/Fonts/Roboto-Bold.ttf
+          weight: 700
+        - asset: Assets/Fonts/Roboto-Medium.ttf
+          weight: 500
+        - asset: Assets/Fonts/Roboto-Regular.ttf
+          weight: 400
+        - asset: Assets/Fonts/Roboto-Light.ttf
+          weight: 300
+        - asset: Assets/Fonts/Roboto-Thin.ttf
+          weight: 100
