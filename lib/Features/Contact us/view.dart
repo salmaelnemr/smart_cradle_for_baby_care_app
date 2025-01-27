@@ -48,45 +48,6 @@ class _ContactUsViewState extends State<ContactUsView> {
               title: "Instagram account",
               contactIcon: "Assets/Images/instagramIcon.png",
             ),
-            // Container(
-            //   height: 50.86.h,
-            //   width: 343.w,
-            //   decoration: BoxDecoration(
-            //     color: AppColors.white,
-            //     border: Border.all(
-            //       color: AppColors.pink,
-            //       width: 2,
-            //     ),
-            //     borderRadius: BorderRadius.circular(10),
-            //   ),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     children: [
-            //       Image.asset(
-            //         "Assets/Images/facebookIcon.png",
-            //         height: 19.h,
-            //         width: 19.w,
-            //       ),
-            //       SizedBox(
-            //         width: 6.w,
-            //       ),
-            //       ShaderMask(
-            //         shaderCallback: (bounds) => LinearGradient(
-            //           colors: AppColors.primaryG,
-            //           begin: Alignment.bottomCenter,
-            //           end: Alignment.topCenter,
-            //         ).createShader(bounds),
-            //         child: const AppText(
-            //           title: "Facebook account",
-            //           textAlign: TextAlign.center,
-            //           fontSize: 18,
-            //           fontWeight: FontWeight.w400,
-            //           fontFamily: "Roboto",
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
           ],
         ),
       ),
