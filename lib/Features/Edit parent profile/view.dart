@@ -59,6 +59,7 @@ class _EditParentProfileViewState extends State<EditParentProfileView> {
                   hint: 'Old Password',
                   prefixIcon: 'Assets/Images/passIcon.png',
                   suffixIcon: Icons.visibility,
+                  obscureText: true,
                 ),
                 SizedBox(
                   height: 16.28.h,
@@ -67,6 +68,7 @@ class _EditParentProfileViewState extends State<EditParentProfileView> {
                   hint: 'New password',
                   prefixIcon: 'Assets/Images/passIcon.png',
                   suffixIcon: Icons.visibility,
+                  obscureText: true,
                 ),
                 SizedBox(
                   height: 83.1.h,

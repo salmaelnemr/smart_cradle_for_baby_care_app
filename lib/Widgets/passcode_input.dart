@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../Core/app_colors/app_colors.dart';
+import '../Core/app_colors/app_colors.dart';
 
 class PasscodeInput extends StatefulWidget {
   final int length;
@@ -73,17 +73,18 @@ class _PasscodeInputState extends State<PasscodeInput> {
                 controller: controllers[index],
                 focusNode: focusNodes[index],
                 maxLength: 1,
-                obscureText: false, // To show dots instead of numbers
+                obscureText: false,
                 textAlign: TextAlign.center,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
-                  counterText: '', // Removes the counter below the input
+                  counterText: '',
                   border: InputBorder.none,
                 ),
                 onChanged: (value) => _onTextChanged(index, value),
               ),
             ),
-            if (index != widget.length - 1) SizedBox(width: 16.w),
+            if (index != widget.length - 1)
+              SizedBox(width: 16.w),
           ],
         );
       }),

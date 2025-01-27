@@ -49,6 +49,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                   hint: 'New password',
                   prefixIcon: 'Assets/Images/passIcon.png',
                   suffixIcon: Icons.visibility,
+                  obscureText: true,
                 ),
                 SizedBox(
                   height: 16.01.h,
@@ -57,6 +58,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                   hint: 'Confirm password',
                   prefixIcon: 'Assets/Images/passIcon.png',
                   suffixIcon: Icons.visibility,
+                  obscureText: true,
                 ),
                 SizedBox(
                   height: 76.28.h,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cradle_for_baby_care_app/Features/BottomNavBar/view.dart';
+import 'package:smart_cradle_for_baby_care_app/Features/Forgot%20Password/view.dart';
 import 'package:smart_cradle_for_baby_care_app/Features/SignUp/view.dart';
 import '../../Core/app_colors/app_colors.dart';
 import '../../Core/route_utils/route_utils.dart';
@@ -21,17 +22,22 @@ class LoginView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: 68.h,
+                height: 124.h,
               ),
-              const AppText(
-                title: "logo",
-                fontSize: 36,
-                fontFamily: "Poppins",
-                fontWeight: FontWeight.w400,
-                color: AppColors.black,
+              // const AppText(
+              //   title: "logo",
+              //   fontSize: 36,
+              //   fontFamily: "Poppins",
+              //   fontWeight: FontWeight.w400,
+              //   color: AppColors.black,
+              // ),
+              Image.asset(
+                'Assets/Images/AppLogo.png',
+                height: 150.h,
+                width: 150.w,
               ),
               SizedBox(
-                height: 71.h,
+                height: 24.h,
               ),
               const AppText(
                 title: "Welcome back",
@@ -54,6 +60,7 @@ class LoginView extends StatelessWidget {
                 hint: 'Password',
                 prefixIcon: 'Assets/Images/passIcon.png',
                 suffixIcon: Icons.visibility,
+                obscureText: true,
               ),
               SizedBox(
                 height: 5.14.h,
@@ -63,17 +70,24 @@ class LoginView extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    ShaderMask(
-                      shaderCallback: (bounds) => LinearGradient(
-                        colors: AppColors.primaryG,
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                      ).createShader(bounds),
-                      child: const AppText(
-                        title: "Forgot password?",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        fontFamily: "Roboto",
+                    InkWell(
+                      onTap: (){
+                        RouteUtils.push(
+                          const ForgotPasswordView(),
+                        );
+                      },
+                      child: ShaderMask(
+                        shaderCallback: (bounds) => LinearGradient(
+                          colors: AppColors.primaryG,
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                        ).createShader(bounds),
+                        child: const AppText(
+                          title: "Forgot password?",
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                          fontFamily: "Roboto",
+                        ),
                       ),
                     ),
                   ],

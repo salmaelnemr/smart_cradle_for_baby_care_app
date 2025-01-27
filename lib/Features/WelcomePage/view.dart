@@ -18,14 +18,19 @@ class WelcomePageView extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 268.h,),
-            const AppText(
-              title: "logo",
-              fontSize: 36,
-              fontFamily: "Poppins",
-              fontWeight: FontWeight.w400,
-              color: AppColors.black,
+            // const AppText(
+            //   title: "logo",
+            //   fontSize: 36,
+            //   fontFamily: "Poppins",
+            //   fontWeight: FontWeight.w400,
+            //   color: AppColors.black,
+            // ),
+            Image.asset(
+              'Assets/Images/AppLogo.png',
+              height: 200.h,
+              width: 200.w,
             ),
-            SizedBox(height: 120.h,),
+            SizedBox(height: 70.h,),
             ShaderMask(
               shaderCallback: (bounds) => LinearGradient(
                 colors: AppColors.primaryG,

@@ -23,15 +23,20 @@ class SignUpView extends StatelessWidget {
               SizedBox(
                 height: 68.h,
               ),
-              const AppText(
-                title: "logo",
-                fontSize: 36,
-                fontFamily: "Poppins",
-                fontWeight: FontWeight.w400,
-                color: AppColors.black,
+              // const AppText(
+              //   title: "logo",
+              //   fontSize: 36,
+              //   fontFamily: "Poppins",
+              //   fontWeight: FontWeight.w400,
+              //   color: AppColors.black,
+              // ),
+              Image.asset(
+                'Assets/Images/AppLogo.png',
+                height: 150.h,
+                width: 150.w,
               ),
               SizedBox(
-                height: 71.h,
+                height: 24.h,
               ),
               const AppText(
                 title: "Create account",
@@ -68,6 +73,8 @@ class SignUpView extends StatelessWidget {
                 hint: 'Password',
                 prefixIcon: 'Assets/Images/passIcon.png',
                 suffixIcon: Icons.visibility,
+                obscureText: true,
+                //obscureText: visible,
               ),
               SizedBox(
                 height: 16.28.h,
@@ -76,6 +83,7 @@ class SignUpView extends StatelessWidget {
                 hint: 'Confirm password',
                 prefixIcon: 'Assets/Images/passIcon.png',
                 suffixIcon: Icons.visibility,
+                obscureText: true,
               ),
               SizedBox(
                 height: 67.14.h,

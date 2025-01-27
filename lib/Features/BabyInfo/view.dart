@@ -21,9 +21,15 @@ class BabyInformationView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Center(child: Text("logo")),
+                Center(
+                  child: Image.asset(
+                    'Assets/Images/AppLogo.png',
+                    height: 150.h,
+                    width: 150.w,
+                  ),
+                ),
                 SizedBox(
-                  height: 71.h,
+                  height: 24.h,
                 ),
                 const AppText(
                   title: "What’s your baby’s name?",

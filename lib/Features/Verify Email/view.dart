@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_cradle_for_baby_care_app/Features/Reset%20Password/view.dart';
 import '../../Core/app_colors/app_colors.dart';
 import '../../Core/route_utils/route_utils.dart';
-import '../../Widgets/app/passcode_input.dart';
+import '../../Widgets/passcode_input.dart';
 import '../../Widgets/app_button.dart';
 import '../../Widgets/app_text.dart';
 import '../../Widgets/secondary_app_bar.dart';
@@ -94,9 +95,9 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                   height: 50.86.h,
                   title: "Send",
                   onPressed: (){
-                    // RouteUtils.push(
-                    //   const HomeView(),
-                    // );
+                    RouteUtils.push(
+                      const ResetPasswordView(),
+                    );
                   },
                 ),
               ],

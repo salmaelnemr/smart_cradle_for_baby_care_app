@@ -7,7 +7,7 @@ import 'package:smart_cradle_for_baby_care_app/Features/WelcomePage/view.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app_text.dart';
 import '../../Core/app_colors/app_colors.dart';
 import '../../Core/route_utils/route_utils.dart';
-import '../../Widgets/app/custom_indicator.dart';
+import '../../Widgets/custom_indicator.dart';
 import '../../Widgets/app_button.dart';
 import 'first_view.dart';
 
@@ -25,7 +25,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.grey,
+      backgroundColor: AppColors.pinkLight,
       body: SafeArea(
         child: Column(
           children: [
@@ -95,9 +95,11 @@ class _OnboardScreenState extends State<OnboardScreen> {
                           const WelcomePageView(),
                         );
                       } else {
-                        _controller.animateToPage(index + 1,
-                            duration: const Duration(milliseconds: 250),
-                            curve: Curves.linear);
+                        _controller.animateToPage(
+                          index + 1,
+                          duration: const Duration(milliseconds: 250),
+                          curve: Curves.linear,
+                        );
                       }
                     },
                   ),

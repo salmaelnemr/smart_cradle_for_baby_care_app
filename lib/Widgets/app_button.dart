@@ -30,26 +30,31 @@ class AppButton extends StatelessWidget {
     }
     return InkWell(
       onTap: onPressed,
-        child: Container(
-          padding: const EdgeInsets.all(14),
-          width: width,
-          height: height,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: AppColors.primaryG,
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(14),
+              width: width,
+              height: height,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: AppColors.primaryG,
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                ),
+                borderRadius: BorderRadius.circular(32),
+              ),
             ),
-            borderRadius: BorderRadius.circular(32),
-          ),
-          child: AppText(
-            textAlign: TextAlign.center,
-            title: title,
-            fontSize: fontSize,
-            fontWeight: FontWeight.w400,
-            fontFamily: "Roboto",
-            color: AppColors.grey,
-          ),
+            AppText(
+              textAlign: TextAlign.center,
+              title: title,
+              fontSize: fontSize,
+              fontWeight: FontWeight.w400,
+              fontFamily: "Roboto",
+              color: AppColors.grey,
+            ),
+          ],
         ),
     );
   }

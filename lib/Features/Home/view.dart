@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/main_app_bar.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app_text.dart';
-import 'package:smart_cradle_for_baby_care_app/Widgets/temperature_card.dart';
+import 'package:smart_cradle_for_baby_care_app/Widgets/app/temperature_card.dart';
 import '../../Core/app_colors/app_colors.dart';
 import '../../Widgets/app/heart_rate_card.dart';
 import '../../Widgets/circular_progress_bar.dart';
@@ -16,7 +16,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-
   List<FlSpot> get allSpots => const [
         FlSpot(0, 20),
         FlSpot(1, 25),
@@ -63,7 +62,7 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: const MainAppBar(
-        title: 'Logo',
+        appLogo: 'Assets/Images/AppLogo.png',
         profileIcon: 'Assets/Images/profileIcon.png',
         notificationIcon: 'Assets/Images/notificationIcon.png',
       ),
@@ -78,12 +77,36 @@ class _HomeViewState extends State<HomeView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const AppText(
-              title: "Vital signs",
-              fontSize: 24,
-              fontFamily: "Roboto",
-              fontWeight: FontWeight.w400,
-              color: AppColors.black,
+            Row(
+              children: [
+                const AppText(
+                  title: "Vital signs",
+                  fontSize: 24,
+                  fontFamily: "Roboto",
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.black,
+                ),
+                SizedBox(
+                  width: 160.w,
+                ),
+                Container(
+                  height: 25.h,
+                  width: 90.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: AppColors.pinkLight,
+                  ),
+                  child: const Center(
+                    child: AppText(
+                      title: "Weekly",
+                      fontFamily: "Roboto",
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.black,
+                    ),
+                  ),
+                ),
+              ],
             ),
             SizedBox(
               height: 18.h,
@@ -135,7 +158,9 @@ class _HomeViewState extends State<HomeView> {
                   imgTitle: "Assets/Images/breatheIcon.png",
                   value: "98 SpO2",
                 ),
-                SizedBox(width: 37.w,),
+                SizedBox(
+                  width: 37.w,
+                ),
                 const CircularProgressBar(
                   title: "Weight",
                   subtitle: "Normal",

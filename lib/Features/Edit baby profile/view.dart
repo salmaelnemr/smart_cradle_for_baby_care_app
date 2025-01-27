@@ -21,7 +21,7 @@ class _EditBabyProfileViewState extends State<EditBabyProfileView> {
       backgroundColor: AppColors.white,
       appBar: SecondaryAppBar(
         title: "Edit baby profile",
-        onTap:  (){
+        onTap: () {
           RouteUtils.push(
             const EditProfileView(),
           );
@@ -52,7 +52,7 @@ class _EditBabyProfileViewState extends State<EditBabyProfileView> {
                     width: 317.w,
                     height: 50.86.h,
                     title: "Save",
-                    onPressed: (){
+                    onPressed: () {
                       // RouteUtils.push(
                       //   const PasscodeView(),
                       // );

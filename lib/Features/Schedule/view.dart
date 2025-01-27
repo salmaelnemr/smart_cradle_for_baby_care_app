@@ -20,7 +20,7 @@ class _ScheduleViewState extends State<ScheduleView> {
         title: 'Schedule',
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 60.h, horizontal: 80.w),
+        padding: EdgeInsets.symmetric(vertical: 31.h, horizontal: 80.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -30,14 +30,21 @@ class _ScheduleViewState extends State<ScheduleView> {
                 icon: "Assets/Images/feedIcon.png",
               ),
             ),
-            SizedBox(height: 22.h,),
+            SizedBox(height: 18.h,),
             const InkWell(
               child: SectionCard(
                 title: "Vaccines",
                 icon: "Assets/Images/vaccines.png",
               ),
             ),
-            SizedBox(height: 22.h,),
+            SizedBox(height: 18.h,),
+            const InkWell(
+              child: SectionCard(
+                title: "Medicine",
+                icon: "Assets/Images/medicineIcon.png",
+              ),
+            ),
+            SizedBox(height: 18.h,),
             const InkWell(
               child: SectionCard(
                 title: "Sticky notes",

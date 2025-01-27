@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/app_colors/app_colors.dart';
+import 'package:smart_cradle_for_baby_care_app/Features/Rocking%20Guidelines/activate_rocking.dart';
 import 'package:smart_cradle_for_baby_care_app/Features/Rocking/end_view.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app_text.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/secondary_app_bar.dart';
@@ -46,11 +47,18 @@ class _RockingStartViewState extends State<RockingStartView> {
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                 ).createShader(bounds),
-                child: const AppText(
-                  title: "When to rocking?",
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                  fontFamily: "Roboto",
+                child: InkWell(
+                  onTap: (){
+                    RouteUtils.push(
+                      const ActivateRockingView(),
+                    );
+                  },
+                  child: const AppText(
+                    title: "When to rocking?",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                    fontFamily: "Roboto",
+                  ),
                 ),
               ),
               SizedBox(

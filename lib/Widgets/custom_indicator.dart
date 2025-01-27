@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../Core/app_colors/app_colors.dart';
+import '../Core/app_colors/app_colors.dart';
 
 class CustomIndicator extends StatelessWidget {
   final bool active;
@@ -25,7 +24,7 @@ class CustomIndicator extends StatelessWidget {
               ),
       ),
       width: active ? 20.w : 9.w,
-      height: 9,
+      height: 9.h,
     );
   }
 }

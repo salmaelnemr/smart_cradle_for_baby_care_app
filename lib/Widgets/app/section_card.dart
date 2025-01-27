@@ -18,8 +18,8 @@ class SectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        height: 161.h,
-        width: 234.w,
+        height: 132.h,
+        width: 193.w,
         decoration: BoxDecoration(
           color: AppColors.pinkLight,
           borderRadius: BorderRadius.circular(10),
@@ -29,16 +29,16 @@ class SectionCard extends StatelessWidget {
           children: [
             Image.asset(
               icon,
-              height: 67.h,
-              width: 68.w,
+              height: 56.h,
+              width: 56.w,
             ),
             SizedBox(
-              height: 22.h,
+              height: 18.h,
             ),
             AppText(
               title: title,
               fontFamily: "Roboto",
-              fontSize: 24,
+              fontSize: 20,
               color: AppColors.black,
               fontWeight: FontWeight.w400,
               textAlign: TextAlign.center,

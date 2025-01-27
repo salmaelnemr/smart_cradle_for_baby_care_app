@@ -4,7 +4,7 @@ import 'package:smart_cradle_for_baby_care_app/Features/BottomNavBar/view.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app_button.dart';
 import '../../Core/app_colors/app_colors.dart';
 import '../../Core/route_utils/route_utils.dart';
-import '../../Widgets/app/passcode_input.dart';
+import '../../Widgets/passcode_input.dart';
 import '../../Widgets/app_text.dart';
 
 class PasscodeView extends StatefulWidget {
@@ -27,16 +27,15 @@ class _PasscodeViewState extends State<PasscodeView> {
               SizedBox(
                 height: 68.h,
               ),
-              const AppText(
-                title: "logo",
-                fontSize: 36,
-                fontFamily: "Poppins",
-                fontWeight: FontWeight.w400,
-                color: AppColors.black,
-                textAlign: TextAlign.center,
+              Center(
+                child: Image.asset(
+                  'Assets/Images/AppLogo.png',
+                  height: 150.h,
+                  width: 150.w,
+                ),
               ),
               SizedBox(
-                height: 176.h,
+                height: 24.h,
               ),
               const AppText(
                 title: "Enter cradle passcode",

@@ -15,6 +15,7 @@ class AppTextField extends StatefulWidget {
     this.onSaved,
     this.prefixIcon,
     this.suffixIcon,
+    this.obscureText = false,
   });
 
   final String hint;
@@ -27,6 +28,7 @@ class AppTextField extends StatefulWidget {
   final String? Function(String?)? validator;
   final int? maxLength;
   final TextEditingController? controller;
+  final bool obscureText;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -60,12 +62,15 @@ class _AppTextFieldState extends State<AppTextField> {
               color: AppColors.black,
               fontSize: widget.hintFontSize,
             ),
-            maxLines: null,
+            //maxLines: null,
             textInputAction: TextInputAction.newline,
             onChanged: widget.onChanged,
             onSaved: widget.onSaved,
             validator: widget.validator,
             maxLength: widget.maxLength,
+            maxLines: widget.suffixIcon != null ? 1 : null,
+            obscureText: widget.suffixIcon != null ? visible : false,
+            //obscureText: !visible,
             decoration: InputDecoration(
               hintText: widget.hint,
               contentPadding: const EdgeInsets.only(top: 10, bottom: 10),
