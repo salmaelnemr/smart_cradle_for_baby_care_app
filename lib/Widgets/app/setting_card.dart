@@ -66,8 +66,7 @@ class SettingCard extends StatelessWidget {
                 child: CupertinoSwitch(
                   value: value!,
                   onChanged: onChanged,
-                  activeColor: AppColors.primaryColor2,
-                ),
+                  activeColor: const Color(0xFF55C76C),                ),
               ),
           ],
         ),

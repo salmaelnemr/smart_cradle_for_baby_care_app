@@ -11,6 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  easy_date_timeline: ^0.1.1
 
   # Icons
   cupertino_icons: ^1.0.8
@@ -24,9 +25,8 @@ dependencies:
   simple_animation_progress_bar: ^1.8.2
   dotted_dashed_line: ^0.0.3
   simple_circular_progress_bar: ^1.0.2
-  calendar_agenda:
-    path: Calender/calendar_agenda/
-  intl: ^0.17.0
+
+  intl:
   # Stata Management
   flutter_bloc: ^8.1.6
   # Firebase

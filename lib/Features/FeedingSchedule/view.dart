@@ -1,8 +1,10 @@
-import 'package:calendar_agenda/calendar_agenda.dart';
+import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/app_colors/app_colors.dart';
-
+import 'package:smart_cradle_for_baby_care_app/Core/route_utils/route_utils.dart';
+import 'package:smart_cradle_for_baby_care_app/Features/FeedingSchedule/add_task.dart';
 class FeedingSchedule extends StatefulWidget {
   const FeedingSchedule({super.key});
 
@@ -15,13 +17,13 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: 500.h,
+        height: double.infinity,
         width: double.infinity,
         decoration: const BoxDecoration(
           color: AppColors.pinkLight,
           image: DecorationImage(
             image: AssetImage(
-              "Assets/Images/feeding.png",
+              "Assets/Images/nn.png",
             ),
             //fit: BoxFit.cover,
           ),
@@ -49,6 +51,7 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
             ];
           },
           body: Container(
+            height: 1000.h,
             //height: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 15),
             decoration: const BoxDecoration(
@@ -68,13 +71,14 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          width: 50,
-                          height: 4,
-                          decoration: BoxDecoration(
-                              color: AppColors.grey.withOpacity(0.3),
-                              borderRadius: BorderRadius.circular(3)),
+                        const Text(
+                          'Feeding',
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                         ),
+
+                        _showDateBar(),
+
+
                       ],
                     ),
                   ),
@@ -85,7 +89,7 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
         ),
       ),
       floatingActionButton: InkWell(
-        onTap: () {},
+        onTap: () {RouteUtils.push(const AddTaskPage());},
         child: Container(
           width: 55,
           height: 55,
@@ -112,6 +116,31 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
             color: AppColors.white,
           ),
         ),
+      ),
+    );
+  }
+  _showDateBar() {
+    return  EasyDateTimeLine(
+      initialDate: DateTime.now(),
+      onDateChange: (selectedDate) {
+        //[selectedDate] the new date selected.
+      },
+      headerProps: const EasyHeaderProps(
+        monthPickerType: MonthPickerType.switcher
+      ),
+      dayProps: EasyDayProps(
+        todayHighlightColor: AppColors.pinkLight,
+        height: 76,
+        width: 67,
+        activeDayStyle:DayStyle(decoration:  BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: AppColors.primaryG
+          ),
+        ),
+      ),
       ),
     );
   }
