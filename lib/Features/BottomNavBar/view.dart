@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_cradle_for_baby_care_app/Features/Chat%20Bot/view.dart';
 import '../../Core/app_colors/app_colors.dart';
-import '../FeedingSchedule/view.dart';
 import '../Home/view.dart';
 import '../Monitor/view.dart';
 import '../Relaxation/view.dart';
@@ -22,7 +22,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const RelaxationView(),
     const MonitorView(),
     const ScheduleView(),
-    const FeedingSchedule(),
+    const ChatBotView(),
   ];
 
   void _onItemTapped(int index) {

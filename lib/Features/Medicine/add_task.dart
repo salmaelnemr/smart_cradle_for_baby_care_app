@@ -35,7 +35,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
           color: AppColors.pinkLight,
           image: DecorationImage(
             image: AssetImage(
-              "Assets/Images/feeding_n.png",
+              "Assets/Images/medicine_n.png",
             ),
             //fit: BoxFit.cover,
           ),
@@ -77,8 +77,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
               child: SingleChildScrollView(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    const SizedBox(
-                    height: 10),
+                  const SizedBox(
+                      height: 10),
                   const Center(
                     child: Text(
                       'Add Reminder',

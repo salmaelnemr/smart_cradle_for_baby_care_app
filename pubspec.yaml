@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   easy_date_timeline: ^0.1.1
-
+  animated_toggle_switch:
   # Icons
   cupertino_icons: ^1.0.8
   flutter_rating_bar: ^4.0.1

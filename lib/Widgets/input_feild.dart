@@ -21,10 +21,12 @@ class MyInputField extends StatelessWidget {
         children: [
           Text(
             title,
+
             style: TextStyle(
-                fontSize: 18,
-                color: Colors.grey[800],
-                fontWeight: FontWeight.bold),
+              color: Colors.grey[800],
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                fontFamily: "Roboto"),
           ),
           Container(
             margin: const EdgeInsets.only(top: 8),

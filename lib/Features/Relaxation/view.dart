@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_cradle_for_baby_care_app/Features/Music/view.dart';
 import 'package:smart_cradle_for_baby_care_app/Features/Rocking/start_view.dart';
 import '../../Core/app_colors/app_colors.dart';
 import '../../Core/route_utils/route_utils.dart';
@@ -26,8 +27,13 @@ class _RelaxationViewState extends State<RelaxationView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const InkWell(
-              child: SectionCard(
+             InkWell(
+              onTap: (){
+                RouteUtils.push(
+                  const MusicView(),
+                );
+              },
+              child: const SectionCard(
                 title: "Music",
                 icon: "Assets/Images/music.png",
               ),

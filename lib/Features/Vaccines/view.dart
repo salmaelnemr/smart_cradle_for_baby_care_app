@@ -4,15 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/app_colors/app_colors.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/route_utils/route_utils.dart';
-import 'package:smart_cradle_for_baby_care_app/Features/FeedingSchedule/add_task.dart';
-class FeedingSchedule extends StatefulWidget {
-  const FeedingSchedule({super.key});
+import 'package:smart_cradle_for_baby_care_app/Features/Vaccines/add_task.dart';
+class VaccineSchedule extends StatefulWidget {
+  const VaccineSchedule({super.key});
 
   @override
-  State<FeedingSchedule> createState() => _FeedingScheduleState();
+  State<VaccineSchedule> createState() => _VaccineScheduleState();
 }
 
-class _FeedingScheduleState extends State<FeedingSchedule> {
+class _VaccineScheduleState extends State<VaccineSchedule> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +23,7 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
           color: AppColors.pinkLight,
           image: DecorationImage(
             image: AssetImage(
-              "Assets/Images/feeding_n.png",
+              "Assets/Images/vaccines_n.png",
             ),
             //fit: BoxFit.cover,
           ),
@@ -72,7 +72,7 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
                           height: 10,
                         ),
                         const Text(
-                          'Feeding',
+                          'Vaccines',
                           style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w700,
@@ -134,12 +134,12 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
         activeDayStyle:DayStyle(decoration:  BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: AppColors.primaryG
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: AppColors.primaryG
           ),
         ),
-      ),
+        ),
       ),
     );
   }
