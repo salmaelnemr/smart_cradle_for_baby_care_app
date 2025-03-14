@@ -53,9 +53,9 @@ class _EditBabyProfileViewState extends State<EditBabyProfileView> {
                     height: 50.86.h,
                     title: "Save",
                     onPressed: () {
-                      // RouteUtils.push(
-                      //   const PasscodeView(),
-                      // );
+                      RouteUtils.push(
+                        const EditProfileView(),
+                      );
                     },
                   ),
                 ],

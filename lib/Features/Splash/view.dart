@@ -32,15 +32,15 @@ class _SplashViewState extends State<SplashView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'Assets/Images/AppLogo.png',
-                height: 137.h,
-                width: 125.w,
+                'Assets/Images/logo.png',
+                height: 278.h,
+                width: 278.w,
               ),
-              SizedBox(height: 18.h,),
+              //SizedBox(height: 16.h,),
               Image.asset(
-                'Assets/Images/SNOOZEText.png',
+                'Assets/Images/IntelliNest.png',
                 height: 44.h,
-                width: 115.w,
+                width: 119.w,
               ),
             ],
           ),

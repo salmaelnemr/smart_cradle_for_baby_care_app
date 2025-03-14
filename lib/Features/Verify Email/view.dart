@@ -32,12 +32,12 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
       body: Form(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.only(top: 16.h,),
+            padding: EdgeInsets.only(top: 17.62.h,),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const AppText(
-                  title: "Please send the 4 digit code that send to your\nemail address",
+                  title: "Enter the 4 digit code that send to your email\naddress",
                   fontSize: 14,
                   fontFamily: "Roboto",
                   fontWeight: FontWeight.w400,
@@ -52,6 +52,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                     onCompleted: (passcode) {
                       print('Entered Passcode: $passcode');
                     },
+                    color: AppColors.pinkLight,
                   ),
                 ),
                 SizedBox(height: 16.h,),

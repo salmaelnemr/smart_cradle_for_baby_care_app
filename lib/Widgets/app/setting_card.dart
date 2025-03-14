@@ -57,16 +57,14 @@ class SettingCard extends StatelessWidget {
               fontFamily: "Roboto",
               color: color,
             ),
-            SizedBox(
-              width: 59.w,
-            ),
+            const Spacer(),
             if (value != null && onChanged != null)
               InkWell(
                 onTap: onTap,
                 child: CupertinoSwitch(
                   value: value!,
                   onChanged: onChanged,
-                  activeColor: AppColors.primaryColor2,
+                  activeColor: const Color(0xFF55C76C),
                 ),
               ),
           ],

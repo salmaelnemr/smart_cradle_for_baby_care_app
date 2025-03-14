@@ -13,24 +13,16 @@ class WelcomePageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
+      backgroundColor: AppColors.pinkLight,
       body: Center(
         child: Column(
           children: [
-            SizedBox(height: 268.h,),
-            // const AppText(
-            //   title: "logo",
-            //   fontSize: 36,
-            //   fontFamily: "Poppins",
-            //   fontWeight: FontWeight.w400,
-            //   color: AppColors.black,
-            // ),
+            SizedBox(height: 182.h,),
             Image.asset(
-              'Assets/Images/AppLogo.png',
-              height: 200.h,
-              width: 200.w,
+              'Assets/Images/logo.png',
+              height: 260.h,
+              width: 260.w,
             ),
-            SizedBox(height: 70.h,),
             ShaderMask(
               shaderCallback: (bounds) => LinearGradient(
                 colors: AppColors.primaryG,
@@ -45,7 +37,7 @@ class WelcomePageView extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(height: 64.h,),
+            SizedBox(height: 56.h,),
             AppButton(
               width: 317.w,
               height: 50.86.h,
@@ -56,7 +48,7 @@ class WelcomePageView extends StatelessWidget {
                 );
               },
             ),
-            SizedBox(height: 46.14.h,),
+            SizedBox(height: 24.14.h,),
             AppButton(
               width: 317.w,
               height: 50.86.h,

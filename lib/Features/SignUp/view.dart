@@ -1,42 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_cradle_for_baby_care_app/Core/validator_utils/validator_utils.dart';
 import 'package:smart_cradle_for_baby_care_app/Features/BabyInfo/view.dart';
 import 'package:smart_cradle_for_baby_care_app/Features/Login/view.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app_text.dart';
 import '../../Core/app_colors/app_colors.dart';
+import '../../Core/dio/api_provider.dart';
 import '../../Core/route_utils/route_utils.dart';
 import '../../Widgets/app_button.dart';
 import '../../Widgets/app_text_field.dart';
 
-class SignUpView extends StatelessWidget {
+class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
+
+  @override
+  State<SignUpView> createState() => _SignUpViewState();
+}
+
+class _SignUpViewState extends State<SignUpView> {
+  //bool visible = true;
+  var formKey = GlobalKey<FormState>();
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+
+  @override
+  void dispose(){
+    super.dispose();
+    fullNameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    phoneNumberController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.pinkLight,
       body: Form(
+        key: formKey,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: 68.h,
+                height: 43.h,
               ),
-              // const AppText(
-              //   title: "logo",
-              //   fontSize: 36,
-              //   fontFamily: "Poppins",
-              //   fontWeight: FontWeight.w400,
-              //   color: AppColors.black,
-              // ),
               Image.asset(
-                'Assets/Images/AppLogo.png',
-                height: 150.h,
-                width: 150.w,
+                'Assets/Images/logo.png',
+                height: 146.h,
+                width: 146.w,
               ),
               SizedBox(
-                height: 24.h,
+                height: 4.h,
               ),
               const AppText(
                 title: "Create account",
@@ -48,54 +67,89 @@ class SignUpView extends StatelessWidget {
               SizedBox(
                 height: 40.86.h,
               ),
-              const AppTextField(
+              AppTextField(
                 hint: 'Full Name',
                 prefixIcon: 'Assets/Images/personIcon.png',
+                controller: fullNameController,
+                validator: ValidatorUtils.name,
               ),
               SizedBox(
                 height: 16.28.h,
               ),
-              const AppTextField(
+              AppTextField(
                 hint: 'Email',
                 prefixIcon: 'Assets/Images/emailIcon.png',
+                controller: emailController,
+                validator: ValidatorUtils.email,
               ),
               SizedBox(
                 height: 16.28.h,
               ),
-              const AppTextField(
+              AppTextField(
                 hint: 'Phone number',
                 prefixIcon: 'Assets/Images/phoneIcon.png',
+                controller: phoneNumberController,
+                validator: ValidatorUtils.phone,
               ),
               SizedBox(
                 height: 16.28.h,
               ),
-              const AppTextField(
+              AppTextField(
                 hint: 'Password',
                 prefixIcon: 'Assets/Images/passIcon.png',
                 suffixIcon: Icons.visibility,
                 obscureText: true,
+                controller: passwordController,
+                validator: ValidatorUtils.password,
                 //obscureText: visible,
               ),
               SizedBox(
                 height: 16.28.h,
               ),
-              const AppTextField(
+              AppTextField(
                 hint: 'Confirm password',
                 prefixIcon: 'Assets/Images/passIcon.png',
                 suffixIcon: Icons.visibility,
                 obscureText: true,
+                controller: confirmPasswordController,
+                validator: ValidatorUtils.password,
+                //     (value) {
+                //   if (value == null || value.isEmpty) {
+                //     return "Confirm password must not be empty";
+                //   }
+                //   else if(value ){
+                //     return "Confirm password does not match password";
+                //   }
+                //   return null;
+                // }
               ),
               SizedBox(
-                height: 67.14.h,
+                height: 64.14.h,
               ),
               AppButton(
                 width: 317.w,
                 height: 50.86.h,
                 title: "Sign up",
-                onPressed: (){
-                  RouteUtils.push(
-                    const BabyInformationView(),
-                  );
+                onPressed: () async {
+                  // RouteUtils.push(
+                  //           const BabyInformationView(),
+                  //         );
+                  if (formKey.currentState!.validate()) {
+                    String message = await ApiProvider().registerUser(
+                      fullName: fullNameController.text,
+                      email: emailController.text,
+                      phoneNumber: phoneNumberController.text,
+                      password: passwordController.text,
+                      confirmPassword: confirmPasswordController.text,
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message,),),);
+
+                    if (message == "Register Success") {
+                      RouteUtils.push(
+                        const BabyInformationView(),
+                      );
+                    }
+                  }
                 },
               ),
               SizedBox(

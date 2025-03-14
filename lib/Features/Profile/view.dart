@@ -22,7 +22,7 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   bool isLoading = false;
-  bool isPopupNotificationsEnabled = false;
+  bool isPopupNotificationsEnabled = true;
 
   @override
   Widget build(BuildContext context) {
@@ -221,20 +221,9 @@ class _ProfileViewState extends State<ProfileView> {
                 ],
               ),
             ),
-            SizedBox(height: 22.h,),
-            Container(
-              height: 77.h,
-              width: 358.w,
-              padding: const EdgeInsets.all(
-                10,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: const Color(0xFFEAEAEA),
-                  width: 1,
-                ),
-              ),
+            SizedBox(height: 12.h,),
+            Padding(
+              padding: const EdgeInsets.all(10),
               child: SettingCard(
                 title: "Log out",
                 image: "Assets/Images/logOutIcon.png",

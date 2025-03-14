@@ -19,7 +19,7 @@ class SectionCard extends StatelessWidget {
     return Center(
       child: Container(
         height: 132.h,
-        width: 193.w,
+        width: 345.w,
         decoration: BoxDecoration(
           color: AppColors.pinkLight,
           borderRadius: BorderRadius.circular(10),

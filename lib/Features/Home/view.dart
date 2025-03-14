@@ -6,7 +6,7 @@ import 'package:smart_cradle_for_baby_care_app/Widgets/app_text.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app/temperature_card.dart';
 import '../../Core/app_colors/app_colors.dart';
 import '../../Widgets/app/heart_rate_card.dart';
-import '../../Widgets/circular_progress_bar.dart';
+import '../../Widgets/app/weight_card.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -62,76 +62,54 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: const MainAppBar(
-        appLogo: 'Assets/Images/AppLogo.png',
+        appName: 'IntelliNest',
         profileIcon: 'Assets/Images/profileIcon.png',
         notificationIcon: 'Assets/Images/notificationIcon.png',
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
           top: 18.h,
-          right: 21.w,
-          left: 21.w,
-          bottom: 27.h,
+          right: 20.w,
+          left: 20.w,
+          bottom: 25.h,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                const AppText(
-                  title: "Vital signs",
-                  fontSize: 24,
-                  fontFamily: "Roboto",
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.black,
-                ),
-                SizedBox(
-                  width: 160.w,
-                ),
-                Container(
-                  height: 25.h,
-                  width: 90.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: AppColors.pinkLight,
-                  ),
-                  child: const Center(
-                    child: AppText(
-                      title: "Weekly",
-                      fontFamily: "Roboto",
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.black,
-                    ),
-                  ),
-                ),
-              ],
+            const AppText(
+              title: "Vital signs",
+              fontSize: 24,
+              fontFamily: "Roboto",
+              fontWeight: FontWeight.w400,
+              color: AppColors.black,
             ),
             SizedBox(
-              height: 18.h,
+              height: 25.h,
             ),
             Row(
               children: [
                 Expanded(
                   child: TemperatureCard(
                     temperatureDegree: temperatureDegree,
-                    imgTitle: "Assets/Images/babyTemp.png",
+                    imgTitle: 'Assets/Images/sticky_notes.png',
+                    title: "Baby Temperature",
                     status: "Normal",
-                    subtitle: 'Baby',
-                    color: const Color(0xFF26B57E),
+                    //color: const Color(0xFF26B57E),
+                    degree: "37 C",
                   ),
                 ),
                 SizedBox(
-                  width: 37.w,
+                  width: 14.w,
                 ),
                 Expanded(
                   child: TemperatureCard(
                     temperatureDegree: temperatureDegree,
-                    imgTitle: "Assets/Images/homeTemp.png",
-                    status: "Hot",
-                    subtitle: 'Room',
-                    color: const Color(0xFFFF210D),
+                    imgTitle: 'Assets/Images/homeTemp.png',
+                    title: "Home Temperature",
+                    status: "Normal",
+                    //color: const Color(0xFFFF210D),
+                    degree: "30 C",
                   ),
                 ),
               ],
@@ -144,27 +122,27 @@ class _HomeViewState extends State<HomeView> {
               value: "78 BPM",
               status: "Normal",
               allSpots: allSpots,
-              color: const Color(0xFF26B57E),
+              //color: const Color(0xFF26B57E),
             ),
             SizedBox(
               height: 25.h,
             ),
             Row(
               children: [
-                const CircularProgressBar(
+                const WeightCard(
                   title: "Breathing",
                   subtitle: "Normal",
-                  color: Color(0xFF26B57E),
+                  //color: Color(0xFF26B57E),
                   imgTitle: "Assets/Images/breatheIcon.png",
                   value: "98 SpO2",
                 ),
                 SizedBox(
-                  width: 37.w,
+                  width: 14.w,
                 ),
-                const CircularProgressBar(
+                const WeightCard(
                   title: "Weight",
                   subtitle: "Normal",
-                  color: Color(0xFF26B57E),
+                  //color: Color(0xFF26B57E),
                   imgTitle: "Assets/Images/weightIcon.png",
                   value: "2.4 kg",
                 ),

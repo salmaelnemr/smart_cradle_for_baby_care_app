@@ -18,24 +18,24 @@ class _PasscodeViewState extends State<PasscodeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.pinkLight,
       body: Form(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: 68.h,
+                height: 43.h,
               ),
               Center(
                 child: Image.asset(
-                  'Assets/Images/AppLogo.png',
-                  height: 150.h,
-                  width: 150.w,
+                  'Assets/Images/logo.png',
+                  height: 146.h,
+                  width: 146.w,
                 ),
               ),
               SizedBox(
-                height: 24.h,
+                height: 32.h,
               ),
               const AppText(
                 title: "Enter cradle passcode",
@@ -45,7 +45,7 @@ class _PasscodeViewState extends State<PasscodeView> {
                 color: AppColors.black,
               ),
               SizedBox(
-                height: 7.h,
+                height: 8.h,
               ),
               const AppText(
                 title: "you will find it on the cradle ",
@@ -55,7 +55,7 @@ class _PasscodeViewState extends State<PasscodeView> {
                 color: AppColors.grey2,
               ),
               SizedBox(
-                height: 79.h,
+                height: 40.h,
               ),
               Center(
                 child: PasscodeInput(
@@ -65,7 +65,7 @@ class _PasscodeViewState extends State<PasscodeView> {
                 ),
               ),
               SizedBox(
-                height: 123.h,
+                height: 266.h,
               ),
               AppButton(
                 width: 317.w,

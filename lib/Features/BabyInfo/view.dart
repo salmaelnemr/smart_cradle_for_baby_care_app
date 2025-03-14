@@ -13,7 +13,7 @@ class BabyInformationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.pinkLight,
       body: Form(
         child: SingleChildScrollView(
           child: Padding(
@@ -23,13 +23,13 @@ class BabyInformationView extends StatelessWidget {
               children: [
                 Center(
                   child: Image.asset(
-                    'Assets/Images/AppLogo.png',
-                    height: 150.h,
-                    width: 150.w,
+                    'Assets/Images/logo.png',
+                    height: 146.h,
+                    width: 146.w,
                   ),
                 ),
                 SizedBox(
-                  height: 24.h,
+                  height: 32.h,
                 ),
                 const AppText(
                   title: "What’s your baby’s name?",
@@ -39,14 +39,14 @@ class BabyInformationView extends StatelessWidget {
                   color: AppColors.black,
                 ),
                 SizedBox(
-                  height: 17.h,
+                  height: 8.h,
                 ),
                 const AppTextField(
                   hint: 'Baby’s name',
                   prefixIcon: 'Assets/Images/babyIcon.png',
                 ),
                 SizedBox(
-                  height: 28.14.h,
+                  height: 34.14.h,
                 ),
                 const AppText(
                   title: "What’s your baby’s birthdate?",
@@ -56,14 +56,14 @@ class BabyInformationView extends StatelessWidget {
                   color: AppColors.black,
                 ),
                 SizedBox(
-                  height: 13.h,
+                  height: 8.h,
                 ),
                 const AppTextField(
                   hint: '3/10/2024',
                   prefixIcon: 'Assets/Images/calenderIcon.png',
                 ),
                 SizedBox(
-                  height: 181.14.h,
+                  height: 214.14.h,
                 ),
                 AppButton(
                   width: 317.w,

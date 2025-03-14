@@ -1,14 +1,13 @@
 {
   "project_info": {
-    "project_number": "767520170542",
-    "firebase_url": "https://babycradle-41d07-default-rtdb.firebaseio.com",
-    "project_id": "babycradle-41d07",
-    "storage_bucket": "babycradle-41d07.firebasestorage.app"
+    "project_number": "467874610881",
+    "project_id": "fir-notification-905b5",
+    "storage_bucket": "fir-notification-905b5.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:767520170542:android:71713091f3b61a7f6db5bf",
+        "mobilesdk_app_id": "1:467874610881:android:24ad13524b94078baf1e40",
         "android_client_info": {
           "package_name": "com.example.smart_cradle_for_baby_care_app"
         }
@@ -16,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDkRRTPqPbzEGdickuz5GGlYTNxCajRw9o"
+          "current_key": "AIzaSyAaSs63cP8XqqfxYb0SNwdpJ38G22OhAYI"
         }
       ],
       "services": {

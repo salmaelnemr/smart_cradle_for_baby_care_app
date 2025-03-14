@@ -15,29 +15,22 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.pinkLight,
       body: Form(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: 124.h,
+                height: 43.h,
               ),
-              // const AppText(
-              //   title: "logo",
-              //   fontSize: 36,
-              //   fontFamily: "Poppins",
-              //   fontWeight: FontWeight.w400,
-              //   color: AppColors.black,
-              // ),
               Image.asset(
-                'Assets/Images/AppLogo.png',
-                height: 150.h,
-                width: 150.w,
+                'Assets/Images/logo.png',
+                height: 146.h,
+                width: 146.w,
               ),
               SizedBox(
-                height: 24.h,
+                height: 4.h,
               ),
               const AppText(
                 title: "Welcome back",
@@ -47,14 +40,14 @@ class LoginView extends StatelessWidget {
                 color: AppColors.black,
               ),
               SizedBox(
-                height: 40.86.h,
+                height: 40.h,
               ),
               const AppTextField(
                 hint: 'Email / phone number',
                 prefixIcon: 'Assets/Images/emailIcon.png',
               ),
               SizedBox(
-                height: 16.28.h,
+                height: 16.14.h,
               ),
               const AppTextField(
                 hint: 'Password',
@@ -63,7 +56,7 @@ class LoginView extends StatelessWidget {
                 obscureText: true,
               ),
               SizedBox(
-                height: 5.14.h,
+                height: 8.14.h,
               ),
               Padding(
                 padding: EdgeInsets.only(right: 52.w,),
@@ -94,7 +87,7 @@ class LoginView extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 60.h,
+                height: 242.h,
               ),
               AppButton(
                 width: 317.w,

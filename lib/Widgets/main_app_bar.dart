@@ -14,7 +14,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.enableBackButton = false,
     this.profileIcon,
     this.notificationIcon,
-    this.appLogo,
+    this.appName,
   });
 
   final String? title;
@@ -22,7 +22,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool enableBackButton;
   final String? profileIcon;
   final String? notificationIcon;
-  final String? appLogo;
+  final String? appName;
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +33,19 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if (appLogo != null)
-          Image.asset(
-            appLogo!,
-            height: 50.h,
-            width: 50.w,
+          if (appName != null)
+          ShaderMask(
+            shaderCallback: (bounds) => LinearGradient(
+              colors: AppColors.primaryG,
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+            ).createShader(bounds),
+            child: AppText(
+              title: appName!,
+              fontSize: 32,
+              fontWeight: FontWeight.w500,
+              fontFamily: "Poppins",
+            ),
           ),
           if (title != null)
           AppText(

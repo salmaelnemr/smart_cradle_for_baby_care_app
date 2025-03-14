@@ -9,7 +9,7 @@ class HeartRateCard extends StatelessWidget {
   final String title;
   final String value;
   final String status;
-  final Color color;
+  //final Color color;
   //final List<int> showingTooltipOnSpots;
   final List<FlSpot> allSpots;
   //final ValueChanged<int> onSpotTapped;
@@ -22,7 +22,7 @@ class HeartRateCard extends StatelessWidget {
     //required this.showingTooltipOnSpots,
     required this.allSpots,
     //required this.onSpotTapped,
-    required this.color,
+    //required this.color,
   });
 
   @override
@@ -68,7 +68,7 @@ class HeartRateCard extends StatelessWidget {
                     fontFamily: "Roboto",
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    color: color,
+                    color: AppColors.greyLight,
                   ),
                 ],
               ),

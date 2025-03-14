@@ -78,9 +78,9 @@ class _EditParentProfileViewState extends State<EditParentProfileView> {
                   height: 50.86.h,
                   title: "Save",
                   onPressed: (){
-                    // RouteUtils.push(
-                    //   const BabyInformationView(),
-                    // );
+                    RouteUtils.push(
+                      const EditProfileView(),
+                    );
                   },
                 ),
               ],

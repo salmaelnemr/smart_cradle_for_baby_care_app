@@ -32,7 +32,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       body: Form(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.only(top: 16.h),
+            padding: EdgeInsets.only(top: 17.62.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

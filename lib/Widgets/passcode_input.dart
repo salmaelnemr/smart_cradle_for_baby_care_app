@@ -5,8 +5,14 @@ import '../Core/app_colors/app_colors.dart';
 class PasscodeInput extends StatefulWidget {
   final int length;
   final void Function(String)? onCompleted;
+  final Color? color;
 
-  const PasscodeInput({super.key, this.length = 4, this.onCompleted});
+  const PasscodeInput({
+    super.key,
+    this.length = 4,
+    this.onCompleted,
+    this.color = AppColors.white,
+  });
 
   @override
   State<PasscodeInput> createState() => _PasscodeInputState();
@@ -65,7 +71,7 @@ class _PasscodeInputState extends State<PasscodeInput> {
               width: 68.w,
               height: 62.h,
               decoration: BoxDecoration(
-                color: AppColors.pinkLight,
+                color: widget.color,
                 borderRadius: BorderRadius.circular(12.r),
                 border: Border.all(color: Colors.grey.shade300, width: 1.5),
               ),
@@ -83,8 +89,7 @@ class _PasscodeInputState extends State<PasscodeInput> {
                 onChanged: (value) => _onTextChanged(index, value),
               ),
             ),
-            if (index != widget.length - 1)
-              SizedBox(width: 16.w),
+            if (index != widget.length - 1) SizedBox(width: 16.w),
           ],
         );
       }),

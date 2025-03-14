@@ -20,6 +20,11 @@ class Utils {
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: AppColors.darkGrey,
       ),
+      dropdownMenuTheme: DropdownMenuThemeData(
+        menuStyle: MenuStyle(
+          backgroundColor: WidgetStateProperty.all(AppColors.pinkLight),
+        ),
+      ),
     );
   }
 

@@ -71,10 +71,9 @@ class _OnboardScreenState extends State<OnboardScreen> {
                     onTap: () {
                       if (index == 2) {
                       } else {
-                        index = 1;
-                        _controller.animateToPage(index + 1,
-                            duration: const Duration(milliseconds: 250),
-                            curve: Curves.linear);
+                        RouteUtils.push(
+                          const WelcomePageView(),
+                        );
                       }
                     },
                     child: const AppText(

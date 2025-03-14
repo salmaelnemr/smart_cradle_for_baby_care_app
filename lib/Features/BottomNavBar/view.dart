@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_cradle_for_baby_care_app/Features/Music/view.dart';
 import '../../Core/app_colors/app_colors.dart';
-import '../FeedingSchedule/view.dart';
+import '../Chat Bot/view.dart';
 import '../Home/view.dart';
 import '../Monitor/view.dart';
-import '../Relaxation/view.dart';
 import '../Schedule/view.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
 
   @override
-  _BottomNavBarState createState() => _BottomNavBarState();
+  State<BottomNavBar> createState() => _BottomNavBarState();
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
@@ -19,10 +19,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   final List<Widget> _pages = [
     const HomeView(),
-    const RelaxationView(),
+    const MusicView(),
     const MonitorView(),
     const ScheduleView(),
-    const FeedingSchedule(),
+    const ChatBotView(),
   ];
 
   void _onItemTapped(int index) {
@@ -45,8 +45,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             _buildNavItem('Assets/Images/homeIcon.png', 0),
-            _buildNavItem('Assets/Images/cribIcon.png', 1),
-            _buildNavItem('Assets/Images/cameraIcon.png', 2),
+            _buildNavItem('Assets/Images/musicIcon.png', 1),
+            _buildNavItem('Assets/Images/videoIcon.png', 2),
             _buildNavItem('Assets/Images/scheduleIcon.png', 3),
             _buildNavItem('Assets/Images/chatIcon.png', 4),
           ],
@@ -84,8 +84,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
           if (isSelected)
             Container(
               margin: const EdgeInsets.only(top: 4),
-              width: 50,
-              height: 3,
+              width: 49.w,
+              height: 5.h,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: AppColors.primaryG,
