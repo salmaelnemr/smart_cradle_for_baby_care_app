@@ -19,7 +19,7 @@ class _ContactUsViewState extends State<ContactUsView> {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: SecondaryAppBar(
-        title: "Contact us",
+        title: "Contact Us",
         onTap: () {
           RouteUtils.push(
             const ProfileView(),
@@ -35,17 +35,17 @@ class _ContactUsViewState extends State<ContactUsView> {
         child: Column(
           children: [
             const ContactCard(
-              title: "Facebook account",
+              title: "Facebook Account",
               contactIcon: "Assets/Images/facebookIcon.png",
             ),
             SizedBox(height: 22.01.h,),
             const ContactCard(
-              title: "Telegram account",
+              title: "Telegram Account",
               contactIcon: "Assets/Images/telegramIcon.png",
             ),
             SizedBox(height: 22.01.h,),
             const ContactCard(
-              title: "Instagram account",
+              title: "Instagram Account",
               contactIcon: "Assets/Images/instagramIcon.png",
             ),
           ],

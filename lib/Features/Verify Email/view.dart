@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_cradle_for_baby_care_app/Features/Forgot%20Password/view.dart';
 import 'package:smart_cradle_for_baby_care_app/Features/Reset%20Password/view.dart';
 import '../../Core/app_colors/app_colors.dart';
 import '../../Core/route_utils/route_utils.dart';
@@ -22,20 +23,28 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: SecondaryAppBar(
-        title: "Forgot password",
+        title: "Forgot Password",
         onTap: () {
           RouteUtils.push(
-            const LoginView(),
+            const ForgotPasswordView(),
           );
         },
       ),
       body: Form(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.only(top: 17.62.h,),
+            padding: EdgeInsets.only(top: 45.h,),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Image.asset(
+                  'Assets/Images/verifyCode.png',
+                  height: 252.28.h,
+                  width: 350.w,
+                ),
+                SizedBox(
+                  height: 54.72.h,
+                ),
                 const AppText(
                   title: "Enter the 4 digit code that send to your email\naddress",
                   fontSize: 14,
@@ -45,7 +54,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(
-                  height: 53.h,
+                  height: 23.h,
                 ),
                 Center(
                   child: PasscodeInput(
@@ -89,12 +98,12 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                   ],
                 ),
                 SizedBox(
-                  height: 73.h,
+                  height: 29.h,
                 ),
                 AppButton(
                   width: 317.w,
                   height: 50.86.h,
-                  title: "Send",
+                  title: "Verify Code",
                   onPressed: (){
                     RouteUtils.push(
                       const ResetPasswordView(),

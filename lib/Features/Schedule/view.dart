@@ -24,65 +24,67 @@ class _ScheduleViewState extends State<ScheduleView> {
       appBar: const MainAppBar(
         title: 'Schedule',
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 31.h, horizontal: 24.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            InkWell(
-              onTap: () {
-                RouteUtils.push(
-                  const FeedingSchedule(),
-                );
-              },
-              child: const SectionCard(
-                title: "Feeding",
-                icon: "Assets/Images/feedIcon.png",
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 31.h, horizontal: 24.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              InkWell(
+                onTap: () {
+                  RouteUtils.push(
+                    const FeedingSchedule(),
+                  );
+                },
+                child: const SectionCard(
+                  title: "Feeding",
+                  icon: "Assets/Images/feedIcon.png",
+                ),
               ),
-            ),
-            SizedBox(
-              height: 30.h,
-            ),
-            InkWell(
-              onTap: () {
-                RouteUtils.push(
-                  const VaccineSchedule(),
-                );
-              },
-              child: const SectionCard(
-                title: "Vaccines",
-                icon: "Assets/Images/vaccines.png",
+              SizedBox(
+                height: 30.h,
               ),
-            ),
-            SizedBox(
-              height: 30.h,
-            ),
-            InkWell(
-              onTap: () {
-                RouteUtils.push(
-                  const MedicineSchedule(),
-                );
-              },
-              child: const SectionCard(
-                title: "Medicine",
-                icon: "Assets/Images/medicineIcon.png",
+              InkWell(
+                onTap: () {
+                  RouteUtils.push(
+                    const VaccineSchedule(),
+                  );
+                },
+                child: const SectionCard(
+                  title: "Vaccines",
+                  icon: "Assets/Images/vaccines.png",
+                ),
               ),
-            ),
-            SizedBox(
-              height: 30.h,
-            ),
-            InkWell(
-              onTap: () {
-                RouteUtils.push(
-                  const StickyNotesSchedule(),
-                );
-              },
-              child: const SectionCard(
-                title: "Sticky notes",
-                icon: "Assets/Images/sticky_notes.png",
+              SizedBox(
+                height: 30.h,
               ),
-            ),
-          ],
+              InkWell(
+                onTap: () {
+                  RouteUtils.push(
+                    const MedicineSchedule(),
+                  );
+                },
+                child: const SectionCard(
+                  title: "Medicine",
+                  icon: "Assets/Images/medicineIcon.png",
+                ),
+              ),
+              SizedBox(
+                height: 30.h,
+              ),
+              InkWell(
+                onTap: () {
+                  RouteUtils.push(
+                    const StickyNotesSchedule(),
+                  );
+                },
+                child: const SectionCard(
+                  title: "Sticky notes",
+                  icon: "Assets/Images/sticky_notes.png",
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

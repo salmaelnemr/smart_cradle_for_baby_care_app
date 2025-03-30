@@ -31,7 +31,7 @@ class _ChatBotViewState extends State<ChatBotView> {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: const MainAppBar(
-        title: "Supported chat",
+        title: "Supported Chat",
       ),
       body: Padding(
         padding: EdgeInsets.only(

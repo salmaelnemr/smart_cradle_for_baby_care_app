@@ -43,27 +43,29 @@ class ProfileCard extends StatelessWidget {
               SizedBox(
                 width: 18.w,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppText(
-                    title: title,
-                    fontFamily: "Roboto",
-                    fontSize: 22,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.black,
-                  ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  AppText(
-                    title: subtitle,
-                    fontFamily: "Roboto",
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.greyLight,
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppText(
+                      title: title,
+                      fontFamily: "Roboto",
+                      fontSize: 22,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.black,
+                    ),
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    AppText(
+                      title: subtitle,
+                      fontFamily: "Roboto",
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.greyLight,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

@@ -27,7 +27,7 @@ class _ActivateRockingViewState extends State<ActivateRockingView>
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: SecondaryAppBar(
-        title: 'Rocking guidelines',
+        title: 'Rocking Guidelines',
         enableBackButton: true,
         onTap: () {
           Navigator.pop(context);

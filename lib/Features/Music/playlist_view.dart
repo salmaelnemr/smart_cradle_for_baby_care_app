@@ -34,13 +34,13 @@ class _PlaylistViewState extends State<PlaylistView> {
               children: [
                 AppImageButton(
                     imagePath: "Assets/Images/Fire.png", onPressed: numOne),
-                SizedBox(width: 17.w,),
+                SizedBox(width: 14.w,),
                 AppImageButton(
                     imagePath: "Assets/Images/Rain.png", onPressed: numOne),
-                SizedBox(width: 17.w,),
+                SizedBox(width: 14.w,),
                 AppImageButton(
                     imagePath: "Assets/Images/Woods.png", onPressed: numOne),
-                SizedBox(width: 17.w,),
+                SizedBox(width: 14.w,),
                 AppImageButton(
                     imagePath: "Assets/Images/Waves.png", onPressed: numOne),
               ],
@@ -60,13 +60,13 @@ class _PlaylistViewState extends State<PlaylistView> {
               children: [
                 AppImageButton(
                     imagePath: "Assets/Images/Bus.png", onPressed: numOne),
-                SizedBox(width: 17.w,),
+                SizedBox(width: 14.w,),
                 AppImageButton(
                     imagePath: "Assets/Images/Car.png", onPressed: numOne),
-                SizedBox(width: 17.w,),
+                SizedBox(width: 14.w,),
                 AppImageButton(
                     imagePath: "Assets/Images/Plane.png", onPressed: numOne),
-                SizedBox(width: 17.w,),
+                SizedBox(width: 14.w,),
                 AppImageButton(
                     imagePath: "Assets/Images/Train.png", onPressed: numOne),
               ],
@@ -86,14 +86,14 @@ class _PlaylistViewState extends State<PlaylistView> {
               children: [
                 AppImageButton(
                     imagePath: "Assets/Images/Washing.png", onPressed: numOne),
-                SizedBox(width: 17.w,),
+                SizedBox(width: 14.w,),
                 AppImageButton(
                     imagePath: "Assets/Images/BlowDryer.png",
                     onPressed: numOne),
-                SizedBox(width: 17.w,),
+                SizedBox(width: 14.w,),
                 AppImageButton(
                     imagePath: "Assets/Images/Radio.png", onPressed: numOne),
-                SizedBox(width: 17.w,),
+                SizedBox(width: 14.w,),
                 AppImageButton(
                     imagePath: "Assets/Images/Clock.png", onPressed: numOne),
               ],
@@ -101,7 +101,7 @@ class _PlaylistViewState extends State<PlaylistView> {
             Padding(
               padding: EdgeInsets.only(top: 20.h,),
               child: const AppText(
-                title: "White noise",
+                title: "White Noise",
                 fontSize: 24,
                 fontWeight: FontWeight.w400,
                 fontFamily: "Roboto",
@@ -113,10 +113,10 @@ class _PlaylistViewState extends State<PlaylistView> {
               children: [
                 AppImageButton(
                     imagePath: "Assets/Images/Note1.png", onPressed: numOne),
-                SizedBox(width: 17.w,),
+                SizedBox(width: 14.w,),
                 AppImageButton(
                     imagePath: "Assets/Images/Note2.png", onPressed: numOne),
-                SizedBox(width: 17.w,),
+                SizedBox(width: 14.w,),
                 AppImageButton(
                     imagePath: "Assets/Images/Note3.png", onPressed: numOne),
               ],

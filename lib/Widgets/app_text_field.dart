@@ -17,6 +17,8 @@ class AppTextField extends StatefulWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.obscureText = false,
+    this.readOnly = false,
+    this.onTap,
   });
 
   final String hint;
@@ -30,6 +32,8 @@ class AppTextField extends StatefulWidget {
   final int? maxLength;
   final TextEditingController? controller;
   final bool obscureText;
+  final bool readOnly;
+  final VoidCallback? onTap;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -41,15 +45,8 @@ class _AppTextFieldState extends State<AppTextField> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        height: 50.86.h,
-        width: 317.w,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: AppColors.white,
-          border: Border.all(color: AppColors.greyLight,),
-        ),
-        //padding: const EdgeInsets.all(2),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 38.w),
         child: TextFormField(
           controller: widget.controller,
           cursorColor: AppColors.pink,
@@ -59,42 +56,61 @@ class _AppTextFieldState extends State<AppTextField> {
             color: AppColors.black,
             fontSize: widget.hintFontSize,
           ),
-          //maxLines: null,
           textInputAction: TextInputAction.send,
           onChanged: widget.onChanged,
           onSaved: widget.onSaved,
           validator: widget.validator,
           maxLength: widget.maxLength,
           maxLines: widget.suffixIcon != null ? 1 : null,
-          obscureText: widget.suffixIcon != null ? visible : false,
+          obscureText: widget.suffixIcon != null ? visible : widget.obscureText,
+          readOnly: widget.readOnly, // Apply readOnly property
+          onTap: widget.onTap, // Apply onTap callback
           decoration: InputDecoration(
+            filled: true,
+            fillColor: AppColors.white,
+            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
             hintText: widget.hint,
-            contentPadding: const EdgeInsets.only(top: 10, bottom: 8.4),
-            border: InputBorder.none,
             hintStyle: TextStyle(
               color: AppColors.greyLight,
               fontSize: widget.hintFontSize,
               fontFamily: "Roboto",
               fontWeight: FontWeight.w400,
             ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppColors.greyLight),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppColors.greyLight),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppColors.pink),
+            ),
             prefixIcon: widget.prefixIcon != null
-                ? Image.asset(
-                  widget.prefixIcon!,
-                )
+                ? Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Image.asset(
+                widget.prefixIcon!,
+                width: 20,
+                height: 20,
+              ),
+            )
                 : null,
             suffixIcon: widget.suffixIcon != null
                 ? IconButton(
-                    onPressed: () {
-                      setState(() {
-                        visible = !visible;
-                      });
-                    },
-                    icon: Icon(
-                      visible ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye,
-                      color: AppColors.greyLight,
-                      size: 17,
-                    ),
-                  )
+              onPressed: () {
+                setState(() {
+                  visible = !visible;
+                });
+              },
+              icon: Icon(
+                visible ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye,
+                color: AppColors.greyLight,
+                size: 17,
+              ),
+            )
                 : null,
           ),
         ),

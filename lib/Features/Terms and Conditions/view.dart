@@ -14,7 +14,7 @@ class TermsAndConditionsView extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: SecondaryAppBar(
-        title: "Terms and conditions",
+        title: "Terms and Conditions",
         onTap:  (){
           RouteUtils.push(
             const ProfileView(),

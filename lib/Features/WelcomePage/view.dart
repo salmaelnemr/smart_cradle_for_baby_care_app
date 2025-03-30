@@ -41,7 +41,7 @@ class WelcomePageView extends StatelessWidget {
             AppButton(
               width: 317.w,
               height: 50.86.h,
-              title: "Sign up",
+              title: "Sign Up",
               onPressed: (){
                 RouteUtils.push(
                   const SignUpView(),

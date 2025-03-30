@@ -21,7 +21,7 @@ class _VoiceViewState extends State<VoiceView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const AppText(
-              title: "Empty voices!",
+              title: "Empty Voices!",
               color: Colors.black,
               fontSize: 24,
               fontWeight: FontWeight.w500,

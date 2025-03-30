@@ -21,7 +21,7 @@ class _AddChildViewState extends State<AddChildView> {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: SecondaryAppBar(
-        title: "Add child",
+        title: "Add Child",
         onTap: () {
           RouteUtils.push(
             const EditProfileView(),
@@ -37,13 +37,13 @@ class _AddChildViewState extends State<AddChildView> {
                 children: [
                   const AppTextField(
                     hint: 'Baby’s name',
-                    prefixIcon: 'Assets/Images/babyIcon.png',
+                    prefixIcon: 'Assets/Images/babyName.png',
                   ),
                   SizedBox(
                     height: 29.14.h,
                   ),
                   const AppTextField(
-                    hint: '3/10/2024',
+                    hint: '2025-03-25',
                     prefixIcon: 'Assets/Images/calenderIcon.png',
                   ),
                   SizedBox(

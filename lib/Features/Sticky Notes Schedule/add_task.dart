@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:smart_cradle_for_baby_care_app/Widgets/input_feild.dart';
+import 'package:smart_cradle_for_baby_care_app/Widgets/input_field.dart';
 import '../../Core/app_colors/app_colors.dart';
 import '../../Widgets/app_button.dart';
+import '../../Widgets/app_text.dart';
+import '../../Widgets/date_picker.dart';
+import '../../Widgets/time_picker.dart';
 
 class AddTaskPage extends StatefulWidget {
   const AddTaskPage({super.key});
@@ -72,115 +75,133 @@ class _AddTaskPageState extends State<AddTaskPage> {
               ),
               child: SingleChildScrollView(
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  const SizedBox(
-                      height: 10),
-                  const Center(
-                    child: Text(
-                      'Add Reminder',
-
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                          fontFamily: "Roboto"),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 14.h),
+                    const Center(
+                      child: AppText(
+                        title: 'Add Reminder',
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: "Roboto",
+                        color: AppColors.black,
+                      ),
                     ),
-                  ),
-                  MyInputField(
-                    title: 'Title',
-                    hint: 'Enter your title',
-                    controller: _titleController,),
-                  MyInputField(
-                    title: 'Note',
-                    hint: 'Enter your note',
-                    controller: _noteController,),
-                  MyInputField(
-                      title: 'Date',
-                      hint: DateFormat.yMd().format(_selectedDate),
-                      widget: TextButton(
-                        onPressed: () {
-                          _getDateFromUser();
-                        },
-                        child: Image.asset(
-                          'Assets/Images/calender.jpg',
-                          height: 20.h,
-                          width: 20.w,
-                        ),
-                      )),
-                  MyInputField(
-                      title: 'Time',
-                      hint: _startTime,
-                      widget: TextButton(
-                        onPressed: () {
-                          _getTimeFromUser(isStartTime: true);
-                        },
-                        child: Image.asset(
-                          'Assets/Images/timerIcon.png',
-                          height: 20.h,
-                          width: 20.w,
-                        ),
-                      )),
-                  MyInputField(
+                    MyInputField(
+                      title: 'Title',
+                      hint: 'Enter your title',
+                      controller: _titleController,
+                    ),
+                    MyInputField(
+                      title: 'Note',
+                      hint: 'Enter your note',
+                      controller: _noteController,
+                    ),
+                    MyInputField(
+                        title: 'Date',
+                        hint: DateFormat.yMd().format(_selectedDate),
+                        widget: TextButton(
+                          onPressed: () {
+                            _getDateFromUser();
+                          },
+                          child: Image.asset(
+                            'Assets/Images/scheduleIcon.png',
+                            height: 20.h,
+                            width: 20.w,
+                          ),
+                        )),
+                    MyInputField(
+                        title: 'Time',
+                        hint: _startTime,
+                        widget: TextButton(
+                          onPressed: () {
+                            _getTimeFromUser(isStartTime: true);
+                          },
+                          child: Image.asset(
+                            'Assets/Images/timerIcon.png',
+                            height: 20.h,
+                            width: 20.w,
+                          ),
+                        )),
+                    MyInputField(
                       title: 'Remind Me',
                       hint: '$_selectedRemind min early',
-                      widget: DropdownButton(
-                        dropdownColor: AppColors.pinkLight,
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        underline: Container(
-                          height: 0,
+                      widget: Padding(
+                        padding: EdgeInsets.only(
+                          right: 20.95.w,
                         ),
-                        items: remindList.map<DropdownMenuItem<String>>((
-                            int value) {
-                          return DropdownMenuItem<String>(
-                            value: value.toString(),
-                            child: Text(value.toString(), style: const TextStyle(color: AppColors.pink,),),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            _selectedRemind = int.parse(newValue!);
-                          });
-                        },
-                      )),
-                  MyInputField(
+                        child: DropdownButton(
+                          dropdownColor: AppColors.pinkLight,
+                          icon: Image.asset(
+                            'Assets/Images/dropDown.png',
+                            height: 6.h,
+                            width: 10.w,
+                          ),
+                          underline: Container(height: 0),
+                          items: remindList
+                              .map<DropdownMenuItem<String>>((int value) {
+                            return DropdownMenuItem<String>(
+                              value: value.toString(),
+                              child: AppText(
+                                title: value.toString(),
+                                color: AppColors.pink,
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(
+                                () => _selectedRemind = int.parse(newValue!));
+                          },
+                        ),
+                      ),
+                    ),
+                    MyInputField(
                       title: 'Repeat',
                       hint: _selectedRepeat,
-                      widget: DropdownButton(
-                        dropdownColor: AppColors.pinkLight,
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        underline: Container(
-                          height: 0,
+                      widget: Padding(
+                        padding: EdgeInsets.only(
+                          right: 20.95.w,
                         ),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            _selectedRepeat = newValue!;
-                          });
-                        },
-                        items: repeatList.map<DropdownMenuItem<String>>((
-                            String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: const TextStyle(color: AppColors.pink,),
-                            ),
-                          );
-                        }).toList(),
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AppButton(
-                          width: 382.w,
-                          height: 50.86.h,
-                          title: "Done",
-                          onPressed: (){},
+                        child: DropdownButton(
+                          dropdownColor: AppColors.pinkLight,
+                          icon: Image.asset(
+                            'Assets/Images/dropDown.png',
+                            height: 6.h,
+                            width: 10.w,
+                          ),
+                          underline: Container(height: 0),
+                          onChanged: (String? newValue) {
+                            setState(() => _selectedRepeat = newValue!);
+                          },
+                          items: repeatList
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: AppText(
+                                title: value,
+                                color: AppColors.pink,
+                              ),
+                            );
+                          }).toList(),
                         ),
-                      ],
+                      ),
                     ),
-                  )
-                ]),
+                    SizedBox(
+                      height: 30.56.h,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
+                      ),
+                      child: AppButton(
+                        width: 353.w,
+                        height: 48.35.h,
+                        title: "Done",
+                        onPressed: () {},
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -189,89 +210,29 @@ class _AddTaskPageState extends State<AddTaskPage> {
     );
   }
 
-  _getDateFromUser() async {
-    DateTime? pickerDate = await showDatePicker(
+  Future<void> _getDateFromUser() async {
+    final DateTime? pickedDate = await DatePicker.show(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(3000),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: AppColors.pink,
-              onPrimary: AppColors.white,
-              onSurface: AppColors.black,
-            ),
-            textTheme: const TextTheme(
-              headlineLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppColors.white),
-              titleMedium: TextStyle(fontSize: 18, color: AppColors.black),
-            ),
-            dialogBackgroundColor: AppColors.white,
-            datePickerTheme: DatePickerThemeData(
-              backgroundColor: AppColors.white,
-              headerBackgroundColor: AppColors.white,
-              headerForegroundColor: AppColors.pink,
-              dayBackgroundColor: WidgetStateProperty.all(Colors.transparent),
-              dayForegroundColor: WidgetStateProperty.all(Colors.black),
-              todayBackgroundColor: WidgetStateProperty.all(AppColors.pink),
-              todayForegroundColor: WidgetStateProperty.all(AppColors.white),
-              yearForegroundColor: WidgetStateProperty.all(Colors.black),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-            ),
-          ),
-          child: child!,
-        );
-      },
+      initialDate: _selectedDate,
     );
 
-    if (pickerDate != null) {
-      setState(() {
-        _selectedDate = pickerDate;
-      });
+    if (pickedDate != null) {
+      setState(() => _selectedDate = pickedDate);
     }
   }
 
-  _getTimeFromUser({required bool isStartTime}) async {
-    var pickedTime = await _showTimePicker();
-    String formatedTime = pickedTime.format(context);
-    if (pickedTime == null) {
-    } else if (isStartTime == true) {
-      setState(() {
-        _startTime = formatedTime;
-      });
-    }
-  }
-
-_showTimePicker() {
-    return showTimePicker(
+  Future<void> _getTimeFromUser({required bool isStartTime}) async {
+    final TimeOfDay? pickedTime = await TimePicker.show(
       context: context,
-      initialTime: TimeOfDay(
-        hour: int.parse(_startTime.split(":")[0]),
-        minute: int.parse(_startTime.split(":")[1].split(" ")[0]),
-      ),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: AppColors.pink,
-              onPrimary: AppColors.white,
-              onSurface: Colors.black,
-              onTertiaryContainer: AppColors.white,
-              onSecondaryContainer: AppColors.pink,
-            ),
-            timePickerTheme: const TimePickerThemeData(
-               entryModeIconColor: AppColors.pink,
-              dayPeriodColor: AppColors.pink,
-            ),
-            dialogBackgroundColor: Colors.white,
-          ),
-          child: child!,
-        );
-      },
+      initialTime: _startTime,
     );
+
+    if (pickedTime != null) {
+      final String formatedTime = pickedTime.format(context);
+      if (isStartTime) {
+        setState(() => _startTime = formatedTime);
+      }
+    }
   }
 
 // _showTimePicker() {

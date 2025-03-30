@@ -40,7 +40,7 @@ class _MusicViewState extends State<MusicView> {
                 values: const [true, false],
                 iconOpacity: 0.2,
                 indicatorSize: Size.fromWidth(173.w),
-                height: 56,
+                height: 56.h,
                 onChanged: (value) => setState(() => isPlaylist = value),
                 customIconBuilder: (context, local, global) => AppText(
                   title: local.value ? 'Playlist' : 'Voice',
@@ -65,7 +65,7 @@ class _MusicViewState extends State<MusicView> {
                 ),
                 selectedIconScale: 1.0,
               ),
-              const SizedBox(height: 45),
+              SizedBox(height: 45.h),
               Expanded(
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),

@@ -9,6 +9,7 @@ import '../../Core/dio/api_provider.dart';
 import '../../Core/route_utils/route_utils.dart';
 import '../../Widgets/app_button.dart';
 import '../../Widgets/app_text_field.dart';
+import '../../Widgets/snack_bar.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -18,7 +19,6 @@ class SignUpView extends StatefulWidget {
 }
 
 class _SignUpViewState extends State<SignUpView> {
-  //bool visible = true;
   var formKey = GlobalKey<FormState>();
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -27,7 +27,7 @@ class _SignUpViewState extends State<SignUpView> {
   TextEditingController phoneNumberController = TextEditingController();
 
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
     fullNameController.dispose();
     emailController.dispose();
@@ -46,54 +46,42 @@ class _SignUpViewState extends State<SignUpView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 43.h,
-              ),
+              SizedBox(height: 43.h),
               Image.asset(
                 'Assets/Images/logo.png',
                 height: 146.h,
                 width: 146.w,
               ),
-              SizedBox(
-                height: 4.h,
-              ),
+              SizedBox(height: 4.h),
               const AppText(
-                title: "Create account",
+                title: "Create Account!",
                 fontFamily: "Poppins",
                 fontWeight: FontWeight.w400,
                 fontSize: 32,
                 color: AppColors.black,
               ),
-              SizedBox(
-                height: 40.86.h,
-              ),
+              SizedBox(height: 40.86.h),
               AppTextField(
                 hint: 'Full Name',
                 prefixIcon: 'Assets/Images/personIcon.png',
                 controller: fullNameController,
                 validator: ValidatorUtils.name,
               ),
-              SizedBox(
-                height: 16.28.h,
-              ),
+              SizedBox(height: 16.28.h),
               AppTextField(
                 hint: 'Email',
                 prefixIcon: 'Assets/Images/emailIcon.png',
                 controller: emailController,
                 validator: ValidatorUtils.email,
               ),
-              SizedBox(
-                height: 16.28.h,
-              ),
+              SizedBox(height: 16.28.h),
               AppTextField(
-                hint: 'Phone number',
+                hint: 'Phone Number',
                 prefixIcon: 'Assets/Images/phoneIcon.png',
                 controller: phoneNumberController,
                 validator: ValidatorUtils.phone,
               ),
-              SizedBox(
-                height: 16.28.h,
-              ),
+              SizedBox(height: 16.28.h),
               AppTextField(
                 hint: 'Password',
                 prefixIcon: 'Assets/Images/passIcon.png',
@@ -101,60 +89,46 @@ class _SignUpViewState extends State<SignUpView> {
                 obscureText: true,
                 controller: passwordController,
                 validator: ValidatorUtils.password,
-                //obscureText: visible,
               ),
-              SizedBox(
-                height: 16.28.h,
-              ),
+              SizedBox(height: 16.28.h),
               AppTextField(
-                hint: 'Confirm password',
+                hint: 'Confirm Password',
                 prefixIcon: 'Assets/Images/passIcon.png',
                 suffixIcon: Icons.visibility,
                 obscureText: true,
                 controller: confirmPasswordController,
                 validator: ValidatorUtils.password,
-                //     (value) {
-                //   if (value == null || value.isEmpty) {
-                //     return "Confirm password must not be empty";
-                //   }
-                //   else if(value ){
-                //     return "Confirm password does not match password";
-                //   }
-                //   return null;
-                // }
               ),
-              SizedBox(
-                height: 64.14.h,
-              ),
+              SizedBox(height: 64.14.h),
               AppButton(
                 width: 317.w,
                 height: 50.86.h,
-                title: "Sign up",
+                title: "Sign Up",
                 onPressed: () async {
-                  // RouteUtils.push(
-                  //           const BabyInformationView(),
-                  //         );
                   if (formKey.currentState!.validate()) {
-                    String message = await ApiProvider().registerUser(
+                    String result = await ApiProvider().registerUser(
                       fullName: fullNameController.text,
                       email: emailController.text,
                       phoneNumber: phoneNumberController.text,
                       password: passwordController.text,
                       confirmPassword: confirmPasswordController.text,
                     );
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message,),),);
 
-                    if (message == "Register Success") {
+                    showSnackBar(
+                      result.contains("failed") ? result : "Registration Success",
+                      error: false,
+                    );
+
+                    if (!result.contains("failed")) {
+                      // Pass the userId to BabyInformationView
                       RouteUtils.push(
-                        const BabyInformationView(),
+                        BabyInformationView(userId: result),
                       );
                     }
                   }
                 },
               ),
-              SizedBox(
-                height: 16.14.h,
-              ),
+              SizedBox(height: 16.14.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -194,3 +168,149 @@ class _SignUpViewState extends State<SignUpView> {
     );
   }
 }
+
+// import 'package:flutter/material.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:smart_cradle_for_baby_care_app/Core/validator_utils/validator_utils.dart';
+// import 'package:smart_cradle_for_baby_care_app/Features/Login/view.dart';
+// import 'package:smart_cradle_for_baby_care_app/Features/SignUp/states.dart';
+// import 'package:smart_cradle_for_baby_care_app/Widgets/app_text.dart';
+// import '../../Core/app_colors/app_colors.dart';
+// import '../../Core/route_utils/route_utils.dart';
+// import '../../Widgets/app_button.dart';
+// import '../../Widgets/app_text_field.dart';
+// import 'cubit.dart';
+//
+// class SignUpView extends StatelessWidget {
+//   const SignUpView({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocProvider(
+//       create: (context) => SignUpCubit(),
+//       child: Scaffold(
+//         backgroundColor: AppColors.pinkLight,
+//         body: Builder(
+//             builder: (context) {
+//               final cubit = BlocProvider.of<SignUpCubit>(context);
+//               return Form(
+//                 key: cubit.formKey,
+//                 child: SingleChildScrollView(
+//                   child: Column(
+//                     crossAxisAlignment: CrossAxisAlignment.center,
+//                     children: [
+//                       SizedBox(height: 43.h),
+//                       Image.asset(
+//                         'Assets/Images/logo.png',
+//                         height: 146.h,
+//                         width: 146.w,
+//                       ),
+//                       SizedBox(height: 4.h),
+//                       const AppText(
+//                         title: "Create account",
+//                         fontFamily: "Poppins",
+//                         fontWeight: FontWeight.w400,
+//                         fontSize: 32,
+//                         color: AppColors.black,
+//                       ),
+//                       SizedBox(height: 40.86.h),
+//                       AppTextField(
+//                         hint: 'Full Name',
+//                         prefixIcon: 'Assets/Images/personIcon.png',
+//                         //controller: fullNameController,
+//                         onSaved: (v) => cubit.fullName = v,
+//                         validator: ValidatorUtils.name,
+//                       ),
+//                       SizedBox(height: 16.28.h),
+//                       AppTextField(
+//                         hint: 'Email',
+//                         prefixIcon: 'Assets/Images/emailIcon.png',
+//                         //controller: emailController,
+//                         onSaved: (v) => cubit.email = v,
+//                         validator: ValidatorUtils.email,
+//                       ),
+//                       SizedBox(height: 16.28.h),
+//                       AppTextField(
+//                         hint: 'Phone number',
+//                         prefixIcon: 'Assets/Images/phoneIcon.png',
+//                         //controller: phoneNumberController,
+//                         onSaved: (v) => cubit.phoneNumber = v,
+//                         validator: ValidatorUtils.phone,
+//                       ),
+//                       SizedBox(height: 16.28.h),
+//                       AppTextField(
+//                         hint: 'Password',
+//                         prefixIcon: 'Assets/Images/passIcon.png',
+//                         suffixIcon: Icons.visibility,
+//                         obscureText: true,
+//                         //controller: passwordController,
+//                         onSaved: (v) => cubit.password = v,
+//                         validator: ValidatorUtils.password,
+//                       ),
+//                       SizedBox(height: 16.28.h),
+//                       AppTextField(
+//                         hint: 'Confirm password',
+//                         prefixIcon: 'Assets/Images/passIcon.png',
+//                         suffixIcon: Icons.visibility,
+//                         obscureText: true,
+//                         //controller: confirmPasswordController,
+//                         onSaved: (v) => cubit.confirmPassword = v,
+//                         validator: ValidatorUtils.password,
+//                       ),
+//                       SizedBox(height: 64.14.h),
+//                       BlocBuilder<SignUpCubit, SignUpStates>(
+//                         builder: (context, state) {
+//                           return AppButton(
+//                             isLoading: state is SignUpLoading,
+//                             width: 317.w,
+//                             height: 50.86.h,
+//                             title: "Sign up",
+//                             onPressed: cubit.signUp,
+//                           );
+//                         },
+//                       ),
+//                       SizedBox(height: 16.14.h),
+//                       Row(
+//                         mainAxisAlignment: MainAxisAlignment.center,
+//                         children: [
+//                           const AppText(
+//                             title: "Already have an account?",
+//                             fontFamily: "Roboto",
+//                             fontSize: 16,
+//                             fontWeight: FontWeight.w400,
+//                             color: AppColors.greyLight,
+//                           ),
+//                           TextButton(
+//                             onPressed: () {
+//                               RouteUtils.pushReplacement(
+//                                 const LoginView(),
+//                               );
+//                             },
+//                             child: ShaderMask(
+//                               shaderCallback: (bounds) =>
+//                                   LinearGradient(
+//                                     colors: AppColors.primaryG,
+//                                     begin: Alignment.bottomCenter,
+//                                     end: Alignment.topCenter,
+//                                   ).createShader(bounds),
+//                               child: const AppText(
+//                                 title: "Login",
+//                                 fontWeight: FontWeight.w700,
+//                                 fontSize: 16,
+//                                 fontFamily: "Roboto",
+//                               ),
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               );
+//             }
+//         ),
+//       ),
+//     );
+//   }
+// }

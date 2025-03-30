@@ -78,7 +78,7 @@ class _HomeViewState extends State<HomeView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const AppText(
-              title: "Vital signs",
+              title: "Vital Signs",
               fontSize: 24,
               fontFamily: "Roboto",
               fontWeight: FontWeight.w400,

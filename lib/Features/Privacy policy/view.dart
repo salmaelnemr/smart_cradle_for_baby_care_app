@@ -14,7 +14,7 @@ class PrivacyPolicyView extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: SecondaryAppBar(
-        title: "Privacy policy",
+        title: "Privacy Policy",
         onTap:  (){
           RouteUtils.push(
             const ProfileView(),

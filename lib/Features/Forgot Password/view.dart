@@ -22,7 +22,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: SecondaryAppBar(
-        title: "Forgot password",
+        title: "Forgot Password",
         onTap: () {
           RouteUtils.push(
             const LoginView(),
@@ -32,31 +32,39 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       body: Form(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.only(top: 17.62.h),
+            padding: EdgeInsets.only(top: 64.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Image.asset(
+                  'Assets/Images/forget.png',
+                  height: 274.5.h,
+                  width: 294.w,
+                ),
+                SizedBox(
+                  height: 61.5.h,
+                ),
                 const AppText(
-                  title: "Please enter your email to send you reset code",
+                  title: "Please, Enter your email to send you reset code!",
                   fontFamily: "Roboto",
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
                   color: AppColors.black,
                 ),
                 SizedBox(
-                  height: 44.h,
+                  height: 18.h,
                 ),
                 const AppTextField(
                   hint: 'Email',
                   prefixIcon: 'Assets/Images/emailIcon.png',
                 ),
                 SizedBox(
-                  height: 144.14.h,
+                  height: 48.14.h,
                 ),
                 AppButton(
                   width: 317.w,
                   height: 50.86.h,
-                  title: "Send",
+                  title: "Send Email",
                   onPressed: () {
                     RouteUtils.push(
                       const VerifyEmailView(),
