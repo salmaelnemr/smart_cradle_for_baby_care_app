@@ -7,6 +7,7 @@ plugins {
 }
 
 dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
     // Import the Firebase BoM
     //implementation platform('com.google.firebase:firebase-bom:33.7.0')
 
@@ -22,10 +23,11 @@ dependencies {
 
 android {
     namespace = "com.example.smart_cradle_for_baby_care_app"
-    compileSdk = 34   //flutter.compileSdkVersion
+    compileSdk = 35   //flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
