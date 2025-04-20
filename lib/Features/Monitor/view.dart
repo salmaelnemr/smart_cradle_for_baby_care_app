@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mjpeg/flutter_mjpeg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cradle_for_baby_care_app/Features/Rocking%20Guidelines/activate_rocking.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app_text.dart';
@@ -17,6 +18,7 @@ class MonitorView extends StatefulWidget {
 class _MonitorViewState extends State<MonitorView> {
 
   bool isPopupNotificationsEnabled = true;
+  final String streamUrl = 'http://192.168.1.100/mjpeg';
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +38,16 @@ class _MonitorViewState extends State<MonitorView> {
                   height: 541.h,
                   width: 345.w,
                   decoration: BoxDecoration(
-                    color: AppColors.pinkLight,
+                    //color: AppColors.pinkLight,
                     borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Mjpeg(
+                    isLive: true,
+                    stream: streamUrl,
+                    error: (context, error, stack) {
+                      return const Text('Error connecting to stream');
+                    },
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
@@ -111,64 +121,6 @@ class _MonitorViewState extends State<MonitorView> {
                   ],
                 ),
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     Container(
-              //       height: 47.h,
-              //       width: 47.w,
-              //       decoration: BoxDecoration(
-              //         gradient: LinearGradient(
-              //           colors: AppColors.primaryG,
-              //           begin: Alignment.bottomCenter,
-              //           end: Alignment.topCenter,
-              //         ),
-              //         borderRadius: BorderRadius.circular(50),
-              //       ),
-              //       child: Container(
-              //         width: 44.w,
-              //         height: 44.h,
-              //         padding: const EdgeInsets.all(10),
-              //         margin: const EdgeInsets.all(1.4),
-              //         decoration: BoxDecoration(
-              //           color: Colors.white,
-              //           borderRadius: BorderRadius.circular(50),
-              //         ),
-              //         child: Image.asset(
-              //           "Assets/Images/music.png",
-              //         ),
-              //       ),
-              //     ),
-              //     SizedBox(width: 24.w,),
-              //     Container(
-              //       height: 47.h,
-              //       width: 47.w,
-              //       decoration: BoxDecoration(
-              //         gradient: LinearGradient(
-              //           colors: AppColors.primaryG,
-              //           begin: Alignment.bottomCenter,
-              //           end: Alignment.topCenter,
-              //         ),
-              //         borderRadius: BorderRadius.circular(50),
-              //       ),
-              //       child: Container(
-              //         width: 44.w,
-              //         height: 44.h,
-              //         padding: const EdgeInsets.all(10),
-              //         margin: const EdgeInsets.all(1.4),
-              //         decoration: BoxDecoration(
-              //           color: Colors.white,
-              //           borderRadius: BorderRadius.circular(50),
-              //         ),
-              //         child: Center(
-              //           child: Image.asset(
-              //             "Assets/Images/crib.png",
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
             ],
           ),
         ),

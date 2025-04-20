@@ -59,8 +59,8 @@ class ContactCard extends StatelessWidget {
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                   ).createShader(bounds),
-                  child: const AppText(
-                    title: "Facebook account",
+                  child: AppText(
+                    title: title,
                     textAlign: TextAlign.center,
                     fontSize: 18,
                     fontWeight: FontWeight.w400,

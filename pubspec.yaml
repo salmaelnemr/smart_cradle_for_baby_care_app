@@ -20,7 +20,7 @@ dependencies:
   # Icon App
   font_awesome_flutter: ^10.7.0
   # SVG Image
-  flutter_svg: ^2.0.17
+  #flutter_svg: ^2.0.17
   # Charts
   fl_chart: ^0.69.0
   simple_animation_progress_bar: ^1.8.2
@@ -44,6 +44,9 @@ dependencies:
   animated_toggle_switch: ^0.8.4
   image_picker: ^1.0.7
   path_provider: ^2.1.5
+  #camera
+  http: ^0.13.6
+  flutter_mjpeg: ^2.0.4
 
 dev_dependencies:
   flutter_test:
