@@ -8,7 +8,6 @@ import '../../Widgets/app_button.dart';
 import '../../Widgets/app_text.dart';
 import '../../Widgets/app_text_field.dart';
 import '../../Widgets/secondary_app_bar.dart';
-import '../Login/view.dart';
 
 class ResetPasswordView extends StatefulWidget {
   const ResetPasswordView({super.key});

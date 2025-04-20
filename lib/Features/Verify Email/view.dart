@@ -8,7 +8,6 @@ import '../../Widgets/passcode_input.dart';
 import '../../Widgets/app_button.dart';
 import '../../Widgets/app_text.dart';
 import '../../Widgets/secondary_app_bar.dart';
-import '../Login/view.dart';
 
 class VerifyEmailView extends StatefulWidget {
   const VerifyEmailView({super.key});

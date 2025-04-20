@@ -11,7 +11,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  # Audio
+  just_audio: ^0.9.46
+  # path
+  image_picker: ^1.0.7
+  file_picker: ^10.1.1
+  path: ^1.9.0
+  open_file: ^3.5.10
   # Icons
   cupertino_icons: ^1.0.8
   flutter_rating_bar: ^4.0.1
@@ -42,11 +48,11 @@ dependencies:
   intl: ^0.18.0
   easy_date_timeline: ^0.1.1
   animated_toggle_switch: ^0.8.4
-  image_picker: ^1.0.7
   path_provider: ^2.1.5
   #camera
   http: ^0.13.6
   flutter_mjpeg: ^2.0.4
+
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +64,7 @@ flutter:
   uses-material-design: true
   assets:
     - Assets/Images/
+    - Assets/Audios/
 
   fonts:
     - family: Poppins

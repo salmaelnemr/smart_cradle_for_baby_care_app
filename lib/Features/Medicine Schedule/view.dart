@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/app_colors/app_colors.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/route_utils/route_utils.dart';
 import 'package:smart_cradle_for_baby_care_app/Features/Medicine%20Schedule/add_task.dart';
-import '../../Widgets/app/date_bar_card.dart';
+// import '../../Widgets/app/date_bar_card.dart';
 import '../../Widgets/app_text.dart';
 
 class MedicineSchedule extends StatefulWidget {
@@ -74,7 +74,7 @@ class _MedicineScheduleState extends State<MedicineSchedule> {
                       fontFamily: "Roboto",
                       color: AppColors.black,
                     ),
-                    DateBarCard(),
+                    // DateBarCard(),
                   ],
                 ),
               ),
