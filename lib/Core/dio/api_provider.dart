@@ -154,17 +154,18 @@
 //
 
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Widgets/snack_bar.dart';
+import '../models/baby_temp_model.dart';
 import '../models/user_model.dart';
 
 class ApiProvider {
   static const String baseURL = "http://babycradleapp.runasp.net/api";
   String? token;
   UserModel? userModel;
+  BabyTempModel? babyTempModel;
 
   Future<String> registerUser({
     required String fullName,
@@ -286,6 +287,7 @@ class ApiProvider {
       return "Passcode submission failed due to an unexpected error.";
     }
   }
+
   Future<String> userLogin({
     required String email,
     required String password,
@@ -496,6 +498,42 @@ class ApiProvider {
         error: true,
       );
       return false;
+    }
+  }
+
+  Future<BabyTempModel?> getBabyTemp() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      String? token = prefs.getString('userToken');
+      print("Token: $token");
+
+      if (token == null) {
+        print("No token found. User might not be logged in.");
+        return null;
+      }
+
+      Response response = await Dio().get(
+        "$baseURL/BabyTemp",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+            "Content-Type": "application/json",
+          },
+        ),
+      );
+      print("Response Data: ${response.data}");
+      babyTempModel = BabyTempModel.fromJson(response.data);
+      return babyTempModel;
+    } on DioException catch (e) {
+      print("DioException: ${e.response?.statusCode} - ${e.response?.data}");
+      showSnackBar(
+        e.response?.data["message"] ?? "Failed to fetch baby temperature.",
+        error: true,
+      );
+      return null;
+    } catch (e) {
+      print("Unexpected error: $e");
+      return null;
     }
   }
 }

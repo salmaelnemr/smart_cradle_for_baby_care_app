@@ -1,12 +1,12 @@
+import 'dart:async';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:smart_cradle_for_baby_care_app/Core/models/baby_temp_model.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/main_app_bar.dart';
-import 'package:smart_cradle_for_baby_care_app/Widgets/app_text.dart';
-import 'package:smart_cradle_for_baby_care_app/Widgets/app/temperature_card.dart';
-import '../../Core/app_colors/app_colors.dart';
-import '../../Widgets/app/heart_rate_card.dart';
-import '../../Widgets/app/weight_card.dart';
+import 'package:smart_cradle_for_baby_care_app/Core/app_colors/app_colors.dart';
+import 'package:smart_cradle_for_baby_care_app/Core/dio/api_provider.dart';
+import '../../Widgets/app/vital_signs.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -15,47 +15,141 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
-  List<FlSpot> get allSpots => const [
-        FlSpot(0, 20),
-        FlSpot(1, 25),
-        FlSpot(2, 40),
-        FlSpot(3, 50),
-        FlSpot(4, 35),
-        FlSpot(5, 40),
-        FlSpot(6, 30),
-        FlSpot(7, 20),
-        FlSpot(8, 25),
-        FlSpot(9, 40),
-        FlSpot(10, 50),
-        FlSpot(11, 35),
-        FlSpot(12, 50),
-        FlSpot(13, 60),
-        FlSpot(14, 40),
-        FlSpot(15, 50),
-        FlSpot(16, 20),
-        FlSpot(17, 25),
-        FlSpot(18, 40),
-        FlSpot(19, 50),
-        FlSpot(20, 35),
-        FlSpot(21, 80),
-        FlSpot(22, 30),
-        FlSpot(23, 20),
-        FlSpot(24, 25),
-        FlSpot(25, 40),
-        FlSpot(26, 50),
-        FlSpot(27, 35),
-        FlSpot(28, 50),
-        FlSpot(29, 60),
-        FlSpot(30, 40)
-      ];
-  List temperatureDegree = [
-    {"title": "42 C"},
-    {"title": "39 C"},
-    {"title": "37 C"},
-    {"title": "35 C"},
-    {"title": "30 C"},
-  ];
+class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
+  static const _fetchInterval = Duration(seconds: 300);
+  static const _firebasePath = "sensor_data";
+
+  final _apiProvider = ApiProvider();
+  final _databaseRef = FirebaseDatabase.instance.ref(_firebasePath);
+  StreamSubscription<DatabaseEvent>? _vitalSignsSubscription;
+  late Timer _timer;
+
+  String _babyTemperature = "0 C";
+  String _homeTemperature = "0 C";
+  String _heartRate = "0 BPM";
+  String _breathing = "0 SpO2";
+  String _weight = "0 kg";
+
+  double _babyTemperatureRatio = 0.0;
+  double _homeTemperatureRatio = 0.0;
+  double _breathingRatio = 0.0;
+  double _weightRatio = 0.0;
+
+  bool _isLoading = true;
+  String? _errorMessage;
+  BabyTempModel? babyTempModel;
+
+  final List<FlSpot> _heartRateSpots = List.generate(31, (index) {
+    final List<double> values = [
+      20, 25, 40, 50, 35, 40, 30, 20, 25, 40, 50,
+      35, 50, 60, 40, 50, 20, 25, 40, 50, 35, 80,
+      30, 20, 25, 40, 50, 35, 50, 60, 40
+    ];
+    return FlSpot(index.toDouble(), values[index]);
+  });
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _startFetchingData();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      _startFetchingData();
+    } else if (state == AppLifecycleState.paused) {
+      _stopFetchingData();
+    }
+  }
+
+  @override
+  void dispose() {
+    _stopFetchingData();
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  void _startFetchingData() {
+    _listenToVitalSigns();
+    _timer = Timer.periodic(_fetchInterval, (_) => _fetchBabyTemperature());
+    _fetchBabyTemperature();
+  }
+
+  void _stopFetchingData() {
+    _timer.cancel();
+    _vitalSignsSubscription?.cancel();
+    _vitalSignsSubscription = null;
+  }
+
+  Future<void> _fetchBabyTemperature() async {
+    try {
+      setState(() => _isLoading = true);
+      final babyTemp = await _apiProvider.getBabyTemp();
+      setState(() {
+        babyTempModel = babyTemp;
+        if (babyTemp != null && babyTemp.temp != null) {
+          final temp = babyTemp.temp!.toDouble();
+          _babyTemperature = "${temp.toStringAsFixed(1)} C";
+          _babyTemperatureRatio = _calculateRatio(temp, min: 35.0, max: 40.0);
+          _errorMessage = null;
+        } else {
+          _errorMessage = "No temperature data available from API";
+        }
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = "Error fetching temperature: $e";
+        _isLoading = false;
+      });
+    }
+  }
+
+  void _listenToVitalSigns() {
+    _vitalSignsSubscription = _databaseRef.onValue.listen(
+          (DatabaseEvent event) {
+        final data = event.snapshot.value as Map<dynamic, dynamic>?;
+        setState(() {
+          if (data != null) {
+            final hum = (data['humidity'] ?? 42).toDouble();
+            final hr = (data['heartRate'] ?? 78).toDouble();
+            final spO2 = (data['spo2'] ?? 95).toDouble();
+            final w = (data['weight'] ?? 5).toDouble();
+
+            _homeTemperature = "${hum.toStringAsFixed(1)} C";
+            _heartRate = "${hr.toStringAsFixed(0)} BPM";
+            _breathing = "${spO2.toStringAsFixed(0)} SpO2";
+            _weight = "${w.toStringAsFixed(1)} kg";
+
+            _homeTemperatureRatio = _calculateRatio(hum, min: -10.0, max: 60.0);
+            _breathingRatio = _calculateRatio(spO2, min: 0.0, max: 100.0);
+            _weightRatio = _calculateRatio(w, min: 0.0, max: 15.0);
+
+            _isLoading = false;
+            _errorMessage = null;
+          } else {
+            _errorMessage = "No data available from Firebase";
+            _isLoading = false;
+          }
+        });
+      },
+      onError: (error) {
+        setState(() {
+          _errorMessage = "Error fetching Firebase data: $error";
+          _isLoading = false;
+        });
+      },
+    );
+  }
+
+  double _calculateRatio(double value, {required double min, required double max}) {
+    if (value < min) return 0.0;
+    if (value > max) return 1.0;
+    return (value - min) / (max - min);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,90 +160,21 @@ class _HomeViewState extends State<HomeView> {
         profileIcon: 'Assets/Images/profileIcon.png',
         notificationIcon: 'Assets/Images/notificationIcon.png',
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(
-          top: 18.h,
-          right: 20.w,
-          left: 20.w,
-          bottom: 25.h,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const AppText(
-              title: "Vital Signs",
-              fontSize: 24,
-              fontFamily: "Roboto",
-              fontWeight: FontWeight.w400,
-              color: AppColors.black,
-            ),
-            SizedBox(
-              height: 25.h,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TemperatureCard(
-                    temperatureDegree: temperatureDegree,
-                    imgTitle: 'Assets/Images/sticky_notes.png',
-                    title: "Baby Temperature",
-                    status: "Normal",
-                    //color: const Color(0xFF26B57E),
-                    degree: "37 C",
-                  ),
-                ),
-                SizedBox(
-                  width: 14.w,
-                ),
-                Expanded(
-                  child: TemperatureCard(
-                    temperatureDegree: temperatureDegree,
-                    imgTitle: 'Assets/Images/homeTemp.png',
-                    title: "Home Temperature",
-                    status: "Normal",
-                    //color: const Color(0xFFFF210D),
-                    degree: "30 C",
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 25.h,
-            ),
-            HeartRateCard(
-              title: "Heart rate",
-              value: "78 BPM",
-              status: "Normal",
-              allSpots: allSpots,
-              //color: const Color(0xFF26B57E),
-            ),
-            SizedBox(
-              height: 25.h,
-            ),
-            Row(
-              children: [
-                const WeightCard(
-                  title: "Breathing",
-                  subtitle: "Normal",
-                  //color: Color(0xFF26B57E),
-                  imgTitle: "Assets/Images/breatheIcon.png",
-                  value: "98 SpO2",
-                ),
-                SizedBox(
-                  width: 14.w,
-                ),
-                const WeightCard(
-                  title: "Weight",
-                  subtitle: "Normal",
-                  //color: Color(0xFF26B57E),
-                  imgTitle: "Assets/Images/weightIcon.png",
-                  value: "2.4 kg",
-                ),
-              ],
-            ),
-          ],
-        ),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _errorMessage != null
+          ? Center(child: Text(_errorMessage!))
+          : VitalSignsView(
+        babyTemperature: _babyTemperature,
+        homeTemperature: _homeTemperature,
+        heartRate: _heartRate,
+        breathing: _breathing,
+        weight: _weight,
+        babyTemperatureRatio: _babyTemperatureRatio,
+        homeTemperatureRatio: _homeTemperatureRatio,
+        breathingRatio: _breathingRatio,
+        weightRatio: _weightRatio,
+        heartRateSpots: _heartRateSpots,
       ),
     );
   }

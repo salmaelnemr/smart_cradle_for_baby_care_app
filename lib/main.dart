@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/services/notification_service.dart';
 import 'package:smart_cradle_for_baby_care_app/Features/Home/view.dart';
 import 'package:smart_cradle_for_baby_care_app/Features/Splash/view.dart';
+import 'package:smart_cradle_for_baby_care_app/Widgets/app_loading_indicator.dart';
 import 'Core/caching_utils/caching_utils.dart';
 import 'Core/network_utils/network_utils.dart';
 import 'Core/route_utils/route_utils.dart';
@@ -50,7 +51,7 @@ class MyApp extends StatelessWidget {
       future: CachingUtils.init(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: AppLoadingIndicator());
         }
         return MaterialApp(
           navigatorKey: RouteUtils.navigatorKey,
