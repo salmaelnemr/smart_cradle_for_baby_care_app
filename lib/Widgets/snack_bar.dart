@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Core/app_colors/app_colors.dart';
 import '../Core/route_utils/route_utils.dart';
+import 'app_text.dart';
 
 void showSnackBar(
     String message, {
@@ -10,7 +11,7 @@ void showSnackBar(
   ScaffoldMessenger.of(RouteUtils.context).hideCurrentSnackBar();
   ScaffoldMessenger.of(RouteUtils.context).showSnackBar(
     SnackBar(
-      content: Text(message),
+      content: AppText(title: message,),
       backgroundColor: error ? AppColors.red : AppColors.green,
       behavior: SnackBarBehavior.floating,
       action: showDismissButton
@@ -18,7 +19,7 @@ void showSnackBar(
         onPressed: () {
           print('Dismiss');
         },
-        textColor: Colors.yellow,
+        textColor: AppColors.white,
         label: "Dismiss",
       )
           : null,

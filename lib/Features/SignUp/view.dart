@@ -120,7 +120,6 @@ class _SignUpViewState extends State<SignUpView> {
                     );
 
                     if (!result.contains("failed")) {
-                      // Pass the userId to BabyInformationView
                       RouteUtils.push(
                         BabyInformationView(userId: result),
                       );

@@ -128,7 +128,7 @@ class _LoginViewState extends State<LoginView> {
 
                     showSnackBar(
                       result,
-                      error: false,
+                      error: result == "Login success" ? false : true,
                     );
 
                     if (result == "Login success") {

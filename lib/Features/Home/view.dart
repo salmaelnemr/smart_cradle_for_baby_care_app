@@ -3,10 +3,12 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/models/baby_temp_model.dart';
+import 'package:smart_cradle_for_baby_care_app/Widgets/app_loading_indicator.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/main_app_bar.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/app_colors/app_colors.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/dio/api_provider.dart';
 import '../../Widgets/app/vital_signs.dart';
+import '../../Widgets/app_text.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -24,10 +26,10 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
   StreamSubscription<DatabaseEvent>? _vitalSignsSubscription;
   late Timer _timer;
 
-  String _babyTemperature = "0 C";
-  String _homeTemperature = "0 C";
+  String _babyTemperature = "0 °C";
+  String _homeTemperature = "0 °C";
   String _heartRate = "0 BPM";
-  String _breathing = "0 SpO2";
+  String _breathing = "0%";
   String _weight = "0 kg";
 
   double _babyTemperatureRatio = 0.0;
@@ -41,9 +43,37 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
 
   final List<FlSpot> _heartRateSpots = List.generate(31, (index) {
     final List<double> values = [
-      20, 25, 40, 50, 35, 40, 30, 20, 25, 40, 50,
-      35, 50, 60, 40, 50, 20, 25, 40, 50, 35, 80,
-      30, 20, 25, 40, 50, 35, 50, 60, 40
+      20,
+      25,
+      40,
+      50,
+      35,
+      40,
+      30,
+      20,
+      25,
+      40,
+      50,
+      35,
+      50,
+      60,
+      40,
+      50,
+      20,
+      25,
+      40,
+      50,
+      35,
+      80,
+      30,
+      20,
+      25,
+      40,
+      50,
+      35,
+      50,
+      60,
+      40
     ];
     return FlSpot(index.toDouble(), values[index]);
   });
@@ -92,7 +122,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
         babyTempModel = babyTemp;
         if (babyTemp != null && babyTemp.temp != null) {
           final temp = babyTemp.temp!.toDouble();
-          _babyTemperature = "${temp.toStringAsFixed(1)} C";
+          _babyTemperature = "${temp.toStringAsFixed(1)} °C";
           _babyTemperatureRatio = _calculateRatio(temp, min: 35.0, max: 40.0);
           _errorMessage = null;
         } else {
@@ -110,21 +140,21 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
 
   void _listenToVitalSigns() {
     _vitalSignsSubscription = _databaseRef.onValue.listen(
-          (DatabaseEvent event) {
+      (DatabaseEvent event) {
         final data = event.snapshot.value as Map<dynamic, dynamic>?;
         setState(() {
           if (data != null) {
-            final hum = (data['humidity'] ?? 42).toDouble();
+            final homeTemp = (data['temperature'] ?? 42).toDouble();
             final hr = (data['heartRate'] ?? 78).toDouble();
             final spO2 = (data['spo2'] ?? 95).toDouble();
             final w = (data['weight'] ?? 5).toDouble();
 
-            _homeTemperature = "${hum.toStringAsFixed(1)} C";
+            _homeTemperature = "${homeTemp.toStringAsFixed(1)} °C";
             _heartRate = "${hr.toStringAsFixed(0)} BPM";
-            _breathing = "${spO2.toStringAsFixed(0)} SpO2";
+            _breathing = "${spO2.toStringAsFixed(0)}%";
             _weight = "${w.toStringAsFixed(1)} kg";
 
-            _homeTemperatureRatio = _calculateRatio(hum, min: -10.0, max: 60.0);
+            _homeTemperatureRatio = _calculateRatio(homeTemp, min: -10.0, max: 60.0);
             _breathingRatio = _calculateRatio(spO2, min: 0.0, max: 100.0);
             _weightRatio = _calculateRatio(w, min: 0.0, max: 15.0);
 
@@ -145,7 +175,8 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
     );
   }
 
-  double _calculateRatio(double value, {required double min, required double max}) {
+  double _calculateRatio(double value,
+      {required double min, required double max}) {
     if (value < min) return 0.0;
     if (value > max) return 1.0;
     return (value - min) / (max - min);
@@ -161,21 +192,27 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
         notificationIcon: 'Assets/Images/notificationIcon.png',
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(
+              child: AppLoadingIndicator(),
+            )
           : _errorMessage != null
-          ? Center(child: Text(_errorMessage!))
-          : VitalSignsView(
-        babyTemperature: _babyTemperature,
-        homeTemperature: _homeTemperature,
-        heartRate: _heartRate,
-        breathing: _breathing,
-        weight: _weight,
-        babyTemperatureRatio: _babyTemperatureRatio,
-        homeTemperatureRatio: _homeTemperatureRatio,
-        breathingRatio: _breathingRatio,
-        weightRatio: _weightRatio,
-        heartRateSpots: _heartRateSpots,
-      ),
+              ? Center(
+                  child: AppText(
+                  title: _errorMessage!,
+                  color: AppColors.black,
+                ))
+              : VitalSignsView(
+                  babyTemperature: _babyTemperature,
+                  homeTemperature: _homeTemperature,
+                  heartRate: _heartRate,
+                  breathing: _breathing,
+                  weight: _weight,
+                  babyTemperatureRatio: _babyTemperatureRatio,
+                  homeTemperatureRatio: _homeTemperatureRatio,
+                  breathingRatio: _breathingRatio,
+                  weightRatio: _weightRatio,
+                  heartRateSpots: _heartRateSpots,
+                ),
     );
   }
 }

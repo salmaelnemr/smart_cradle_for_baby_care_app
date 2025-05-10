@@ -16,9 +16,8 @@ class MonitorView extends StatefulWidget {
 }
 
 class _MonitorViewState extends State<MonitorView> {
-
   bool isPopupNotificationsEnabled = true;
-  final String streamUrl = 'http://192.168.1.100/mjpeg';
+  final String streamUrl = "http://192.168.1.61"; //'http://192.168.1.100/mjpeg'
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,10 @@ class _MonitorViewState extends State<MonitorView> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 24.w,),
+          padding: EdgeInsets.symmetric(
+            vertical: 18.h,
+            horizontal: 24.w,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -41,19 +43,64 @@ class _MonitorViewState extends State<MonitorView> {
                     //color: AppColors.pinkLight,
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  child: Mjpeg(
-                    isLive: true,
-                    stream: streamUrl,
-                    error: (context, error, stack) {
-                      return const Text('Error connecting to stream');
-                    },
-                    fit: BoxFit.cover,
+                  clipBehavior: Clip.hardEdge,
+                  child: Stack(
+                    children: [
+                      Mjpeg(
+                        isLive: true,
+                        stream: streamUrl,
+                        error: (context, error, stack) {
+                          return const Center(
+                            child: AppText(
+                              title: 'Error connecting to stream',
+                              color: AppColors.black,
+                            ),
+                          );
+                        },
+                        fit: BoxFit.cover,
+                      ),
+                      Positioned(
+                        top: 28.h,
+                        left: 12.w,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.w,
+                            vertical: 4.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.6),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.circle,
+                                size: 9,
+                                color: AppColors.green,
+                              ),
+                              SizedBox(width: 6.w),
+                              const AppText(
+                                title: 'Live',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 24,
+                                fontFamily: "Roboto",
+                                color: AppColors.greyLight,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              SizedBox(height: 15.h,),
+              SizedBox(
+                height: 15.h,
+              ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12,),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                ),
                 child: InkWell(
                   onTap: () {
                     RouteUtils.push(
@@ -67,7 +114,9 @@ class _MonitorViewState extends State<MonitorView> {
                         height: 24.h,
                         width: 24.w,
                       ),
-                      SizedBox(width: 5.w,),
+                      SizedBox(
+                        width: 5.w,
+                      ),
                       const AppText(
                         title: "When to rock the cradle?",
                         textAlign: TextAlign.center,
@@ -80,7 +129,9 @@ class _MonitorViewState extends State<MonitorView> {
                   ),
                 ),
               ),
-              SizedBox(height: 14.h,),
+              SizedBox(
+                height: 14.h,
+              ),
               Container(
                 width: 345.w,
                 height: 48.h,
@@ -105,7 +156,7 @@ class _MonitorViewState extends State<MonitorView> {
                     ),
                     const Spacer(),
                     InkWell(
-                      onTap: (){
+                      onTap: () {
                         isPopupNotificationsEnabled = true;
                       },
                       child: CupertinoSwitch(
