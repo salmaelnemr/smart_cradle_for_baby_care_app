@@ -7,23 +7,38 @@ import '../../Widgets/app_button.dart';
 import '../../Widgets/app_text.dart';
 import '../../Widgets/date_picker.dart';
 import '../../Widgets/time_picker.dart';
+import '../../Core/dio/api_provider.dart';
+import '../../Core/models/note_model.dart';
 
 class AddTaskPage extends StatefulWidget {
-  const AddTaskPage({super.key});
+  final NoteModel? note;
+
+  const AddTaskPage({super.key, this.note});
 
   @override
   State<AddTaskPage> createState() => _AddTaskPageState();
 }
 
 class _AddTaskPageState extends State<AddTaskPage> {
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _noteController = TextEditingController();
-  DateTime _selectedDate = DateTime.now();
-  String _startTime = DateFormat('hh:mm a').format(DateTime.now()).toString();
-  int _selectedRemind = 5;
-  List<int> remindList = [5, 10, 15, 20, 25];
-  String _selectedRepeat = 'None';
-  List<String> repeatList = ['None', 'Daily', 'Weekly', 'Monthly'];
+  final TextEditingController _titleController = TextEditingController(); // ✅ NEW
+  final TextEditingController _contentController = TextEditingController();
+  late DateTime _selectedDate;
+  late String _startTime;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.note != null) {
+      final note = widget.note!;
+      _titleController.text = note.title ?? ''; // ✅ SET TITLE
+      _contentController.text = note.content ?? '';
+      _selectedDate = note.time ?? DateTime.now();
+      _startTime = DateFormat('hh:mm a').format(note.time ?? DateTime.now());
+    } else {
+      _selectedDate = DateTime.now();
+      _startTime = DateFormat('hh:mm a').format(DateTime.now());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +48,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         decoration: const BoxDecoration(
           color: AppColors.pinkLight,
           image: DecorationImage(
-            image: AssetImage(
-              "Assets/Images/sticky notes_n.png",
-            ),
-            //fit: BoxFit.cover,
+            image: AssetImage("Assets/Images/sticky notes_n.png"),
           ),
         ),
         child: NestedScrollView(
@@ -48,159 +60,89 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 centerTitle: true,
                 elevation: 0,
                 leading: InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
+                  onTap: () => Navigator.pop(context),
                   child: Image.asset(
                     "Assets/Images/backIcon.png",
                     width: 24.38.w,
                     height: 24.38.h,
-                    //fit: BoxFit.contain,
                   ),
                 ),
               ),
             ];
           },
-          body: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Container(
-              height: 1000.h,
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              decoration: const BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(35),
-                  topRight: Radius.circular(35),
-                ),
+          body: Container(
+            decoration: const BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(35),
+                topRight: Radius.circular(35),
               ),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 14.h),
-                    const Center(
-                      child: AppText(
-                        title: 'Add Reminder',
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: "Roboto",
-                        color: AppColors.black,
+            ),
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 14.h),
+                      Center(
+                        child: AppText(
+                          title: widget.note == null
+                              ? 'Add Sticky Note'
+                              : 'Edit Sticky Note',
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: "Roboto",
+                          color: AppColors.black,
+                        ),
                       ),
-                    ),
-                    MyInputField(
-                      title: 'Title',
-                      hint: 'Enter your title',
-                      controller: _titleController,
-                    ),
-                    MyInputField(
-                      title: 'Note',
-                      hint: 'Enter your note',
-                      controller: _noteController,
-                    ),
-                    MyInputField(
+                      MyInputField(
+                        title: 'Note Title', // ✅ NEW FIELD
+                        hint: 'Enter a title for the note',
+                        controller: _titleController,
+                      ),
+                      MyInputField(
+                        title: 'Note Content',
+                        hint: 'Enter your sticky note content',
+                        controller: _contentController,
+                      ),
+                      MyInputField(
                         title: 'Date',
                         hint: DateFormat.yMd().format(_selectedDate),
                         widget: TextButton(
-                          onPressed: () {
-                            _getDateFromUser();
-                          },
+                          onPressed: _getDateFromUser,
                           child: Image.asset(
                             'Assets/Images/scheduleIcon.png',
                             height: 20.h,
                             width: 20.w,
                           ),
-                        )),
-                    MyInputField(
+                        ),
+                      ),
+                      MyInputField(
                         title: 'Time',
                         hint: _startTime,
                         widget: TextButton(
-                          onPressed: () {
-                            _getTimeFromUser(isStartTime: true);
-                          },
+                          onPressed: () => _getTimeFromUser(isStartTime: true),
                           child: Image.asset(
                             'Assets/Images/timerIcon.png',
                             height: 20.h,
                             width: 20.w,
                           ),
-                        )),
-                    MyInputField(
-                      title: 'Remind Me',
-                      hint: '$_selectedRemind min early',
-                      widget: Padding(
-                        padding: EdgeInsets.only(
-                          right: 20.95.w,
-                        ),
-                        child: DropdownButton(
-                          dropdownColor: AppColors.pinkLight,
-                          icon: Image.asset(
-                            'Assets/Images/dropDown.png',
-                            height: 6.h,
-                            width: 10.w,
-                          ),
-                          underline: Container(height: 0),
-                          items: remindList
-                              .map<DropdownMenuItem<String>>((int value) {
-                            return DropdownMenuItem<String>(
-                              value: value.toString(),
-                              child: AppText(
-                                title: value.toString(),
-                                color: AppColors.pink,
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(
-                                () => _selectedRemind = int.parse(newValue!));
-                          },
                         ),
                       ),
-                    ),
-                    MyInputField(
-                      title: 'Repeat',
-                      hint: _selectedRepeat,
-                      widget: Padding(
-                        padding: EdgeInsets.only(
-                          right: 20.95.w,
-                        ),
-                        child: DropdownButton(
-                          dropdownColor: AppColors.pinkLight,
-                          icon: Image.asset(
-                            'Assets/Images/dropDown.png',
-                            height: 6.h,
-                            width: 10.w,
-                          ),
-                          underline: Container(height: 0),
-                          onChanged: (String? newValue) {
-                            setState(() => _selectedRepeat = newValue!);
-                          },
-                          items: repeatList
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: AppText(
-                                title: value,
-                                color: AppColors.pink,
-                              ),
-                            );
-                          }).toList(),
+                      SizedBox(height: 30.56.h),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        child: AppButton(
+                          width: 353.w,
+                          height: 48.35.h,
+                          title: widget.note == null ? "Add" : "Update",
+                          onPressed: _onSubmit,
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 30.56.h,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 20.w,
-                      ),
-                      child: AppButton(
-                        width: 353.w,
-                        height: 48.35.h,
-                        title: "Done",
-                        onPressed: () {},
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -228,19 +170,73 @@ class _AddTaskPageState extends State<AddTaskPage> {
     );
 
     if (pickedTime != null) {
-      final String formatedTime = pickedTime.format(context);
+      final String formattedTime = pickedTime.format(context);
       if (isStartTime) {
-        setState(() => _startTime = formatedTime);
+        setState(() => _startTime = formattedTime);
       }
     }
   }
 
-// _showTimePicker() {
-  //   return showTimePicker(
-  //       initialEntryMode: TimePickerEntryMode.input,
-  //       context: context,
-  //       initialTime: TimeOfDay(
-  //           hour: int.parse(_startTime.split(":")[0]),
-  //           minute: int.parse(_startTime.split(":")[1].split(" ")[0])));
-  // }
+  Future<void> _onSubmit() async {
+    if (_titleController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please enter a note title")),
+      );
+      return;
+    }
+
+    try {
+      final apiProvider = ApiProvider();
+      final time = DateFormat("hh:mm a").parse(_startTime);
+      final timeOfDay = TimeOfDay.fromDateTime(time);
+
+      DateTime fullDateTime = DateTime(
+        _selectedDate.year,
+        _selectedDate.month,
+        _selectedDate.day,
+        timeOfDay.hour,
+        timeOfDay.minute,
+      );
+
+      final String notificationDate = DateFormat('yyyy-MM-dd').format(fullDateTime);
+      final String notificationTime = DateFormat('HH:mm:ss').format(fullDateTime);
+      final bool isPM = timeOfDay.period == DayPeriod.pm;
+
+      String result;
+
+      if (widget.note == null) {
+        result = await apiProvider.addNote(
+          title: _titleController.text,
+          content: _contentController.text,
+          notificationDate: notificationDate,
+          notificationTime: notificationTime,
+          isPM: isPM,
+        );
+      } else {
+        result = await apiProvider.putNote(
+          id: widget.note!.id!,
+          title: _titleController.text,
+          content: _contentController.text,
+          notificationDate: notificationDate,
+          notificationTime: notificationTime,
+          isPM: isPM,
+        );
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(result)),
+      );
+
+      if (result.contains("successfully")) {
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: ${e.toString()}")),
+      );
+    }
+  }
+
+
 }
+

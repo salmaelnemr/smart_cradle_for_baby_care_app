@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../Core/app_colors/app_colors.dart';
 import '../../Core/caching_utils/caching_utils.dart';
 import '../../Core/route_utils/route_utils.dart';
-import '../../Widgets/app/profile_avatar.dart';
+// import '../../Widgets/app/profile_avatar.dart';
 import '../../Widgets/app/rate_dialog.dart';
 import '../../Widgets/app/setting_card.dart';
 import '../../Widgets/app_dialog.dart';
@@ -46,7 +46,7 @@ class _ProfileViewState extends State<ProfileView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const ProfileAvatar(),
+            // const ProfileAvatar(),
             SizedBox(height: 31.h),
             Container(
               height: 138.h,

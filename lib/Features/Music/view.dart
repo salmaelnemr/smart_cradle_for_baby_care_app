@@ -7,7 +7,6 @@ import 'package:smart_cradle_for_baby_care_app/Features/Music/playlist_view.dart
 import 'package:smart_cradle_for_baby_care_app/Widgets/app_text.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/main_app_bar.dart';
 
-
 class MusicView extends StatefulWidget {
   const MusicView({super.key});
 
@@ -60,9 +59,7 @@ class _MusicViewState extends State<MusicView> {
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                   ),
-                  backgroundColor: const Color(
-                    0xFFE1E1E1,
-                  ),
+                  backgroundColor: const Color(0xFFE1E1E1,),
                 ),
                 selectedIconScale: 1.0,
               ),

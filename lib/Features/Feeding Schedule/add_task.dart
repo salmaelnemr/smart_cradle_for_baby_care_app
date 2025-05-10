@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/input_field.dart';
-
 import '../../Core/app_colors/app_colors.dart';
 import '../../Widgets/app_button.dart';
 import '../../Widgets/app_text.dart';
 import '../../Widgets/date_picker.dart';
 import '../../Widgets/time_picker.dart';
+import '../../Core/dio/api_provider.dart';
+import '../../Core/models/feeding_model.dart';
 
 class AddTaskPage extends StatefulWidget {
-  const AddTaskPage({super.key});
+  final FeedingModel? feeding;
+
+  const AddTaskPage({super.key, this.feeding});
 
   @override
   State<AddTaskPage> createState() => _AddTaskPageState();
@@ -18,13 +21,23 @@ class AddTaskPage extends StatefulWidget {
 
 class _AddTaskPageState extends State<AddTaskPage> {
   final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _noteController = TextEditingController();
-  DateTime _selectedDate = DateTime.now();
-  String _startTime = DateFormat('hh:mm a').format(DateTime.now()).toString();
-  int _selectedRemind = 5;
+  late DateTime _selectedDate;
+  late String _startTime;
   List<int> remindList = [5, 10, 15, 20, 25];
-  String _selectedRepeat = 'None';
-  List<String> repeatList = ['None', 'Daily', 'Weekly', 'Monthly'];
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.feeding != null) {
+      final model = widget.feeding!;
+      _titleController.text = model.content ?? '';
+      _selectedDate = model.time ?? DateTime.now();
+      _startTime = DateFormat('hh:mm a').format(model.time ?? DateTime.now());
+    } else {
+      _selectedDate = DateTime.now();
+      _startTime = DateFormat('hh:mm a').format(DateTime.now()).toString();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +47,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         decoration: const BoxDecoration(
           color: AppColors.pinkLight,
           image: DecorationImage(
-            image: AssetImage(
-              "Assets/Images/sticky notes_n.png",
-            ),
-            //fit: BoxFit.cover,
+            image: AssetImage("Assets/Images/sticky notes_n.png"),
           ),
         ),
         child: NestedScrollView(
@@ -56,7 +66,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     "Assets/Images/backIcon.png",
                     width: 24.38.w,
                     height: 24.38.h,
-                    //fit: BoxFit.contain,
                   ),
                 ),
               ),
@@ -76,132 +85,115 @@ class _AddTaskPageState extends State<AddTaskPage> {
               ),
               child: SingleChildScrollView(
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 14.h),
-                      const Center(
-                        child: AppText(
-                          title: 'Add Reminder',
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                          fontFamily: "Roboto",
-                          color: AppColors.black,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 14.h),
+                    Center(
+                      child: AppText(
+                        title: widget.feeding == null ? 'Add Feeding Reminder' : 'Edit Feeding Reminder',
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: "Roboto",
+                        color: AppColors.black,
+                      ),
+                    ),
+                    MyInputField(
+                      title: 'Title',
+                      hint: 'Enter your title',
+                      controller: _titleController,
+                    ),
+                    MyInputField(
+                      title: 'Date',
+                      hint: DateFormat.yMd().format(_selectedDate),
+                      widget: TextButton(
+                        onPressed: _getDateFromUser,
+                        child: Image.asset(
+                          'Assets/Images/scheduleIcon.png',
+                          height: 20.h,
+                          width: 20.w,
                         ),
                       ),
-                      MyInputField(
-                        title: 'Title',
-                        hint: 'Enter your title',
-                        controller: _titleController,
+                    ),
+                    MyInputField(
+                      title: 'Time',
+                      hint: _startTime,
+                      widget: TextButton(
+                        onPressed: () {
+                          _getTimeFromUser(isStartTime: true);
+                        },
+                        child: Image.asset(
+                          'Assets/Images/timerIcon.png',
+                          height: 20.h,
+                          width: 20.w,
+                        ),
                       ),
-                      MyInputField(
-                        title: 'Note',
-                        hint: 'Enter your note',
-                        controller: _noteController,
-                      ),
-                      MyInputField(
-                          title: 'Date',
-                          hint: DateFormat.yMd().format(_selectedDate),
-                          widget: TextButton(
-                            onPressed: () {
-                              _getDateFromUser();
-                            },
-                            child: Image.asset(
-                              'Assets/Images/scheduleIcon.png',
-                              height: 20.h,
-                              width: 20.w,
-                            ),
-                          )),
-                      MyInputField(
-                          title: 'Time',
-                          hint: _startTime,
-                          widget: TextButton(
-                            onPressed: () {
-                              _getTimeFromUser(isStartTime: true);
-                            },
-                            child: Image.asset(
-                              'Assets/Images/timerIcon.png',
-                              height: 20.h,
-                              width: 20.w,
-                            ),
-                          )),
-                      MyInputField(
-                        title: 'Remind Me',
-                        hint: '$_selectedRemind min early',
-                        widget: Padding(
-                          padding: EdgeInsets.only(
-                            right: 20.95.w,
-                          ),
-                          child: DropdownButton(
-                            dropdownColor: AppColors.pinkLight,
-                            icon: Image.asset(
-                              'Assets/Images/dropDown.png',
-                              height: 6.h,
-                              width: 10.w,
-                            ),
-                            underline: Container(height: 0),
-                            items: remindList
-                                .map<DropdownMenuItem<String>>((int value) {
-                              return DropdownMenuItem<String>(
-                                value: value.toString(),
-                                child: AppText(
-                                  title: value.toString(),
-                                  color: AppColors.pink,
-                                ),
+                    ),
+                    SizedBox(height: 30.56.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: AppButton(
+                        width: 353.w,
+                        height: 48.35.h,
+                        title: widget.feeding == null ? "Add" : "Update",
+                        onPressed: () async {
+                          if (_titleController.text.isNotEmpty) {
+                            final apiProvider = ApiProvider();
+
+                            try {
+                              final time = DateFormat("hh:mm a").parse(_startTime);
+                              final timeOfDay = TimeOfDay.fromDateTime(time);
+
+                              final DateTime fullDateTime = DateTime(
+                                _selectedDate.year,
+                                _selectedDate.month,
+                                _selectedDate.day,
+                                timeOfDay.hour,
+                                timeOfDay.minute,
+                                0,
                               );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              setState(
-                                  () => _selectedRemind = int.parse(newValue!));
-                            },
-                          ),
-                        ),
-                      ),
-                      MyInputField(
-                        title: 'Repeat',
-                        hint: _selectedRepeat,
-                        widget: Padding(
-                          padding: EdgeInsets.only(
-                            right: 20.95.w,
-                          ),
-                          child: DropdownButton(
-                            dropdownColor: AppColors.pinkLight,
-                            icon: Image.asset(
-                              'Assets/Images/dropDown.png',
-                              height: 6.h,
-                              width: 10.w,
-                            ),
-                            underline: Container(height: 0),
-                            onChanged: (String? newValue) {
-                              setState(() => _selectedRepeat = newValue!);
-                            },
-                            items: repeatList
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: AppText(
-                                  title: value,
-                                  color: AppColors.pink,
-                                ),
+
+                              String result;
+                              if (widget.feeding == null) {
+                                result = await apiProvider.addFeeding(
+                                  content: _titleController.text,
+                                  notificationDate: DateFormat('yyyy-MM-dd').format(_selectedDate),
+                                  notificationTime: DateFormat('HH:mm:ss').format(fullDateTime),
+                                  isPM: timeOfDay.period == DayPeriod.pm,
+                                  remindMe: 0,
+                                );
+                              } else {
+                                result = await apiProvider.putFeeding(
+                                  id: widget.feeding!.id!,
+                                  content: _titleController.text,
+                                  notificationDate: DateFormat('yyyy-MM-dd').format(_selectedDate),
+                                  notificationTime: DateFormat('HH:mm:ss').format(fullDateTime),
+                                  isPM: timeOfDay.period == DayPeriod.pm,
+                                );
+                              }
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(result)),
                               );
-                            }).toList(),
-                          ),
-                        ),
+
+                              if (result.contains("successfully")) {
+                                Navigator.pop(context);
+                              }
+                            } catch (e) {
+                              print("Error parsing time: $e");
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("Invalid time format")),
+                              );
+                            }
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text("Please enter a title")),
+                            );
+                          }
+                        },
                       ),
-                      SizedBox(
-                        height: 30.56.h,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20.w,
-                        ),
-                        child: AppButton(
-                          width: 353.w,
-                          height: 48.35.h,
-                          title: "Done",
-                          onPressed: () {},
-                        ),
-                      ),
-                    ]),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -234,13 +226,4 @@ class _AddTaskPageState extends State<AddTaskPage> {
       }
     }
   }
-
-// _showTimePicker() {
-//   return showTimePicker(
-//       initialEntryMode: TimePickerEntryMode.input,
-//       context: context,
-//       initialTime: TimeOfDay(
-//           hour: int.parse(_startTime.split(":")[0]),
-//           minute: int.parse(_startTime.split(":")[1].split(" ")[0])));
-// }
 }

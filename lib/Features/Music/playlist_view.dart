@@ -4,6 +4,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/app_colors/app_colors.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app_img_button.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app_text.dart';
+import 'playback_page.dart'; // Import the new playback page
 
 class PlaylistView extends StatefulWidget {
   const PlaylistView({super.key});
@@ -30,6 +31,7 @@ class _PlaylistViewState extends State<PlaylistView> {
     'Note2',
     'Note3'
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +60,7 @@ class _PlaylistViewState extends State<PlaylistView> {
                     imagePath: "Assets/Images/Fire.png",
                     onPressed: () {
                       handlePlayPause(0);
-                      showMusicBottomSheet(0);
+                      navigateToPlaybackPage(0);
                     }),
                 SizedBox(
                   width: 17.w,
@@ -67,7 +69,7 @@ class _PlaylistViewState extends State<PlaylistView> {
                     imagePath: "Assets/Images/Rain.png",
                     onPressed: () {
                       handlePlayPause(1);
-                      showMusicBottomSheet(1);
+                      navigateToPlaybackPage(1);
                     }),
                 SizedBox(
                   width: 17.w,
@@ -76,7 +78,7 @@ class _PlaylistViewState extends State<PlaylistView> {
                     imagePath: "Assets/Images/Woods.png",
                     onPressed: () {
                       handlePlayPause(2);
-                      showMusicBottomSheet(2);
+                      navigateToPlaybackPage(2);
                     }),
                 SizedBox(
                   width: 17.w,
@@ -85,7 +87,7 @@ class _PlaylistViewState extends State<PlaylistView> {
                     imagePath: "Assets/Images/Waves.png",
                     onPressed: () {
                       handlePlayPause(3);
-                      showMusicBottomSheet(3);
+                      navigateToPlaybackPage(3);
                     }),
               ],
             ),
@@ -108,7 +110,7 @@ class _PlaylistViewState extends State<PlaylistView> {
                     imagePath: "Assets/Images/Bus.png",
                     onPressed: () {
                       handlePlayPause(4);
-                      showMusicBottomSheet(4);
+                      navigateToPlaybackPage(4);
                     }),
                 SizedBox(
                   width: 17.w,
@@ -117,7 +119,7 @@ class _PlaylistViewState extends State<PlaylistView> {
                     imagePath: "Assets/Images/Car.png",
                     onPressed: () {
                       handlePlayPause(5);
-                      showMusicBottomSheet(5);
+                      navigateToPlaybackPage(5);
                     }),
                 SizedBox(
                   width: 17.w,
@@ -126,7 +128,7 @@ class _PlaylistViewState extends State<PlaylistView> {
                     imagePath: "Assets/Images/Plane.png",
                     onPressed: () {
                       handlePlayPause(6);
-                      showMusicBottomSheet(6);
+                      navigateToPlaybackPage(6);
                     }),
                 SizedBox(
                   width: 17.w,
@@ -135,7 +137,7 @@ class _PlaylistViewState extends State<PlaylistView> {
                     imagePath: "Assets/Images/Train.png",
                     onPressed: () {
                       handlePlayPause(7);
-                      showMusicBottomSheet(7);
+                      navigateToPlaybackPage(7);
                     }),
               ],
             ),
@@ -160,7 +162,7 @@ class _PlaylistViewState extends State<PlaylistView> {
                     imagePath: "Assets/Images/Washing.png",
                     onPressed: () {
                       handlePlayPause(8);
-                      showMusicBottomSheet(8);
+                      navigateToPlaybackPage(8);
                     }),
                 SizedBox(
                   width: 17.w,
@@ -169,7 +171,7 @@ class _PlaylistViewState extends State<PlaylistView> {
                     imagePath: "Assets/Images/BlowDryer.png",
                     onPressed: () {
                       handlePlayPause(9);
-                      showMusicBottomSheet(9);
+                      navigateToPlaybackPage(9);
                     }),
                 SizedBox(
                   width: 17.w,
@@ -178,7 +180,7 @@ class _PlaylistViewState extends State<PlaylistView> {
                     imagePath: "Assets/Images/Radio.png",
                     onPressed: () {
                       handlePlayPause(10);
-                      showMusicBottomSheet(10);
+                      navigateToPlaybackPage(10);
                     }),
                 SizedBox(
                   width: 17.w,
@@ -187,7 +189,7 @@ class _PlaylistViewState extends State<PlaylistView> {
                     imagePath: "Assets/Images/Clock.png",
                     onPressed: () {
                       handlePlayPause(11);
-                      showMusicBottomSheet(11);
+                      navigateToPlaybackPage(11);
                     }),
               ],
             ),
@@ -196,7 +198,7 @@ class _PlaylistViewState extends State<PlaylistView> {
                 top: 20.h,
               ),
               child: const AppText(
-                title: "White Noise",
+                title: "White noise",
                 fontSize: 24,
                 fontWeight: FontWeight.w400,
                 fontFamily: "Roboto",
@@ -212,7 +214,7 @@ class _PlaylistViewState extends State<PlaylistView> {
                     imagePath: "Assets/Images/Note1.png",
                     onPressed: () {
                       handlePlayPause(12);
-                      showMusicBottomSheet(12);
+                      navigateToPlaybackPage(12);
                     }),
                 SizedBox(
                   width: 17.w,
@@ -221,7 +223,7 @@ class _PlaylistViewState extends State<PlaylistView> {
                     imagePath: "Assets/Images/Note2.png",
                     onPressed: () {
                       handlePlayPause(13);
-                      showMusicBottomSheet(13);
+                      navigateToPlaybackPage(13);
                     }),
                 SizedBox(
                   width: 17.w,
@@ -230,7 +232,7 @@ class _PlaylistViewState extends State<PlaylistView> {
                     imagePath: "Assets/Images/Note3.png",
                     onPressed: () {
                       handlePlayPause(14);
-                      showMusicBottomSheet(14);
+                      navigateToPlaybackPage(14);
                     }),
               ],
             ),
@@ -254,102 +256,15 @@ class _PlaylistViewState extends State<PlaylistView> {
     }
   }
 
-  void showMusicBottomSheet(int currentSoundNumber) {
-    showModalBottomSheet(
-      backgroundColor: Colors.white,
-      context: context,
-      builder: (context) {
-        return StatefulBuilder(
-          // <-- Wrap with StatefulBuilder
-          builder: (BuildContext context, StateSetter setState) {
-            // <-- Add
-            return Column(
-              children: [
-                Expanded(child: Image.asset('Assets/Images/playing.png')),
-                Center(
-                  child: ShaderMask(
-                    shaderCallback: (bounds) => LinearGradient(
-                      colors: AppColors.primaryG,
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                    ).createShader(
-                        Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
-                    child: Text(
-                      musicNames[currentSoundNumber],
-                      style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: "Roboto",
-                          color: Colors.white),
-                    ),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Expanded(
-                        child: SizedBox(
-                          width: 40,
-                          height: 40,
-                          child: AppImageButton(
-                            imagePath: "Assets/Images/prev.png",
-                            onPressed: () async {
-                              currentSoundNumber = mediaNumb--;
-                              player.setAsset(
-                                  'Assets/Audios/$currentSoundNumber.mp3');
-                              setState(() {}); // StateSetter
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Expanded(
-                          child: SizedBox(
-                        width: 45,
-                        height: 45,
-                        child: AppImageButton(
-                          imagePath: (player.playing)
-                              ? "Assets/Images/pause.png"
-                              : "Assets/Images/play.png",
-                          onPressed: () {
-                            if (player.playing) {
-                              currentSoundNumber = mediaNumb;
-                            }
-                            handlePlayPause(currentSoundNumber);
-                            setState(() {}); // StateSetter
-                          },
-                        ),
-                      )),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Expanded(
-                        child: SizedBox(
-                          width: 40,
-                          height: 40,
-                          child: AppImageButton(
-                            imagePath: "Assets/Images/next.png",
-                            onPressed: () async {
-                              currentSoundNumber = mediaNumb++;
-                              player.setAsset(
-                                  'Assets/Audios/$currentSoundNumber.mp3');
-                              setState(() {}); // StateSetter
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            );
-          },
-        );
-      },
+  void navigateToPlaybackPage(int soundNumber) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PlaybackPage(
+          soundNumber: soundNumber,
+          player: player,
+        ),
+      ),
     );
   }
 }
