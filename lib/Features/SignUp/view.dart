@@ -172,7 +172,7 @@ class _SignUpViewState extends State<SignUpView> {
 // import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:smart_cradle_for_baby_care_app/Core/validator_utils/validator_utils.dart';
-// import 'package:smart_cradle_for_baby_care_app/Features/Login/view.dart';
+// import 'package:smart_cradle_for_baby_care_app/Features/Login/songs.dart';
 // import 'package:smart_cradle_for_baby_care_app/Features/SignUp/states.dart';
 // import 'package:smart_cradle_for_baby_care_app/Widgets/app_text.dart';
 // import '../../Core/app_colors/app_colors.dart';

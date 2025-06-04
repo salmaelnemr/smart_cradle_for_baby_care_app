@@ -9,20 +9,14 @@ class HeartRateCard extends StatelessWidget {
   final String title;
   final String value;
   final String status;
-  //final Color color;
-  //final List<int> showingTooltipOnSpots;
   final List<FlSpot> allSpots;
-  //final ValueChanged<int> onSpotTapped;
 
   const HeartRateCard({
     super.key,
     required this.title,
     required this.value,
     required this.status,
-    //required this.showingTooltipOnSpots,
     required this.allSpots,
-    //required this.onSpotTapped,
-    //required this.color,
   });
 
   @override
@@ -74,9 +68,7 @@ class HeartRateCard extends StatelessWidget {
               ),
             ),
             LineChartWidget(
-              //showingTooltipOnSpots: showingTooltipOnSpots,
               allSpots: allSpots,
-              //onSpotTapped: onSpotTapped,
             ),
           ],
         ),

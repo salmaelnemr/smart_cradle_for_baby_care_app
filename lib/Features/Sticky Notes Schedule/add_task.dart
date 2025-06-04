@@ -20,7 +20,7 @@ class AddTaskPage extends StatefulWidget {
 }
 
 class _AddTaskPageState extends State<AddTaskPage> {
-  final TextEditingController _titleController = TextEditingController(); // ✅ NEW
+  final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
   late DateTime _selectedDate;
   late String _startTime;
@@ -30,7 +30,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     super.initState();
     if (widget.note != null) {
       final note = widget.note!;
-      _titleController.text = note.title ?? ''; // ✅ SET TITLE
+      _titleController.text = note.title ?? '';
       _contentController.text = note.content ?? '';
       _selectedDate = note.time ?? DateTime.now();
       _startTime = DateFormat('hh:mm a').format(note.time ?? DateTime.now());
@@ -89,8 +89,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       Center(
                         child: AppText(
                           title: widget.note == null
-                              ? 'Add Sticky Note'
-                              : 'Edit Sticky Note',
+                              ? 'Add Reminder'
+                              : 'Edit Reminder',
                           fontSize: 24,
                           fontWeight: FontWeight.w700,
                           fontFamily: "Roboto",

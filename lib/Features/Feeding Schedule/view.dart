@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/app_colors/app_colors.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/route_utils/route_utils.dart';
+import 'package:smart_cradle_for_baby_care_app/Widgets/app_loading_indicator.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app_text.dart';
+import 'package:smart_cradle_for_baby_care_app/Widgets/snack_bar.dart';
 import '../../Core/models/feeding_model.dart';
 import 'add_task.dart';
 import '../../Core/dio/api_provider.dart';
@@ -83,7 +85,10 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
             ];
           },
           body: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: EdgeInsets.symmetric(
+              horizontal: 15.w,
+              vertical: 18.h,
+            ),
             decoration: const BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.only(
@@ -93,14 +98,30 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
             ),
             child: Column(
               children: [
+                const Center(
+                  child: AppText(
+                    title: "Feeding",
+                    fontWeight: FontWeight.w700,
+                    fontSize: 24,
+                    color: AppColors.black,
+                    fontFamily: "Roboto",
+                  ),
+                ),
+                SizedBox(height: 17.h),
                 _showDateBar(),
-                SizedBox(height: 20.h),
-                _isLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : _filteredFeedings.isEmpty
-                        ? const Center(child: Text("No feedings for this day."))
-                        : Expanded(
-                            child: ListView.builder(
+                Expanded(
+                  child: _isLoading
+                      ? const Center(
+                          child: AppLoadingIndicator(),
+                        )
+                      : _filteredFeedings.isEmpty
+                          ? const Center(
+                              child: AppText(
+                                title: "No feedings for this day.",
+                                color: AppColors.black,
+                              ),
+                            )
+                          : ListView.builder(
                               itemCount: _filteredFeedings.length,
                               itemBuilder: (context, index) {
                                 final feeding = _filteredFeedings[index];
@@ -108,66 +129,103 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
                                   key: Key(feeding.id.toString()),
                                   direction: DismissDirection.endToStart,
                                   background: Container(
-                                    margin: const EdgeInsets.symmetric(vertical: 8),
+                                    margin:
+                                        EdgeInsets.symmetric(vertical: 18.h),
                                     decoration: BoxDecoration(
                                       color: Colors.red,
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     alignment: Alignment.centerRight,
-                                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                                    child: const Icon(Icons.delete, color: Colors.white),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 20.w,
+                                    ),
+                                    child: const Icon(
+                                      Icons.delete,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                   confirmDismiss: (direction) async {
                                     return await showDialog<bool>(
                                       context: context,
                                       builder: (context) => AlertDialog(
-                                        title: const Text("Confirm Delete"),
-                                        content: const Text("Are you sure you want to delete this feeding?"),
+                                        title: const AppText(
+                                          title: "Confirm Delete",
+                                          color: AppColors.black,
+                                        ),
+                                        content: const AppText(
+                                          title:
+                                              "Are you sure you want to delete this feeding?",
+                                          color: AppColors.black,
+                                        ),
                                         actions: [
                                           TextButton(
-                                              onPressed: () => Navigator.pop(context, false),
-                                              child: const Text("Cancel")),
+                                            onPressed: () =>
+                                                Navigator.pop(context, false),
+                                            child: const AppText(
+                                              title: "Cancel",
+                                              color: AppColors.black,
+                                            ),
+                                          ),
                                           TextButton(
-                                              onPressed: () => Navigator.pop(context, true),
-                                              child: const Text("Delete")),
+                                            onPressed: () =>
+                                                Navigator.pop(context, true),
+                                            child: const AppText(
+                                              title: "Delete",
+                                              color: AppColors.black,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     );
                                   },
                                   onDismissed: (direction) async {
                                     final apiProvider = ApiProvider();
-                                    final result = await apiProvider.deleteFeeding(feeding.id!);
-                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result)));
-                                    if (result == "Feeding deleted successfully!") {
+                                    final result = await apiProvider
+                                        .deleteFeeding(feeding.id!);
+                                    showSnackBar(result);
+                                    if (result ==
+                                        "Feeding deleted successfully!") {
                                       setState(() {
                                         _filteredFeedings.removeAt(index);
-                                        _allFeedings.removeWhere((f) => f.id == feeding.id);
+                                        _allFeedings.removeWhere(
+                                            (f) => f.id == feeding.id);
                                       });
                                     }
                                   },
                                   child: InkWell(
-                                    onTap:  () async {
-                                      await RouteUtils.push(AddTaskPage(feeding: feeding));
+                                    onTap: () async {
+                                      await RouteUtils.push(
+                                        AddTaskPage(feeding: feeding),
+                                      );
                                       _loadFeedings();
                                     },
                                     child: Card(
-                                      margin: const EdgeInsets.symmetric(vertical: 8),
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                      margin:
+                                          EdgeInsets.symmetric(vertical: 8.h),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                      color: AppColors.pinkLight,
                                       child: ListTile(
-                                        title: Text(feeding.content ?? "No content"),
-                                        trailing: Text(
-                                          feeding.time != null
-                                              ? DateFormat.Hm().format(feeding.time!) // Only showing time (hour:minute)
+                                        title: AppText(
+                                          title:
+                                              feeding.content ?? "No content",
+                                          color: AppColors.black,
+                                        ),
+                                        trailing: AppText(
+                                          title: feeding.time != null
+                                              ? DateFormat.Hm()
+                                                  .format(feeding.time!)
                                               : "No time",
+                                          color: AppColors.black,
                                         ),
                                       ),
                                     ),
                                   ),
                                 );
-
                               },
                             ),
-                          ),
+                ),
               ],
             ),
           ),
@@ -196,7 +254,7 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
     );
   }
 
-   _showDateBar() {
+  _showDateBar() {
     return EasyDateTimeLine(
       initialDate: _selectedDate,
       onDateChange: (selectedDate) {
@@ -209,12 +267,18 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
         width: 67,
         activeDayStyle: DayStyle(
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            borderRadius: const BorderRadius.all(Radius.circular(14)),
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: AppColors.primaryG,
             ),
+          ),
+        ),
+        inactiveDayStyle: DayStyle(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(14)),
+            color: Colors.grey[300],
           ),
         ),
       ),

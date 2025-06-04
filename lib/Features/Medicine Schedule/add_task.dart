@@ -49,7 +49,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         decoration: const BoxDecoration(
           color: AppColors.pinkLight,
           image: DecorationImage(
-            image: AssetImage("Assets/Images/sticky notes_n.png"),
+            image: AssetImage("Assets/Images/medicine_n.png"),
           ),
         ),
         child: NestedScrollView(
@@ -90,8 +90,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       Center(
                         child: AppText(
                           title: widget.medicine == null
-                              ? 'Add Medicine Reminder'
-                              : 'Edit Medicine Reminder',
+                              ? 'Add Reminder'
+                              : 'Edit Reminder',
                           fontSize: 24,
                           fontWeight: FontWeight.w700,
                           fontFamily: "Roboto",

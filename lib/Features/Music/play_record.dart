@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/app_colors/app_colors.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app_img_button.dart';
+import '../../Widgets/app_text.dart';
 import '../../Widgets/secondary_app_bar.dart';
 import '../../Core/route_utils/route_utils.dart';
 
-class PlayVoicePage extends StatefulWidget {
+class PlayRecordView extends StatefulWidget {
   final List<String> audioPaths;
   final int currentIndex;
   final AudioPlayer player;
 
-  const PlayVoicePage({
-    Key? key,
+  const PlayRecordView({
+    super.key,
     required this.audioPaths,
     required this.currentIndex,
     required this.player,
-  }) : super(key: key);
+  });
 
   @override
-  State<PlayVoicePage> createState() => _PlayVoicePageState();
+  State<PlayRecordView> createState() => _PlayRecordViewState();
 }
 
-class _PlayVoicePageState extends State<PlayVoicePage> {
+class _PlayRecordViewState extends State<PlayRecordView> {
   late int currentIndex;
   late AudioPlayer player;
 
@@ -75,11 +77,10 @@ class _PlayVoicePageState extends State<PlayVoicePage> {
   @override
   Widget build(BuildContext context) {
     final String name = widget.audioPaths[currentIndex].split('/').last;
-
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: SecondaryAppBar(
-        title: 'Now Playing: $name',
+        title: 'Music',
         onTap: () {
           RouteUtils.pop();
           player.pause();
@@ -88,7 +89,9 @@ class _PlayVoicePageState extends State<PlayVoicePage> {
       body: Column(
         children: [
           Expanded(
-            child: Image.asset('Assets/Images/playing.png'),
+            child: Image.asset(
+              'Assets/Images/playing.png',
+            ),
           ),
           Center(
             child: ShaderMask(
@@ -96,14 +99,13 @@ class _PlayVoicePageState extends State<PlayVoicePage> {
                 colors: AppColors.primaryG,
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
-              ).createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
-              child: Text(
-                name,
-                style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: "Roboto",
-                    color: Colors.white),
+              ).createShader(bounds),
+              child: AppText(
+                title: name,
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+                fontFamily: "Roboto",
+                color: Colors.white,
               ),
             ),
           ),
@@ -115,6 +117,8 @@ class _PlayVoicePageState extends State<PlayVoicePage> {
                 child: AppImageButton(
                   imagePath: "Assets/Images/prev.png",
                   onPressed: previousTrack,
+                  height: 20.h,
+                  width: 20.w,
                 ),
               ),
               Padding(
@@ -122,8 +126,10 @@ class _PlayVoicePageState extends State<PlayVoicePage> {
                 child: AppImageButton(
                   imagePath: player.playing
                       ? "Assets/Images/pause.png"
-                      : "Assets/Images/play.png",
+                      : "Assets/Images/Play.png",
                   onPressed: playPause,
+                  height: 20.h,
+                  width: 20.w,
                 ),
               ),
               Padding(
@@ -131,6 +137,8 @@ class _PlayVoicePageState extends State<PlayVoicePage> {
                 child: AppImageButton(
                   imagePath: "Assets/Images/next.png",
                   onPressed: nextTrack,
+                  height: 20.h,
+                  width: 20.w,
                 ),
               ),
             ],

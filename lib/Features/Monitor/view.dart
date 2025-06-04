@@ -17,7 +17,7 @@ class MonitorView extends StatefulWidget {
 
 class _MonitorViewState extends State<MonitorView> {
   bool isPopupNotificationsEnabled = true;
-  final String streamUrl = "http://192.168.1.61"; //'http://192.168.1.100/mjpeg'
+  final String streamUrl = "http://192.168.156.161"; //'http://192.168.1.100/mjpeg'
 
   @override
   Widget build(BuildContext context) {

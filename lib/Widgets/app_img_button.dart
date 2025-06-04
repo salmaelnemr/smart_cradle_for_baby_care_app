@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppImageButton extends StatelessWidget {
   final String imagePath;
   final VoidCallback onPressed;
+  final double height;
+  final double width;
 
   const AppImageButton({
     super.key,
     required this.imagePath,
     required this.onPressed,
+    required this.height,
+    required this.width,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: onPressed,
-      child: Image.asset(imagePath, height: 40.h, width: 40.w,),
+      child: Image.asset(imagePath, height: height, width: width,),
     );
   }
 }

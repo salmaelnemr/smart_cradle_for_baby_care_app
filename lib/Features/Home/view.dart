@@ -5,7 +5,10 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/models/baby_temp_model.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app_loading_indicator.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/main_app_bar.dart';
-import 'package:smart_cradle_for_baby_care_app/Core/app_colors/app_colors.dart';
+import 'package:smart_cradle_for_baby_care_app/Core/a'
+    ''
+    ''
+    'pp_colors/app_colors.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/dio/api_provider.dart';
 import '../../Widgets/app/vital_signs.dart';
 import '../../Widgets/app_text.dart';
@@ -19,7 +22,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
   static const _fetchInterval = Duration(seconds: 300);
-  static const _firebasePath = "sensor_data";
+  static const _firebasePath = "sensor_data/readings";
 
   final _apiProvider = ApiProvider();
   final _databaseRef = FirebaseDatabase.instance.ref(_firebasePath);

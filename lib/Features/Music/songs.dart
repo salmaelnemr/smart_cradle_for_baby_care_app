@@ -2,7 +2,7 @@ import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/app_colors/app_colors.dart';
-import 'package:smart_cradle_for_baby_care_app/Features/Music/Voice.dart';
+import 'package:smart_cradle_for_baby_care_app/Features/Music/records.dart';
 import 'package:smart_cradle_for_baby_care_app/Features/Music/playlist_view.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app_text.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/main_app_bar.dart';
@@ -67,7 +67,7 @@ class _MusicViewState extends State<MusicView> {
               Expanded(
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
-                  child: isPlaylist ? const PlaylistView() : const VoiceView(),
+                  child: isPlaylist ? const PlaylistView() : const RecordsView(),
                 ),
               ),
             ],

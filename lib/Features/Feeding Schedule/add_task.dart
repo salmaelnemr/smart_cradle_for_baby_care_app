@@ -47,7 +47,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         decoration: const BoxDecoration(
           color: AppColors.pinkLight,
           image: DecorationImage(
-            image: AssetImage("Assets/Images/sticky notes_n.png"),
+            image: AssetImage("Assets/Images/feeding_n.png"),
           ),
         ),
         child: NestedScrollView(
@@ -90,7 +90,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     SizedBox(height: 14.h),
                     Center(
                       child: AppText(
-                        title: widget.feeding == null ? 'Add Feeding Reminder' : 'Edit Feeding Reminder',
+                        title: widget.feeding == null ? 'Add Reminder' : 'Edit Reminder',
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
                         fontFamily: "Roboto",

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/app_colors/app_colors.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/models/vaccine_model.dart';
+import 'package:smart_cradle_for_baby_care_app/Widgets/app_loading_indicator.dart';
 import '../../Core/dio/api_provider.dart';
 import '../../Widgets/app_text.dart';
 
@@ -81,60 +82,86 @@ class _VaccineScheduleState extends State<VaccineSchedule> {
                 topRight: Radius.circular(35),
               ),
             ),
-            child: isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : vaccines.isEmpty
-                ? const Center(
-              child: AppText(
-                title: "No vaccines available.",
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                fontFamily: "Roboto",
-                color: AppColors.black,
-              ),
-            )
-                : ListView.builder(
-              padding: const EdgeInsets.only(top: 20),
-              itemCount: vaccines.length,
-              itemBuilder: (context, index) {
-                final vaccine = vaccines[index];
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  elevation: 4,
-                  margin: const EdgeInsets.symmetric(vertical: 8),
-                  child: ListTile(
-                    title: Text(
-                      vaccine.vaccineName ?? 'No Name',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 5),
-                        Text(
-                          vaccine.content ?? '',
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          vaccine.date != null
-                              ? "Date: ${vaccine.date!.toLocal().toString().split(' ')[0]}"
-                              : "No Date",
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey,
+            child: Expanded(
+              child: isLoading
+                  ? const Center(
+                      child: AppLoadingIndicator(),
+                    )
+                  : vaccines.isEmpty
+                      ? const Center(
+                          child: AppText(
+                            title: "No vaccines available.",
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "Roboto",
+                            color: AppColors.black,
+                          ),
+                        )
+                      : Padding(
+                          padding: EdgeInsets.only(
+                            top: 10.h,
+                          ),
+                          child: Column(
+                            children: [
+                              const Center(
+                                child: AppText(
+                                  title: "Vaccines",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 24,
+                                  color: AppColors.black,
+                                  fontFamily: "Roboto",
+                                ),
+                              ),
+                              Expanded(
+                                child: ListView.builder(
+                                  padding: EdgeInsets.only(top: 10.h),
+                                  itemCount: vaccines.length,
+                                  itemBuilder: (context, index) {
+                                    final vaccine = vaccines[index];
+                                    return Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      color: AppColors.pinkLight,
+                                      elevation: 4,
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 8),
+                                      child: ListTile(
+                                        title: AppText(
+                                          title:
+                                              vaccine.vaccineName ?? 'No Name',
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.black,
+                                        ),
+                                        subtitle: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const SizedBox(height: 5),
+                                            AppText(
+                                              title: vaccine.content ?? '',
+                                              fontSize: 14,
+                                              color: AppColors.black,
+                                            ),
+                                            const SizedBox(height: 5),
+                                            AppText(
+                                              title: vaccine.date != null
+                                                  ? "Date: ${vaccine.date!.toLocal().toString().split(' ')[0]}"
+                                                  : "No Date",
+                                              fontSize: 12,
+                                              color: AppColors.greyLight,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                );
-              },
             ),
           ),
         ),

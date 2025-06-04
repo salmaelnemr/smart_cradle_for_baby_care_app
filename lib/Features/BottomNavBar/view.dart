@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smart_cradle_for_baby_care_app/Features/Music/view.dart';
+import 'package:smart_cradle_for_baby_care_app/Features/Music/songs.dart';
 import '../../Core/app_colors/app_colors.dart';
 import '../Chat Bot/view.dart';
 import '../Home/view.dart';

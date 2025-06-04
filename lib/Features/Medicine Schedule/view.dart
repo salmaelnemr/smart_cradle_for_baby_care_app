@@ -7,6 +7,8 @@ import 'package:smart_cradle_for_baby_care_app/Core/models/medicine_model.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/route_utils/route_utils.dart';
 import 'package:smart_cradle_for_baby_care_app/Features/Medicine%20Schedule/add_task.dart';
 import '../../Core/dio/api_provider.dart';
+import '../../Widgets/app_loading_indicator.dart';
+import '../../Widgets/app_text.dart';
 
 class MedicineSchedule extends StatefulWidget {
   const MedicineSchedule({super.key});
@@ -45,7 +47,8 @@ class _MedicineScheduleState extends State<MedicineSchedule> {
     setState(() {
       _filteredMedicines = _medicines.where((medicine) {
         if (medicine.notificationTime == null) return false;
-        final medicineDateStr = DateFormat('yyyy-MM-dd').format(medicine.notificationTime!);
+        final medicineDateStr =
+            DateFormat('yyyy-MM-dd').format(medicine.notificationTime!);
         return medicineDateStr == dateStr;
       }).toList();
     });
@@ -83,7 +86,10 @@ class _MedicineScheduleState extends State<MedicineSchedule> {
             ];
           },
           body: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: EdgeInsets.symmetric(
+              horizontal: 15.w,
+              vertical: 18.h,
+            ),
             decoration: const BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.only(
@@ -93,15 +99,31 @@ class _MedicineScheduleState extends State<MedicineSchedule> {
             ),
             child: Column(
               children: [
+                const Center(
+                  child: AppText(
+                    title: "Medicine",
+                    fontWeight: FontWeight.w700,
+                    fontSize: 24,
+                    color: AppColors.black,
+                    fontFamily: "Roboto",
+                  ),
+                ),
+                SizedBox(height: 17.h),
                 _showDateBar(),
                 SizedBox(height: 20.h),
-                _isLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : _filteredMedicines.isEmpty
-                        ? const Center(
-                            child: Text("No medicines scheduled for this day."))
-                        : Expanded(
-                            child: ListView.builder(
+                Expanded(
+                  child: _isLoading
+                      ? const Center(
+                          child: AppLoadingIndicator(),
+                        )
+                      : _filteredMedicines.isEmpty
+                          ? const Center(
+                              child: AppText(
+                                title: "No medicines for this day.",
+                                color: AppColors.black,
+                              ),
+                            )
+                          : ListView.builder(
                               itemCount: _filteredMedicines.length,
                               itemBuilder: (context, index) {
                                 final medicine = _filteredMedicines[index];
@@ -110,33 +132,48 @@ class _MedicineScheduleState extends State<MedicineSchedule> {
                                   direction: DismissDirection.endToStart,
                                   background: Container(
                                     margin:
-                                        const EdgeInsets.symmetric(vertical: 8),
+                                        EdgeInsets.symmetric(vertical: 18.h),
                                     decoration: BoxDecoration(
                                       color: Colors.red,
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     alignment: Alignment.centerRight,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20),
-                                    child: const Icon(Icons.delete,
-                                        color: Colors.white),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 20.w,
+                                    ),
+                                    child: const Icon(
+                                      Icons.delete,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                   confirmDismiss: (direction) async {
                                     return await showDialog<bool>(
                                       context: context,
                                       builder: (context) => AlertDialog(
-                                        title: const Text("Confirm Delete"),
-                                        content: const Text(
-                                            "Are you sure you want to delete this medicine?"),
+                                        title: const AppText(
+                                          title: "Confirm Delete",
+                                          color: AppColors.black,
+                                        ),
+                                        content: const AppText(
+                                          title:
+                                              "Are you sure you want to delete this medicine?",
+                                          color: AppColors.black,
+                                        ),
                                         actions: [
                                           TextButton(
                                               onPressed: () =>
                                                   Navigator.pop(context, false),
-                                              child: const Text("Cancel")),
+                                              child: const AppText(
+                                                title: "Cancel",
+                                                color: AppColors.black,
+                                              )),
                                           TextButton(
                                               onPressed: () =>
                                                   Navigator.pop(context, true),
-                                              child: const Text("Delete")),
+                                              child: const AppText(
+                                                title: "Delete",
+                                                color: AppColors.black,
+                                              )),
                                         ],
                                       ),
                                     );
@@ -160,19 +197,25 @@ class _MedicineScheduleState extends State<MedicineSchedule> {
                                       _loadMedicines(); // Reload after editing
                                     },
                                     child: Card(
-                                      margin: const EdgeInsets.symmetric(
-                                          vertical: 8),
+                                      margin:
+                                          EdgeInsets.symmetric(vertical: 8.h),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(12)),
+                                      color: AppColors.pinkLight,
                                       child: ListTile(
-                                        title: Text(
-                                            medicine.content ?? "No content"),
-                                        trailing: Text(
-                                          medicine.notificationTime != null
-                                              ? DateFormat.Hm()
-                                                  .format(medicine.notificationTime!)
+                                        title: AppText(
+                                          title:
+                                              medicine.content ?? "No content",
+                                          color: AppColors.black,
+                                        ),
+                                        trailing: AppText(
+                                          title: medicine.notificationTime !=
+                                                  null
+                                              ? DateFormat.Hm().format(
+                                                  medicine.notificationTime!)
                                               : "No time",
+                                          color: AppColors.black,
                                         ),
                                       ),
                                     ),
@@ -180,7 +223,7 @@ class _MedicineScheduleState extends State<MedicineSchedule> {
                                 );
                               },
                             ),
-                          ),
+                ),
               ],
             ),
           ),
@@ -215,7 +258,7 @@ class _MedicineScheduleState extends State<MedicineSchedule> {
       onDateChange: (selectedDate) {
         setState(() {
           _selectedDate = selectedDate;
-          _isLoading = true; // Show loading indicator while fetching data
+          _isLoading = true;
         });
         _loadMedicines();
       },
@@ -225,12 +268,18 @@ class _MedicineScheduleState extends State<MedicineSchedule> {
         width: 67,
         activeDayStyle: DayStyle(
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            borderRadius: const BorderRadius.all(Radius.circular(14)),
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: AppColors.primaryG,
             ),
+          ),
+        ),
+        inactiveDayStyle: DayStyle(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(14)),
+            color: Colors.grey[300],
           ),
         ),
       ),

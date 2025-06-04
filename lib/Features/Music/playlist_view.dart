@@ -4,7 +4,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/app_colors/app_colors.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app_img_button.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app_text.dart';
-import 'playback_page.dart'; // Import the new playback page
+import 'play_song.dart';
 
 class PlaylistView extends StatefulWidget {
   const PlaylistView({super.key});
@@ -32,6 +32,32 @@ class _PlaylistViewState extends State<PlaylistView> {
     'Note3'
   ];
 
+  int mediaNumb = 0;
+  final player = AudioPlayer();
+
+  void handlePlayPause(int soundNumber) {
+    player.setAsset('Assets/Audios/$soundNumber.mp3');
+
+    if (player.playing) {
+      player.pause();
+    } else {
+      player.play();
+      mediaNumb = soundNumber;
+    }
+  }
+
+  void navigateToPlaybackPage(int soundNumber) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PlaySongView(
+          soundNumber: soundNumber,
+          player: player,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,38 +83,50 @@ class _PlaylistViewState extends State<PlaylistView> {
             Row(
               children: [
                 AppImageButton(
-                    imagePath: "Assets/Images/Fire.png",
-                    onPressed: () {
-                      handlePlayPause(0);
-                      navigateToPlaybackPage(0);
-                    }),
+                  imagePath: "Assets/Images/Fire.png",
+                  onPressed: () {
+                    handlePlayPause(0);
+                    navigateToPlaybackPage(0);
+                  },
+                  height: 40.h,
+                  width: 40.w,
+                ),
                 SizedBox(
                   width: 17.w,
                 ),
                 AppImageButton(
-                    imagePath: "Assets/Images/Rain.png",
-                    onPressed: () {
-                      handlePlayPause(1);
-                      navigateToPlaybackPage(1);
-                    }),
+                  imagePath: "Assets/Images/Rain.png",
+                  onPressed: () {
+                    handlePlayPause(1);
+                    navigateToPlaybackPage(1);
+                  },
+                  height: 40.h,
+                  width: 40.w,
+                ),
                 SizedBox(
                   width: 17.w,
                 ),
                 AppImageButton(
-                    imagePath: "Assets/Images/Woods.png",
-                    onPressed: () {
-                      handlePlayPause(2);
-                      navigateToPlaybackPage(2);
-                    }),
+                  imagePath: "Assets/Images/Woods.png",
+                  onPressed: () {
+                    handlePlayPause(2);
+                    navigateToPlaybackPage(2);
+                  },
+                  height: 40.h,
+                  width: 40.w,
+                ),
                 SizedBox(
                   width: 17.w,
                 ),
                 AppImageButton(
-                    imagePath: "Assets/Images/Waves.png",
-                    onPressed: () {
-                      handlePlayPause(3);
-                      navigateToPlaybackPage(3);
-                    }),
+                  imagePath: "Assets/Images/Waves.png",
+                  onPressed: () {
+                    handlePlayPause(3);
+                    navigateToPlaybackPage(3);
+                  },
+                  height: 40.h,
+                  width: 40.w,
+                ),
               ],
             ),
             Padding(
@@ -107,38 +145,50 @@ class _PlaylistViewState extends State<PlaylistView> {
             Row(
               children: [
                 AppImageButton(
-                    imagePath: "Assets/Images/Bus.png",
-                    onPressed: () {
-                      handlePlayPause(4);
-                      navigateToPlaybackPage(4);
-                    }),
+                  imagePath: "Assets/Images/Bus.png",
+                  onPressed: () {
+                    handlePlayPause(4);
+                    navigateToPlaybackPage(4);
+                  },
+                  height: 40.h,
+                  width: 40.w,
+                ),
                 SizedBox(
                   width: 17.w,
                 ),
                 AppImageButton(
-                    imagePath: "Assets/Images/Car.png",
-                    onPressed: () {
-                      handlePlayPause(5);
-                      navigateToPlaybackPage(5);
-                    }),
+                  imagePath: "Assets/Images/Car.png",
+                  onPressed: () {
+                    handlePlayPause(5);
+                    navigateToPlaybackPage(5);
+                  },
+                  height: 40.h,
+                  width: 40.w,
+                ),
                 SizedBox(
                   width: 17.w,
                 ),
                 AppImageButton(
-                    imagePath: "Assets/Images/Plane.png",
-                    onPressed: () {
-                      handlePlayPause(6);
-                      navigateToPlaybackPage(6);
-                    }),
+                  imagePath: "Assets/Images/Plane.png",
+                  onPressed: () {
+                    handlePlayPause(6);
+                    navigateToPlaybackPage(6);
+                  },
+                  height: 40.h,
+                  width: 40.w,
+                ),
                 SizedBox(
                   width: 17.w,
                 ),
                 AppImageButton(
-                    imagePath: "Assets/Images/Train.png",
-                    onPressed: () {
-                      handlePlayPause(7);
-                      navigateToPlaybackPage(7);
-                    }),
+                  imagePath: "Assets/Images/Train.png",
+                  onPressed: () {
+                    handlePlayPause(7);
+                    navigateToPlaybackPage(7);
+                  },
+                  height: 40.h,
+                  width: 40.w,
+                ),
               ],
             ),
             Padding(
@@ -159,38 +209,50 @@ class _PlaylistViewState extends State<PlaylistView> {
             Row(
               children: [
                 AppImageButton(
-                    imagePath: "Assets/Images/Washing.png",
-                    onPressed: () {
-                      handlePlayPause(8);
-                      navigateToPlaybackPage(8);
-                    }),
+                  imagePath: "Assets/Images/Washing.png",
+                  onPressed: () {
+                    handlePlayPause(8);
+                    navigateToPlaybackPage(8);
+                  },
+                  height: 40.h,
+                  width: 40.w,
+                ),
                 SizedBox(
                   width: 17.w,
                 ),
                 AppImageButton(
-                    imagePath: "Assets/Images/BlowDryer.png",
-                    onPressed: () {
-                      handlePlayPause(9);
-                      navigateToPlaybackPage(9);
-                    }),
+                  imagePath: "Assets/Images/BlowDryer.png",
+                  onPressed: () {
+                    handlePlayPause(9);
+                    navigateToPlaybackPage(9);
+                  },
+                  height: 40.h,
+                  width: 40.w,
+                ),
                 SizedBox(
                   width: 17.w,
                 ),
                 AppImageButton(
-                    imagePath: "Assets/Images/Radio.png",
-                    onPressed: () {
-                      handlePlayPause(10);
-                      navigateToPlaybackPage(10);
-                    }),
+                  imagePath: "Assets/Images/Radio.png",
+                  onPressed: () {
+                    handlePlayPause(10);
+                    navigateToPlaybackPage(10);
+                  },
+                  height: 40.h,
+                  width: 40.w,
+                ),
                 SizedBox(
                   width: 17.w,
                 ),
                 AppImageButton(
-                    imagePath: "Assets/Images/Clock.png",
-                    onPressed: () {
-                      handlePlayPause(11);
-                      navigateToPlaybackPage(11);
-                    }),
+                  imagePath: "Assets/Images/Clock.png",
+                  onPressed: () {
+                    handlePlayPause(11);
+                    navigateToPlaybackPage(11);
+                  },
+                  height: 40.h,
+                  width: 40.w,
+                ),
               ],
             ),
             Padding(
@@ -211,58 +273,41 @@ class _PlaylistViewState extends State<PlaylistView> {
             Row(
               children: [
                 AppImageButton(
-                    imagePath: "Assets/Images/Note1.png",
-                    onPressed: () {
-                      handlePlayPause(12);
-                      navigateToPlaybackPage(12);
-                    }),
+                  imagePath: "Assets/Images/Note1.png",
+                  onPressed: () {
+                    handlePlayPause(12);
+                    navigateToPlaybackPage(12);
+                  },
+                  height: 40.h,
+                  width: 40.w,
+                ),
                 SizedBox(
                   width: 17.w,
                 ),
                 AppImageButton(
-                    imagePath: "Assets/Images/Note2.png",
-                    onPressed: () {
-                      handlePlayPause(13);
-                      navigateToPlaybackPage(13);
-                    }),
+                  imagePath: "Assets/Images/Note2.png",
+                  onPressed: () {
+                    handlePlayPause(13);
+                    navigateToPlaybackPage(13);
+                  },
+                  height: 40.h,
+                  width: 40.w,
+                ),
                 SizedBox(
                   width: 17.w,
                 ),
                 AppImageButton(
-                    imagePath: "Assets/Images/Note3.png",
-                    onPressed: () {
-                      handlePlayPause(14);
-                      navigateToPlaybackPage(14);
-                    }),
+                  imagePath: "Assets/Images/Note3.png",
+                  onPressed: () {
+                    handlePlayPause(14);
+                    navigateToPlaybackPage(14);
+                  },
+                  height: 40.h,
+                  width: 40.w,
+                ),
               ],
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  int mediaNumb = 0;
-  final player = AudioPlayer();
-
-  void handlePlayPause(int soundNumber) {
-    player.setAsset('Assets/Audios/$soundNumber.mp3');
-
-    if (player.playing) {
-      player.pause();
-    } else {
-      player.play();
-      mediaNumb = soundNumber;
-    }
-  }
-
-  void navigateToPlaybackPage(int soundNumber) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => PlaybackPage(
-          soundNumber: soundNumber,
-          player: player,
         ),
       ),
     );

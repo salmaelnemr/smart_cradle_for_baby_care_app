@@ -3,24 +3,28 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../Widgets/snack_bar.dart';
+import '../caching_utils/caching_utils.dart';
+import '../errors/api_exceptions.dart';
 import '../models/baby_temp_model.dart';
 import '../models/feeding_model.dart';
 import '../models/medicine_model.dart';
 import '../models/note_model.dart';
 import '../models/user_model.dart';
 import '../models/vaccine_model.dart';
+import 'api_client.dart';
 
 class ApiProvider {
-  static const String baseURL = "http://babycradleapp.runasp.net/api";
-  String? token;
-  UserModel? userModel;
-  BabyTempModel? babyTempModel;
-  VaccineModel? vaccineModel;
-  FeedingModel? feedingModel;
-  MedicineModel? medicineModel;
-  NoteModel? noteModel;
+  final ApiClient _client = ApiClient();
+
+  Future<String> _handleError(DioException e, String defaultMessage) async {
+    final errorMessage = e.response?.data is Map
+        ? e.response?.data["message"] ?? defaultMessage
+        : defaultMessage;
+    showSnackBar(errorMessage, error: true);
+    return errorMessage;
+  }
+
   Future<String> registerUser({
     required String fullName,
     required String email,
@@ -29,9 +33,8 @@ class ApiProvider {
     required String confirmPassword,
   }) async {
     try {
-      String? fcmToken = await FirebaseMessaging.instance.getToken();
-
-      Map<String, dynamic> userData = {
+      final fcmToken = await FirebaseMessaging.instance.getToken();
+      final userData = {
         "fullName": fullName,
         "email": email,
         "phoneNumber": phoneNumber,
@@ -40,32 +43,15 @@ class ApiProvider {
         "fcmToken": fcmToken,
       };
 
-      Response response = await Dio().post(
-        "$baseURL/Account/Register",
-        data: userData,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-
+      final response = await _client.post("/Account/Register", data: userData);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        String responseString = response.data.toString();
-        String userId =
-            responseString.split(':')[1];
-        //await CachingUtils.cacheUser({'userId': userId}); // Cache if needed
+        final responseString = response.data.toString();
+        final userId = responseString.split(':')[1];
         return userId;
-      } else {
-        return "Registration failed. Please try again.";
       }
+      return "Registration failed. Please try again.";
     } on DioException catch (e) {
-      showSnackBar(
-        e.response?.data["message"] ?? '',
-        error: true,
-      );
-      return "Registration Failed due to an unexpected error.";
+      return _handleError(e, "Registration Failed due to an unexpected error.");
     }
   }
 
@@ -75,35 +61,18 @@ class ApiProvider {
     required String dateOfbirth,
   }) async {
     try {
-      Map<String, dynamic> childData = {
+      final childData = {
         "userId": userId,
         "name": name,
         "dateOfbirth": dateOfbirth,
       };
 
-      Response response = await Dio().post(
-        "$baseURL/Children",
-        data: childData,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return "Child added successfully";
-      } else {
-        return "Added child failed";
-      }
+      final response = await _client.post("/Children", data: childData);
+      return response.statusCode == 200 || response.statusCode == 201
+          ? "Child added successfully"
+          : "Added child failed";
     } on DioException catch (e) {
-      showSnackBar(
-        e.response?.data["message"] ?? '',
-        error: true,
-      );
-      //print(e.response?.data["message"]);
-      return "Add child Failed due to an unexpected error.";
+      return _handleError(e, "Add child Failed due to an unexpected error.");
     }
   }
 
@@ -112,33 +81,17 @@ class ApiProvider {
     required String passCode,
   }) async {
     try {
-      Map<String, dynamic> passcodeData = {
+      final passcodeData = {
         "userId": userId,
         "passCode": passCode,
       };
 
-      Response response = await Dio().post(
-        "$baseURL/Account/PassCode",
-        data: passcodeData,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return "Passcode submitted successfully";
-      } else {
-        return "Passcode submission failed";
-      }
+      final response = await _client.post("/Account/PassCode", data: passcodeData);
+      return response.statusCode == 200 || response.statusCode == 201
+          ? "Passcode submitted successfully"
+          : "Passcode submission failed";
     } on DioException catch (e) {
-      showSnackBar(
-        e.response?.data["message"] ?? '',
-        error: true,
-      );
-      return "Passcode submission failed due to an unexpected error.";
+      return _handleError(e, "Passcode submission failed due to an unexpected error.");
     }
   }
 
@@ -146,115 +99,67 @@ class ApiProvider {
     required String email,
     required String password,
   }) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      Map<String, dynamic> userData = {
+      final userData = {
         "email": email,
         "password": password,
       };
 
-      Response response = await Dio().post(
-        "$baseURL/Account/login",
-        data: userData,
-      );
-      await prefs.remove('userToken');
-      String tokenFromResponse = response.data["token"];
-      await prefs.setString("userToken", tokenFromResponse);
-      //print("Token stored: $tokenFromResponse");
+      final response = await _client.post("/Account/login", data: userData);
+      final token = response.data["token"];
+      await CachingUtils.cacheUser({'token': token});
 
-      token = tokenFromResponse;
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return "Login success";
-      } else {
-        return "Login failed. Please try again.";
-      }
+      return response.statusCode == 200 || response.statusCode == 201
+          ? "Login success"
+          : "Login failed. Please try again.";
     } on DioException catch (e) {
-      showSnackBar(
-        e.response?.data["message"] ?? '',
-        error: true,
-      );
-      return e.response?.data["message"] ??
-          "Login Failed due to an unexpected error.";
+      return _handleError(e, "Login Failed due to an unexpected error.");
     }
   }
 
   Future<UserModel?> getUser() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      String? token = prefs.getString('userToken');
-      //print("Token: $token");
+      final token = CachingUtils.token;
+      if (token.isEmpty) return null;
 
-      if (token == null) {
-        //print("No token found. User might not be logged in.");
-        return null;
-      }
-
-      Response response = await Dio().get(
-        "$baseURL/Account/UserInfo",
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $token",
-            "Content-Type": "application/json",
-          },
-        ),
-      );
-      //print("Response Data: ${response.data}");
-      userModel = UserModel.fromJson(response.data);
-      return userModel;
+      final response = await _client.get("/Account/UserInfo", token: token);
+      return UserModel.fromJson(response.data);
     } on DioException catch (e) {
-      //print("DioException: ${e.response?.statusCode} - ${e.response?.data}");
       showSnackBar(
         e.response?.data["message"] ?? "Failed to fetch user info.",
         error: true,
       );
       return null;
-    } catch (e) {
-      //print("Unexpected error: $e");
-      return null;
     }
   }
 
   Future<bool> updateProfilePicture(File imageFile) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      String? token = prefs.getString('userToken');
-      if (token == null) {
-        throw Exception('No authentication token found');
-      }
+      final token = CachingUtils.token;
+      if (token.isEmpty) throw ApiException('No authentication token found');
 
-      FormData formData = FormData.fromMap({
+      final formData = FormData.fromMap({
         'ProfilePicture': await MultipartFile.fromFile(
           imageFile.path,
           filename: 'profile_picture.jpg',
         ),
       });
 
-      Response response = await Dio().put(
-        "$baseURL/Account/update-profilePicture",
+      final response = await _client.put(
+        "/Account/update-profilePicture",
         data: formData,
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $token",
-            "Content-Type": "multipart/form-data",
-          },
-        ),
+        token: token,
       );
 
-      if (response.statusCode == 200 || response.statusCode == 204) {
-        return true;
-      } else {
-        showSnackBar(
-          'Failed to update profile picture',
-          error: true,
-        );
-        return false;
-      }
+      return response.statusCode == 200 || response.statusCode == 204;
     } on DioException catch (e) {
       showSnackBar(
         e.response?.data["message"] ?? 'Error updating profile picture',
         error: true,
       );
+      return false;
+    } on ApiException catch (e) {
+      showSnackBar(e.message, error: true);
       return false;
     }
   }
@@ -266,14 +171,11 @@ class ApiProvider {
     String? oldPassword,
     String? newPassword,
   }) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      String? token = prefs.getString('userToken');
-      if (token == null) {
-        throw Exception('No authentication token found');
-      }
+      final token = CachingUtils.token;
+      if (token.isEmpty) throw ApiException('No authentication token found');
 
-      Map<String, dynamic> data = {
+      final data = {
         "fullName": fullName,
         "email": email,
         "phoneNumber": phoneNumber ?? "",
@@ -281,31 +183,16 @@ class ApiProvider {
         "newPassword": newPassword ?? "",
       };
 
-      Response response = await Dio().put(
-        "$baseURL/Account/update-profile",
-        data: data,
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $token",
-            "Content-Type": "application/json",
-          },
-        ),
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 204) {
-        return true;
-      } else {
-        showSnackBar(
-          'Failed to update profile',
-          error: true,
-        );
-        return false;
-      }
+      final response = await _client.put("/Account/update-profile", data: data, token: token);
+      return response.statusCode == 200 || response.statusCode == 204;
     } on DioException catch (e) {
       showSnackBar(
         e.response?.data["message"] ?? 'Error updating profile',
         error: true,
       );
+      return false;
+    } on ApiException catch (e) {
+      showSnackBar(e.message, error: true);
       return false;
     }
   }
@@ -314,82 +201,45 @@ class ApiProvider {
     required String name,
     required String dateOfBirth,
   }) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      String? token = prefs.getString('userToken');
-      if (token == null) {
-        throw Exception('No authentication token found');
-      }
+      final token = CachingUtils.token;
+      if (token.isEmpty) throw ApiException('No authentication token found');
 
-      Map<String, dynamic> data = {
+      final data = {
         "name": name,
         "dateOfbirth": dateOfBirth,
       };
 
-      Response response = await Dio().put(
-        "$baseURL/Children",
-        data: data,
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $token",
-            "Content-Type": "application/json",
-          },
-        ),
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 204) {
-        return true;
-      } else {
-        showSnackBar(
-          'Failed to update child profile',
-          error: true,
-        );
-        return false;
-      }
+      final response = await _client.put("/Children", data: data, token: token);
+      return response.statusCode == 200 || response.statusCode == 204;
     } on DioException catch (e) {
       showSnackBar(
         e.response?.data["message"] ?? 'Error updating child profile',
         error: true,
       );
       return false;
+    } on ApiException catch (e) {
+      showSnackBar(e.message, error: true);
+      return false;
     }
   }
 
   Future<BabyTempModel?> getBabyTemp() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      String? token = prefs.getString('userToken');
-      //print("Token: $token");
+      final token = CachingUtils.token;
+      if (token.isEmpty) return null;
 
-      if (token == null) {
-        //print("No token found. User might not be logged in.");
-        return null;
-      }
-
-      Response response = await Dio().get(
-        "$baseURL/BabyTemp",
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $token",
-            "Content-Type": "application/json",
-          },
-        ),
-      );
-      //print("Response Data: ${response.data}");
-      babyTempModel = BabyTempModel.fromJson(response.data);
-      return babyTempModel;
+      final response = await _client.get("/BabyTemp", token: token);
+      return BabyTempModel.fromJson(response.data);
     } on DioException catch (e) {
-      //print("DioException: ${e.response?.statusCode} - ${e.response?.data}");
       showSnackBar(
         e.response?.data["message"] ?? "Failed to fetch baby temperature.",
         error: true,
       );
       return null;
-    } catch (e) {
-      //print("Unexpected error: $e");
-      return null;
     }
   }
+
   Future<String> addFeeding({
     required String content,
     required String notificationDate,
@@ -397,14 +247,11 @@ class ApiProvider {
     required bool isPM,
     required int remindMe,
   }) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      String? token = prefs.getString('userToken');
-      if (token == null) {
-        return "No token found. Please log in again.";
-      }
+      final token = CachingUtils.token;
+      if (token.isEmpty) return "No token found. Please log in again.";
 
-      Map<String, dynamic> userData = {
+      final data = {
         "content": content,
         "notificationDate": notificationDate,
         "notificationTime": notificationTime,
@@ -412,73 +259,27 @@ class ApiProvider {
         "remindMe": remindMe,
       };
 
-      Response response = await Dio().post(
-        "$baseURL/Feedings",
-        data: userData,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json; charset=utf-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-
-      print("Response Data: ${response.data}");
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return "Feeding added successfully!";
-      } else {
-        return "Failed to add feeding.";
-      }
-    } on DioException catch (e) {
-      print("DioException: ${e.response?.statusCode} - ${e.response?.data}");
-      final errorMessage = e.response?.data is Map
-          ? e.response?.data["message"] ?? "Failed to add feeding."
+      final response = await _client.post("/Feedings", data: data, token: token);
+      return response.statusCode == 200 || response.statusCode == 201
+          ? "Feeding added successfully!"
           : "Failed to add feeding.";
-      showSnackBar(errorMessage, error: true);
-      return errorMessage;
-    } catch (e) {
-      print("Unexpected error: $e");
-      return "Something went wrong.";
+    } on DioException catch (e) {
+      return _handleError(e, "Failed to add feeding.");
     }
   }
 
   Future<List<FeedingModel>?> getFeedingNote() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      token = prefs.getString('userToken');
-      print("Token: $token");
+      final token = CachingUtils.token;
+      if (token.isEmpty) return null;
 
-      if (token == null) {
-        print("No token found. User might not be logged in.");
-        return null;
-      }
-
-      Response response = await Dio().get(
-        "$baseURL/Feedings",
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $token",
-            "Content-Type": "application/json",
-          },
-        ),
-      );
-      print("Response Data: ${response.data}");
-
-      List<FeedingModel> feedingList =
-      feedingModelFromJson(jsonEncode(response.data));
-      return feedingList;
+      final response = await _client.get("/Feedings", token: token);
+      return feedingModelFromJson(jsonEncode(response.data));
     } on DioException catch (e) {
-      print("DioException: ${e.response?.statusCode} - ${e.response?.data}");
-      final errorMessage = e.response?.data is Map
-          ? e.response?.data["message"] ?? "Failed to fetch Feeding data."
-          : "Failed to fetch Feeding data.";
-
-      showSnackBar(errorMessage, error: true);
-      return null;
-    } catch (e) {
-      print("Unexpected error: $e");
+      showSnackBar(
+        e.response?.data["message"] ?? "Failed to fetch Feeding data.",
+        error: true,
+      );
       return null;
     }
   }
@@ -490,89 +291,37 @@ class ApiProvider {
     required String notificationTime,
     required bool isPM,
   }) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      String? token = prefs.getString('userToken');
-      if (token == null) {
-        return "No token found. Please log in again.";
-      }
+      final token = CachingUtils.token;
+      if (token.isEmpty) return "No token found. Please log in again.";
 
-      Map<String, dynamic> userData = {
+      final data = {
         "content": content,
         "notificationDate": notificationDate,
         "notificationTime": notificationTime,
-        "isPM": isPM
+        "isPM": isPM,
       };
 
-      Response response = await Dio().put(
-        "$baseURL/Feedings/EditFeeding/$id",
-        data: userData,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json; charset=utf-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-
-      print("PUT Response: ${response.data}");
-
-      if (response.statusCode == 200) {
-        return "Feeding updated successfully!";
-      } else {
-        return "Failed to update feeding.";
-      }
-    } on DioException catch (e) {
-      print(
-          "PUT DioException: ${e.response?.statusCode} - ${e.response?.data}");
-      final errorMessage = e.response?.data is Map
-          ? e.response?.data["message"] ?? "Failed to update feeding."
+      final response = await _client.put("/Feedings/EditFeeding/$id", data: data, token: token);
+      return response.statusCode == 200
+          ? "Feeding updated successfully!"
           : "Failed to update feeding.";
-      showSnackBar(errorMessage, error: true);
-      return errorMessage;
-    } catch (e) {
-      print("PUT Unexpected error: $e");
-      return "Something went wrong.";
+    } on DioException catch (e) {
+      return _handleError(e, "Failed to update feeding.");
     }
   }
 
   Future<String> deleteFeeding(int id) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      String? token = prefs.getString('userToken');
-      if (token == null) {
-        return "No token found. Please log in again.";
-      }
+      final token = CachingUtils.token;
+      if (token.isEmpty) return "No token found. Please log in again.";
 
-      Response response = await Dio().delete(
-        "$baseURL/Feedings/DeleteFeeding/$id",
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-
-      print("DELETE Response: ${response.data}");
-
-      if (response.statusCode == 200) {
-        return "Feeding deleted successfully!";
-      } else {
-        return "Failed to delete feeding.";
-      }
-    } on DioException catch (e) {
-      print(
-          "DELETE DioException: ${e.response?.statusCode} - ${e.response?.data}");
-      final errorMessage = e.response?.data is Map
-          ? e.response?.data["message"] ?? "Failed to delete feeding."
+      final response = await _client.delete("/Feedings/DeleteFeeding/$id", token: token);
+      return response.statusCode == 200
+          ? "Feeding deleted successfully!"
           : "Failed to delete feeding.";
-      showSnackBar(errorMessage, error: true);
-      return errorMessage;
-    } catch (e) {
-      print("DELETE Unexpected error: $e");
-      return "Something went wrong.";
+    } on DioException catch (e) {
+      return _handleError(e, "Failed to delete feeding.");
     }
   }
 
@@ -580,12 +329,10 @@ class ApiProvider {
     final allFeedings = await getFeedingNote();
     if (allFeedings == null) return [];
 
-    String selectedDateStr = DateFormat('yyyy-MM-dd').format(date);
-
+    final selectedDateStr = DateFormat('yyyy-MM-dd').format(date);
     return allFeedings.where((feeding) {
       if (feeding.time == null) return false;
-      String feedingDateStr = DateFormat('yyyy-MM-dd').format(feeding.time!);
-      return feedingDateStr == selectedDateStr;
+      return DateFormat('yyyy-MM-dd').format(feeding.time!) == selectedDateStr;
     }).toList();
   }
 
@@ -597,14 +344,11 @@ class ApiProvider {
     required int remindMe,
     required String medicineName,
   }) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      String? token = prefs.getString('userToken');
-      if (token == null) {
-        return "No token found. Please log in again.";
-      }
+      final token = CachingUtils.token;
+      if (token.isEmpty) return "No token found. Please log in again.";
 
-      Map<String, dynamic> requestBody = {
+      final data = {
         "content": content,
         "notificationDate": notificationDate,
         "notificationTime": notificationTime,
@@ -613,75 +357,27 @@ class ApiProvider {
         "medicineName": medicineName,
       };
 
-      Response response = await Dio().post(
-        "$baseURL/Medicines",
-        data: requestBody,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json; charset=utf-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-
-      print("POST Response Data: ${response.data}");
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return "Medicine added successfully!";
-      } else {
-        return "Failed to add medicine.";
-      }
-    } on DioException catch (e) {
-      print("POST DioException: ${e.response?.statusCode} - ${e.response?.data}");
-      final errorMessage = e.response?.data is Map
-          ? e.response?.data["message"] ?? "Failed to add medicine."
+      final response = await _client.post("/Medicines", data: data, token: token);
+      return response.statusCode == 200 || response.statusCode == 201
+          ? "Medicine added successfully!"
           : "Failed to add medicine.";
-      showSnackBar(errorMessage, error: true);
-      return errorMessage;
-    } catch (e) {
-      print("POST Unexpected error: $e");
-      return "Something went wrong.";
+    } on DioException catch (e) {
+      return _handleError(e, "Failed to add medicine.");
     }
   }
 
-
-
   Future<List<MedicineModel>?> getMedicineNote() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      token = prefs.getString('userToken');
-      print("Token: $token");
+      final token = CachingUtils.token;
+      if (token.isEmpty) return null;
 
-      if (token == null) {
-        print("No token found. User might not be logged in.");
-        return null;
-      }
-
-      Response response = await Dio().get(
-        "$baseURL/Medicines",
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $token",
-            "Content-Type": "application/json",
-          },
-        ),
-      );
-      print("Response Data: ${response.data}");
-
-      List<MedicineModel> medicineList =
-      medicineModelFromJson(jsonEncode(response.data));
-      return medicineList;
+      final response = await _client.get("/Medicines", token: token);
+      return medicineModelFromJson(jsonEncode(response.data));
     } on DioException catch (e) {
-      print("DioException: ${e.response?.statusCode} - ${e.response?.data}");
-      final errorMessage = e.response?.data is Map
-          ? e.response?.data["message"] ?? "Failed to fetch Medicine data."
-          : "Failed to fetch Medicine data.";
-
-      showSnackBar(errorMessage, error: true);
-      return null;
-    } catch (e) {
-      print("Unexpected error: $e");
+      showSnackBar(
+        e.response?.data["message"] ?? "Failed to fetch Medicine data.",
+        error: true,
+      );
       return null;
     }
   }
@@ -694,14 +390,11 @@ class ApiProvider {
     required String notificationTime,
     required bool isPM,
   }) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      String? token = prefs.getString('userToken');
-      if (token == null) {
-        return "No token found. Please log in again.";
-      }
+      final token = CachingUtils.token;
+      if (token.isEmpty) return "No token found. Please log in again.";
 
-      final Map<String, dynamic> requestBody = {
+      final data = {
         "medicineName": medicineName,
         "content": content,
         "notificationDate": notificationDate,
@@ -709,74 +402,26 @@ class ApiProvider {
         "isPM": isPM,
       };
 
-      final response = await Dio().put(
-        "$baseURL/Medicines/EditMedicine/$id",
-        data: requestBody,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json; charset=utf-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-
-      print("PUT Response: ${response.data}");
-
-      if (response.statusCode == 200) {
-        return "Medicine updated successfully!";
-      } else {
-        return "Failed to update medicine.";
-      }
-    } on DioException catch (e) {
-      print("PUT DioException: ${e.response?.statusCode} - ${e.response?.data}");
-      final errorMessage = e.response?.data is Map
-          ? e.response?.data["message"] ?? "Failed to update medicine."
+      final response = await _client.put("/Medicines/EditMedicine/$id", data: data, token: token);
+      return response.statusCode == 200
+          ? "Medicine updated successfully!"
           : "Failed to update medicine.";
-      showSnackBar(errorMessage, error: true);
-      return errorMessage;
-    } catch (e) {
-      print("PUT Unexpected error: $e");
-      return "Something went wrong.";
+    } on DioException catch (e) {
+      return _handleError(e, "Failed to update medicine.");
     }
   }
 
   Future<String> deleteMedicine(int id) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      String? token = prefs.getString('userToken');
-      if (token == null) {
-        return "No token found. Please log in again.";
-      }
+      final token = CachingUtils.token;
+      if (token.isEmpty) return "No token found. Please log in again.";
 
-      Response response = await Dio().delete(
-        "$baseURL/Medicines/DeleteMedicine/$id",
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-
-      print("DELETE Response: ${response.data}");
-
-      if (response.statusCode == 200) {
-        return "Medicine deleted successfully!";
-      } else {
-        return "Failed to delete medicine.";
-      }
-    } on DioException catch (e) {
-      print(
-          "DELETE DioException: ${e.response?.statusCode} - ${e.response?.data}");
-      final errorMessage = e.response?.data is Map
-          ? e.response?.data["message"] ?? "Failed to delete medicine."
+      final response = await _client.delete("/Medicines/DeleteMedicine/$id", token: token);
+      return response.statusCode == 200
+          ? "Medicine deleted successfully!"
           : "Failed to delete medicine.";
-      showSnackBar(errorMessage, error: true);
-      return errorMessage;
-    } catch (e) {
-      print("DELETE Unexpected error: $e");
-      return "Something went wrong.";
+    } on DioException catch (e) {
+      return _handleError(e, "Failed to delete medicine.");
     }
   }
 
@@ -784,15 +429,12 @@ class ApiProvider {
     final medicines = await getMedicineNote();
     if (medicines == null) return [];
 
-    String selectedDateStr = DateFormat('yyyy-MM-dd').format(date);
-
+    final selectedDateStr = DateFormat('yyyy-MM-dd').format(date);
     return medicines.where((medicine) {
       if (medicine.notificationTime == null) return false;
-      String medicineDateStr = DateFormat('yyyy-MM-dd').format(medicine.notificationTime!);
-      return medicineDateStr == selectedDateStr;
+      return DateFormat('yyyy-MM-dd').format(medicine.notificationTime!) == selectedDateStr;
     }).toList();
   }
-
 
   Future<String> addNote({
     required String title,
@@ -801,14 +443,11 @@ class ApiProvider {
     required String notificationTime,
     required bool isPM,
   }) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      String? token = prefs.getString('userToken');
-      if (token == null) {
-        return "No token found. Please log in again.";
-      }
+      final token = CachingUtils.token;
+      if (token.isEmpty) return "No token found. Please log in again.";
 
-      Map<String, dynamic> userData = {
+      final data = {
         "title": title,
         "content": content,
         "notificationDate": notificationDate,
@@ -816,73 +455,27 @@ class ApiProvider {
         "isPM": isPM,
       };
 
-      Response response = await Dio().post(
-        "$baseURL/Notes",
-        data: userData,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json; charset=utf-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-
-      print("Response Data: ${response.data}");
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return "Note added successfully!";
-      } else {
-        return "Failed to add note.";
-      }
+      final response = await _client.post("/Notes", data: data, token: token);
+      return response.statusCode == 200 || response.statusCode == 201
+          ? "Note added successfully!"
+          : "Failed to add note.";
     } on DioException catch (e) {
-      print("DioException: ${e.response?.statusCode} - ${e.response?.data}");
-      final errorMessage = e.response?.data is Map
-          ? e.response?.data["message"] ?? "Failed to add Note."
-          : "Failed to add Note.";
-      showSnackBar(errorMessage, error: true);
-      return errorMessage;
-    } catch (e) {
-      print("Unexpected error: $e");
-      return "Something went wrong.";
+      return _handleError(e, "Failed to add note.");
     }
   }
 
-
   Future<List<NoteModel>?> getStickyNote() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      token = prefs.getString('userToken');
-      print("Token: $token");
+      final token = CachingUtils.token;
+      if (token.isEmpty) return null;
 
-      if (token == null) {
-        print("No token found. User might not be logged in.");
-        return null;
-      }
-
-      Response response = await Dio().get(
-        "$baseURL/Notes",
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $token",
-            "Content-Type": "application/json",
-          },
-        ),
-      );
-      print("Response Data: ${response.data}");
-
-      List<NoteModel> noteList = noteModelFromJson(jsonEncode(response.data));
-      return noteList;
+      final response = await _client.get("/Notes", token: token);
+      return noteModelFromJson(jsonEncode(response.data));
     } on DioException catch (e) {
-      print("DioException: ${e.response?.statusCode} - ${e.response?.data}");
-      final errorMessage = e.response?.data is Map
-          ? e.response?.data["message"] ?? "Failed to fetch Note data."
-          : "Failed to fetch Note data.";
-
-      showSnackBar(errorMessage, error: true);
-      return null;
-    } catch (e) {
-      print("Unexpected error: $e");
+      showSnackBar(
+        e.response?.data["message"] ?? "Failed to fetch Note data.",
+        error: true,
+      );
       return null;
     }
   }
@@ -895,91 +488,38 @@ class ApiProvider {
     required String notificationTime,
     required bool isPM,
   }) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      String? token = prefs.getString('userToken');
-      if (token == null) {
-        return "No token found. Please log in again.";
-      }
+      final token = CachingUtils.token;
+      if (token.isEmpty) return "No token found. Please log in again.";
 
-      Map<String, dynamic> userData = {
-
-          "title": title,
-          "content": content,
-          "notificationDate": notificationDate,
-          "notificationTime": notificationTime,
-          "isPM": isPM,
+      final data = {
+        "title": title,
+        "content": content,
+        "notificationDate": notificationDate,
+        "notificationTime": notificationTime,
+        "isPM": isPM,
       };
 
-      Response response = await Dio().put(
-        "$baseURL/Notes/EditNote/$id",
-        data: userData,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json; charset=utf-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-
-      print("PUT Response: ${response.data}");
-
-      if (response.statusCode == 200) {
-        return "Note updated successfully!";
-      } else {
-        return "Failed to update Note.";
-      }
+      final response = await _client.put("/Notes/EditNote/$id", data: data, token: token);
+      return response.statusCode == 200
+          ? "Note updated successfully!"
+          : "Failed to update note.";
     } on DioException catch (e) {
-      print("PUT DioException: ${e.response?.statusCode} - ${e.response?.data}");
-      final errorMessage = e.response?.data is Map
-          ? e.response?.data["message"] ?? "Failed to update Note."
-          : "Failed to update Note.";
-      showSnackBar(errorMessage, error: true);
-      return errorMessage;
-    } catch (e) {
-      print("PUT Unexpected error: $e");
-      return "Something went wrong.";
+      return _handleError(e, "Failed to update note.");
     }
   }
 
-
   Future<String> deleteNote(int id) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      String? token = prefs.getString('userToken');
-      if (token == null) {
-        return "No token found. Please log in again.";
-      }
+      final token = CachingUtils.token;
+      if (token.isEmpty) return "No token found. Please log in again.";
 
-      Response response = await Dio().delete(
-        "$baseURL/Notes/DeleteNote/$id",
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-
-      print("DELETE Response: ${response.data}");
-
-      if (response.statusCode == 200) {
-        return "Note deleted successfully!";
-      } else {
-        return "Failed to delete Note.";
-      }
+      final response = await _client.delete("/Notes/DeleteNote/$id", token: token);
+      return response.statusCode == 200
+          ? "Note deleted successfully!"
+          : "Failed to delete note.";
     } on DioException catch (e) {
-      print(
-          "DELETE DioException: ${e.response?.statusCode} - ${e.response?.data}");
-      final errorMessage = e.response?.data is Map
-          ? e.response?.data["message"] ?? "Failed to delete Note."
-          : "Failed to delete Note.";
-      showSnackBar(errorMessage, error: true);
-      return errorMessage;
-    } catch (e) {
-      print("DELETE Unexpected error: $e");
-      return "Something went wrong.";
+      return _handleError(e, "Failed to delete note.");
     }
   }
 
@@ -987,52 +527,26 @@ class ApiProvider {
     final allNotes = await getStickyNote();
     if (allNotes == null) return [];
 
-    String selectedDateStr = DateFormat('yyyy-MM-dd').format(date);
-
+    final selectedDateStr = DateFormat('yyyy-MM-dd').format(date);
     return allNotes.where((note) {
       if (note.time == null) return false;
-      String noteDateStr = DateFormat('yyyy-MM-dd').format(note.time!);
-      return noteDateStr == selectedDateStr;
+      return DateFormat('yyyy-MM-dd').format(note.time!) == selectedDateStr;
     }).toList();
   }
 
   Future<List<VaccineModel>?> getVaccinesNote() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      token = prefs.getString('userToken');
-      print("Token: $token");
+      final token = CachingUtils.token;
+      if (token.isEmpty) return null;
 
-      if (token == null) {
-        print("No token found. User might not be logged in.");
-        return null;
-      }
-
-      Response response = await Dio().get(
-        "$baseURL/Vaccinations",
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $token",
-            "Content-Type": "application/json",
-          },
-        ),
-      );
-      print("Response Data: ${response.data}");
-
-      List<VaccineModel> vaccineList =
-      vaccineModelFromJson(jsonEncode(response.data));
-      return vaccineList;
+      final response = await _client.get("/Vaccinations", token: token);
+      return vaccineModelFromJson(jsonEncode(response.data));
     } on DioException catch (e) {
-      print("DioException: ${e.response?.statusCode} - ${e.response?.data}");
-      final errorMessage = e.response?.data is Map
-          ? e.response?.data["message"] ?? "Failed to fetch vaccine data."
-          : "Failed to fetch vaccine data.";
-
-      showSnackBar(errorMessage, error: true);
-      return null;
-    } catch (e) {
-      print("Unexpected error: $e");
+      showSnackBar(
+        e.response?.data["message"] ?? "Failed to fetch vaccine data.",
+        error: true,
+      );
       return null;
     }
   }
 }
-

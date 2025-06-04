@@ -8,6 +8,9 @@ import 'package:smart_cradle_for_baby_care_app/Core/dio/api_provider.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/models/note_model.dart';
 import 'package:smart_cradle_for_baby_care_app/Features/Sticky%20Notes%20Schedule/add_task.dart';
 
+import '../../Widgets/app_loading_indicator.dart';
+import '../../Widgets/app_text.dart';
+
 class StickyNotesSchedule extends StatefulWidget {
   const StickyNotesSchedule({super.key});
 
@@ -77,7 +80,10 @@ class _StickyNotesScheduleState extends State<StickyNotesSchedule> {
             ];
           },
           body: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: EdgeInsets.symmetric(
+              horizontal: 15.w,
+              vertical: 18.h,
+            ),
             decoration: const BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.only(
@@ -87,13 +93,29 @@ class _StickyNotesScheduleState extends State<StickyNotesSchedule> {
             ),
             child: Column(
               children: [
-                SizedBox(height: 20.h),
+                const Center(
+                  child: AppText(
+                    title: "Sticky notes",
+                    fontWeight: FontWeight.w700,
+                    fontSize: 24,
+                    color: AppColors.black,
+                    fontFamily: "Roboto",
+                  ),
+                ),
+                SizedBox(height: 17.h),
                 _showDateBar(),
                 Expanded(
                   child: _isLoading
-                      ? const Center(child: CircularProgressIndicator())
+                      ? const Center(
+                          child: AppLoadingIndicator(),
+                        )
                       : _notes.isEmpty
-                          ? const Center(child: Text("No sticky notes yet."))
+                          ? const Center(
+                              child: AppText(
+                                title: 'No sticky notes for this day.',
+                                color: AppColors.black,
+                              ),
+                            )
                           : ListView.builder(
                               itemCount: _notes.length,
                               itemBuilder: (context, index) {
@@ -102,38 +124,62 @@ class _StickyNotesScheduleState extends State<StickyNotesSchedule> {
                                   key: Key(note.id.toString()),
                                   direction: DismissDirection.endToStart,
                                   background: Container(
-                                    margin: const EdgeInsets.symmetric(vertical: 8),
+                                    margin:
+                                        EdgeInsets.symmetric(vertical: 18.h),
                                     decoration: BoxDecoration(
                                       color: Colors.red,
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     alignment: Alignment.centerRight,
-                                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                                    child: const Icon(Icons.delete, color: Colors.white),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 20.w,
+                                    ),
+                                    child: const Icon(
+                                      Icons.delete,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                   confirmDismiss: (direction) async {
                                     return await showDialog<bool>(
                                       context: context,
                                       builder: (context) => AlertDialog(
-                                        title: const Text("Confirm Delete"),
-                                        content: const Text("Are you sure you want to delete this note?"),
+                                        title: const AppText(
+                                          title: "Confirm Delete",
+                                          color: AppColors.black,
+                                        ),
+                                        content: const AppText(
+                                          title:
+                                              "Are you sure you want to delete this note?",
+                                          color: AppColors.black,
+                                        ),
                                         actions: [
                                           TextButton(
-                                            onPressed: () => Navigator.pop(context, false),
-                                            child: const Text("Cancel"),
+                                            onPressed: () =>
+                                                Navigator.pop(context, false),
+                                            child: const AppText(
+                                              title: "Cancel",
+                                              color: AppColors.black,
+                                            ),
                                           ),
                                           TextButton(
-                                            onPressed: () => Navigator.pop(context, true),
-                                            child: const Text("Delete"),
+                                            onPressed: () =>
+                                                Navigator.pop(context, true),
+                                            child: const AppText(
+                                              title: "Delete",
+                                              color: AppColors.black,
+                                            ),
                                           ),
                                         ],
                                       ),
                                     );
                                   },
                                   onDismissed: (direction) async {
-                                    final result = await ApiProvider().deleteNote(note.id!);
-                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result)));
-                                    if (result == "Note deleted successfully!") {
+                                    final result = await ApiProvider()
+                                        .deleteNote(note.id!);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(content: Text(result)));
+                                    if (result ==
+                                        "Note deleted successfully!") {
                                       setState(() {
                                         _notes.removeAt(index);
                                       });
@@ -141,24 +187,33 @@ class _StickyNotesScheduleState extends State<StickyNotesSchedule> {
                                   },
                                   child: InkWell(
                                     onTap: () async {
-                                      await RouteUtils.push(AddTaskPage(note: note));
+                                      await RouteUtils.push(
+                                          AddTaskPage(note: note));
                                       _loadNotes();
                                     },
                                     child: Card(
-                                      margin: const EdgeInsets.symmetric(vertical: 8),
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                      margin:
+                                          EdgeInsets.symmetric(vertical: 8.h),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                      color: AppColors.pinkLight,
                                       child: ListTile(
-                                        title: Text(note.content ?? "No content"),
-                                        trailing: Text(
-                                          note.time != null
-                                              ? DateFormat.Hm().format(note.time!)
+                                        title: AppText(
+                                          title: note.content ?? "No content",
+                                          color: AppColors.black,
+                                        ),
+                                        trailing: AppText(
+                                          title: note.time != null
+                                              ? DateFormat.Hm()
+                                                  .format(note.time!)
                                               : "No time",
+                                          color: AppColors.black,
                                         ),
                                       ),
                                     ),
                                   ),
                                 );
-
                               },
                             ),
                 ),
@@ -189,7 +244,8 @@ class _StickyNotesScheduleState extends State<StickyNotesSchedule> {
       ),
     );
   }
-   _showDateBar() {
+
+  _showDateBar() {
     return EasyDateTimeLine(
       initialDate: _selectedDate,
       onDateChange: (selectedDate) {
@@ -201,12 +257,18 @@ class _StickyNotesScheduleState extends State<StickyNotesSchedule> {
         width: 67,
         activeDayStyle: DayStyle(
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            borderRadius: const BorderRadius.all(Radius.circular(14)),
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: AppColors.primaryG,
             ),
+          ),
+        ),
+        inactiveDayStyle: DayStyle(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(14)),
+            color: Colors.grey[300],
           ),
         ),
       ),
