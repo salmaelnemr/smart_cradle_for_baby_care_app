@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:intl/intl.dart';
+import 'package:smart_cradle_for_baby_care_app/Core/models/sensor_status_model.dart';
 import '../../Widgets/snack_bar.dart';
 import '../caching_utils/caching_utils.dart';
 import '../errors/api_exceptions.dart';
@@ -234,6 +235,22 @@ class ApiProvider {
     } on DioException catch (e) {
       showSnackBar(
         e.response?.data["message"] ?? "Failed to fetch baby temperature.",
+        error: true,
+      );
+      return null;
+    }
+  }
+
+  Future<SensorDataStatusModel?> getSensorStatus() async {
+    try {
+      final token = CachingUtils.token;
+      if (token.isEmpty) return null;
+
+      final response = await _client.get("/Status/data-status", token: token);
+      return SensorDataStatusModel.fromJson(response.data);
+    } on DioException catch (e) {
+      showSnackBar(
+        e.response?.data["message"] ?? "Failed to fetch sensor data status.",
         error: true,
       );
       return null;

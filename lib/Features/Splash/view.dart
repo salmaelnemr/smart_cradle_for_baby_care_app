@@ -15,10 +15,26 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
+  double _logoOpacity = 0.0;
+  double _textOpacity = 0.0;
+
   @override
   void initState() {
     super.initState();
+    _startAnimationSequence();
     _checkLoginStatus();
+  }
+
+  Future<void> _startAnimationSequence() async {
+    await Future.delayed(const Duration(seconds: 2));
+    setState(() {
+      _logoOpacity = 1.0;
+    });
+
+    await Future.delayed(const Duration(seconds: 2));
+    setState(() {
+      _textOpacity = 1.0;
+    });
   }
 
   Future<void> _checkLoginStatus() async {
@@ -41,15 +57,24 @@ class _SplashViewState extends State<SplashView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'Assets/Images/logo.png',
-              height: 278.h,
-              width: 278.w,
+            AnimatedOpacity(
+              opacity: _logoOpacity,
+              duration: const Duration(seconds: 2),
+              child: Image.asset(
+                'Assets/Images/logo.png',
+                height: 278.h,
+                width: 278.w,
+              ),
             ),
-            Image.asset(
-              'Assets/Images/IntelliNest.png',
-              height: 44.h,
-              width: 119.w,
+            const SizedBox(height: 20),
+            AnimatedOpacity(
+              opacity: _textOpacity,
+              duration: const Duration(seconds: 1),
+              child: Image.asset(
+                'Assets/Images/IntelliNest.png',
+                height: 44.h,
+                width: 119.w,
+              ),
             ),
           ],
         ),

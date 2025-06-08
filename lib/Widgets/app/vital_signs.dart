@@ -1,9 +1,10 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app/temperature_card.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app/weight_card.dart';
 import '../../Core/app_colors/app_colors.dart';
+import '../../Core/models/sensor_status_model.dart';
 import '../app_text.dart';
 import 'heart_rate_card.dart';
 
@@ -18,6 +19,7 @@ class VitalSignsView extends StatelessWidget {
   final double breathingRatio;
   final double weightRatio;
   final List<FlSpot> heartRateSpots;
+  final SensorDataStatusModel sensorDataStatusModel; // Non-nullable
 
   const VitalSignsView({
     super.key,
@@ -31,6 +33,7 @@ class VitalSignsView extends StatelessWidget {
     required this.breathingRatio,
     required this.weightRatio,
     required this.heartRateSpots,
+    required this.sensorDataStatusModel, // Required
   });
 
   @override
@@ -61,7 +64,7 @@ class VitalSignsView extends StatelessWidget {
                   temperatureDegree: const [],
                   imgTitle: 'Assets/Images/sticky_notes.png',
                   title: "Baby Temperature",
-                  status: "Normal",
+                  status: sensorDataStatusModel.babyTemp,
                   degree: babyTemperature,
                   progressRatio: babyTemperatureRatio,
                 ),
@@ -72,7 +75,7 @@ class VitalSignsView extends StatelessWidget {
                   temperatureDegree: const [],
                   imgTitle: 'Assets/Images/homeTemp.png',
                   title: "Home Temperature",
-                  status: "Normal",
+                  status: sensorDataStatusModel.roomTemp,
                   degree: homeTemperature,
                   progressRatio: homeTemperatureRatio,
                 ),
@@ -83,7 +86,7 @@ class VitalSignsView extends StatelessWidget {
           HeartRateCard(
             title: "Heart rate",
             value: heartRate,
-            status: "Normal",
+            status: sensorDataStatusModel.heartRate,
             allSpots: heartRateSpots,
           ),
           SizedBox(height: 25.h),
@@ -91,7 +94,7 @@ class VitalSignsView extends StatelessWidget {
             children: [
               WeightCard(
                 title: "Breathing",
-                subtitle: "Normal",
+                subtitle: sensorDataStatusModel.sPo2,
                 imgTitle: "Assets/Images/breatheIcon.png",
                 value: breathing,
                 progressRatio: breathingRatio,
@@ -99,7 +102,7 @@ class VitalSignsView extends StatelessWidget {
               SizedBox(width: 14.w),
               WeightCard(
                 title: "Weight",
-                subtitle: "Normal",
+                subtitle: sensorDataStatusModel.weight,
                 imgTitle: "Assets/Images/weightIcon.png",
                 value: weight,
                 progressRatio: weightRatio,
