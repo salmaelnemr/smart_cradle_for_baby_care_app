@@ -130,18 +130,16 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
                                   direction: DismissDirection.endToStart,
                                   background: Container(
                                     margin:
-                                        EdgeInsets.symmetric(vertical: 18.h),
+                                        EdgeInsets.symmetric(vertical: 10.h),
                                     decoration: BoxDecoration(
-                                      color: Colors.red,
+                                      color: AppColors.red,
                                       borderRadius: BorderRadius.circular(12),
                                     ),
-                                    alignment: Alignment.centerRight,
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 20.w,
-                                    ),
-                                    child: const Icon(
-                                      Icons.delete,
-                                      color: Colors.white,
+                                    child: const Center(
+                                      child: Icon(
+                                        Icons.delete,
+                                        color: AppColors.white,
+                                      ),
                                     ),
                                   ),
                                   confirmDismiss: (direction) async {
@@ -199,13 +197,14 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
                                       );
                                       _loadFeedings();
                                     },
-                                    child: Card(
-                                      margin:
-                                          EdgeInsets.symmetric(vertical: 8.h),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(12)),
-                                      color: AppColors.pinkLight,
+                                    child: Container(
+                                      margin: EdgeInsets.symmetric(
+                                        vertical: 8.h,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.pinkLight,
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
                                       child: ListTile(
                                         title: AppText(
                                           title:
@@ -233,14 +232,20 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
       ),
       floatingActionButton: InkWell(
         onTap: () async {
-          await RouteUtils.push(const AddTaskPage());
+          await RouteUtils.push(
+            const AddTaskPage(),
+          );
           _loadFeedings();
         },
         child: Container(
           width: 55.w,
           height: 55.h,
           decoration: BoxDecoration(
-            gradient: LinearGradient(colors: AppColors.primaryG),
+            gradient: LinearGradient(
+              colors: AppColors.primaryG,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
             borderRadius: BorderRadius.circular(27.5),
             boxShadow: const [
               BoxShadow(
@@ -267,7 +272,9 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
         width: 67,
         activeDayStyle: DayStyle(
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(14)),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(14),
+            ),
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -277,7 +284,9 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
         ),
         inactiveDayStyle: DayStyle(
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(14)),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(14),
+            ),
             color: Colors.grey[300],
           ),
         ),

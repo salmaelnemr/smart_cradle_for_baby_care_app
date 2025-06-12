@@ -19,7 +19,7 @@ class VitalSignsView extends StatelessWidget {
   final double breathingRatio;
   final double weightRatio;
   final List<FlSpot> heartRateSpots;
-  final SensorDataStatusModel sensorDataStatusModel; // Non-nullable
+  final SensorDataStatusModel sensorDataStatusModel;
 
   const VitalSignsView({
     super.key,
@@ -33,7 +33,7 @@ class VitalSignsView extends StatelessWidget {
     required this.breathingRatio,
     required this.weightRatio,
     required this.heartRateSpots,
-    required this.sensorDataStatusModel, // Required
+    required this.sensorDataStatusModel,
   });
 
   @override

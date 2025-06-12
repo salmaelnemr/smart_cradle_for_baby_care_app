@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:smart_cradle_for_baby_care_app/Core/route_utils/route_utils.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/input_field.dart';
+import 'package:smart_cradle_for_baby_care_app/Widgets/snack_bar.dart';
 import '../../Core/app_colors/app_colors.dart';
 import '../../Widgets/app_button.dart';
 import '../../Widgets/app_text.dart';
@@ -20,8 +22,8 @@ class AddTaskPage extends StatefulWidget {
 }
 
 class _AddTaskPageState extends State<AddTaskPage> {
-  final TextEditingController _titleController = TextEditingController(); // content
-  final TextEditingController _medicineNameController = TextEditingController(); // medicineName
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _medicineNameController = TextEditingController();
 
   late DateTime _selectedDate;
   late String _startTime;
@@ -177,7 +179,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
   }
 
   Future<void> _onSubmit() async {
-    if (_titleController.text.isEmpty) {
+    if (_medicineNameController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please enter a medicine name")),
       );
@@ -209,12 +211,12 @@ class _AddTaskPageState extends State<AddTaskPage> {
           notificationTime: notificationTime,
           isPM: isPM,
           remindMe: 0,
-          medicineName: _titleController.text,
+          medicineName: _medicineNameController.text,
         );
       } else {
         result = await apiProvider.putMedicine(
           id: widget.medicine!.id!,
-          medicineName: _titleController.text,
+          medicineName: _medicineNameController.text,
           content: _titleController.text,
           notificationDate: notificationDate,
           notificationTime: notificationTime,
@@ -222,17 +224,13 @@ class _AddTaskPageState extends State<AddTaskPage> {
         );
       }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(result)),
-      );
+      showSnackBar(result, error: false,);
 
       if (result.contains("successfully")) {
-        Navigator.pop(context);
+        RouteUtils.pop();
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: ${e.toString()}")),
-      );
+      showSnackBar("Error: ${e.toString()}", error: true,);
     }
   }
 }

@@ -566,4 +566,26 @@ class ApiProvider {
       return null;
     }
   }
+
+  Future<String> sendChatMessage(String message) async {
+    try {
+      final token = CachingUtils.token;
+      if (token.isEmpty) return "No token found. Please log in again.";
+
+      Response response = await Dio().post(
+        "https://0aa1-156-197-85-174.ngrok-free.app/api/v1/chat",
+        data: jsonEncode({"query": message}),
+        options: Options(
+          headers: {'Content-Type': 'application/json'},
+        ),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return response.data["response"]?.toString() ?? "No response from bot.";
+      }
+      return "Failed to get response from chatbot.";
+    } on DioException catch (e) {
+      return _handleError(e, "Failed to send message to chatbot. Please, Try again.");
+    }
+  }
 }

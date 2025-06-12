@@ -7,7 +7,7 @@ import 'package:smart_cradle_for_baby_care_app/Core/route_utils/route_utils.dart
 import 'package:smart_cradle_for_baby_care_app/Core/dio/api_provider.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/models/note_model.dart';
 import 'package:smart_cradle_for_baby_care_app/Features/Sticky%20Notes%20Schedule/add_task.dart';
-
+import 'package:smart_cradle_for_baby_care_app/Widgets/snack_bar.dart';
 import '../../Widgets/app_loading_indicator.dart';
 import '../../Widgets/app_text.dart';
 
@@ -125,18 +125,16 @@ class _StickyNotesScheduleState extends State<StickyNotesSchedule> {
                                   direction: DismissDirection.endToStart,
                                   background: Container(
                                     margin:
-                                        EdgeInsets.symmetric(vertical: 18.h),
+                                        EdgeInsets.symmetric(vertical: 10.h),
                                     decoration: BoxDecoration(
-                                      color: Colors.red,
+                                      color: AppColors.red,
                                       borderRadius: BorderRadius.circular(12),
                                     ),
-                                    alignment: Alignment.centerRight,
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 20.w,
-                                    ),
-                                    child: const Icon(
-                                      Icons.delete,
-                                      color: Colors.white,
+                                    child: const Center(
+                                      child: Icon(
+                                        Icons.delete,
+                                        color: AppColors.white,
+                                      ),
                                     ),
                                   ),
                                   confirmDismiss: (direction) async {
@@ -176,8 +174,7 @@ class _StickyNotesScheduleState extends State<StickyNotesSchedule> {
                                   onDismissed: (direction) async {
                                     final result = await ApiProvider()
                                         .deleteNote(note.id!);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(content: Text(result)));
+                                    showSnackBar(result, error: false);
                                     if (result ==
                                         "Note deleted successfully!") {
                                       setState(() {
@@ -188,19 +185,21 @@ class _StickyNotesScheduleState extends State<StickyNotesSchedule> {
                                   child: InkWell(
                                     onTap: () async {
                                       await RouteUtils.push(
-                                          AddTaskPage(note: note));
+                                        AddTaskPage(note: note),
+                                      );
                                       _loadNotes();
                                     },
-                                    child: Card(
-                                      margin:
-                                          EdgeInsets.symmetric(vertical: 8.h),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(12)),
-                                      color: AppColors.pinkLight,
+                                    child: Container(
+                                      margin: EdgeInsets.symmetric(
+                                        vertical: 8.h,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.pinkLight,
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
                                       child: ListTile(
                                         title: AppText(
-                                          title: note.content ?? "No content",
+                                          title: note.title ?? "No title",
                                           color: AppColors.black,
                                         ),
                                         trailing: AppText(
@@ -224,22 +223,35 @@ class _StickyNotesScheduleState extends State<StickyNotesSchedule> {
       ),
       floatingActionButton: InkWell(
         onTap: () async {
-          await RouteUtils.push(const AddTaskPage());
+          await RouteUtils.push(
+            const AddTaskPage(),
+          );
           _loadNotes();
         },
         child: Container(
           width: 55,
           height: 55,
           decoration: BoxDecoration(
-            gradient: LinearGradient(colors: AppColors.primaryG),
+            gradient: LinearGradient(
+              colors: AppColors.primaryG,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
             borderRadius: BorderRadius.circular(27.5),
             boxShadow: const [
               BoxShadow(
-                  color: Colors.black12, blurRadius: 5, offset: Offset(0, 2))
+                color: Colors.black12,
+                blurRadius: 5,
+                offset: Offset(0, 2),
+              )
             ],
           ),
           alignment: Alignment.center,
-          child: const Icon(Icons.add, size: 30, color: AppColors.white),
+          child: const Icon(
+            Icons.add,
+            size: 30,
+            color: AppColors.white,
+          ),
         ),
       ),
     );
@@ -257,7 +269,9 @@ class _StickyNotesScheduleState extends State<StickyNotesSchedule> {
         width: 67,
         activeDayStyle: DayStyle(
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(14)),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(14),
+            ),
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -267,7 +281,9 @@ class _StickyNotesScheduleState extends State<StickyNotesSchedule> {
         ),
         inactiveDayStyle: DayStyle(
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(14)),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(14),
+            ),
             color: Colors.grey[300],
           ),
         ),

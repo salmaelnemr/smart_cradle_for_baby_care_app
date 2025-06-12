@@ -114,7 +114,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
     _vitalSignsSubscription = _databaseRef.onValue.listen(
           (DatabaseEvent event) {
         final data = event.snapshot.value as Map<dynamic, dynamic>?;
-        print("Firebase data: $data"); // Debug
+        print("Firebase data: $data");
         setState(() {
           if (data != null) {
             final homeTemp = (data['temperature'] ?? 42).toDouble();
@@ -131,7 +131,6 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
             _breathingRatio = _calculateRatio(spO2, min: 0.0, max: 100.0);
             _weightRatio = _calculateRatio(w, min: 0.0, max: 15.0);
 
-            // Initialize sensorDataStatusModel
             _sensorDataStatusModel = SensorDataStatusModel(
               babyTemp: _determineBabyTempStatus(babyTempModel?.temp?.toDouble() ?? 36.5),
               roomTemp: _determineRoomTempStatus(homeTemp),
@@ -140,7 +139,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
               weight: _determineWeightStatus(w),
             );
 
-            print("SensorDataStatusModel: ${_sensorDataStatusModel!.toJson()}"); // Debug
+            print("SensorDataStatusModel: ${_sensorDataStatusModel!.toJson()}");
             _isLoading = false;
             _errorMessage = null;
           } else {
@@ -157,7 +156,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
         });
       },
       onError: (error) {
-        print("Firebase error: $error"); // Debug
+        print("Firebase error: $error");
         setState(() {
           _errorMessage = "Error fetching Firebase data: $error";
           _isLoading = false;
@@ -173,7 +172,6 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
     );
   }
 
-  // Helper methods to map numerical values to status strings
   String _determineBabyTempStatus(double temp) {
     if (temp < 36.0) return "Low";
     if (temp > 37.5) return "High";

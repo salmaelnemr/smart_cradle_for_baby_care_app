@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:smart_cradle_for_baby_care_app/Core/route_utils/route_utils.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/input_field.dart';
 import '../../Core/app_colors/app_colors.dart';
 import '../../Widgets/app_button.dart';
 import '../../Widgets/app_text.dart';
 import '../../Widgets/date_picker.dart';
+import '../../Widgets/snack_bar.dart';
 import '../../Widgets/time_picker.dart';
 import '../../Core/dio/api_provider.dart';
 import '../../Core/models/note_model.dart';
@@ -223,17 +225,13 @@ class _AddTaskPageState extends State<AddTaskPage> {
         );
       }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(result)),
-      );
+      showSnackBar(result, error: false,);
 
       if (result.contains("successfully")) {
-        Navigator.pop(context);
+        RouteUtils.pop();
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: ${e.toString()}")),
-      );
+      showSnackBar("Error: ${e.toString()}", error: true,);
     }
   }
 

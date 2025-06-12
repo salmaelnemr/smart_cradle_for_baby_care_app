@@ -1,9 +1,11 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mjpeg/flutter_mjpeg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cradle_for_baby_care_app/Features/Rocking%20Guidelines/activate_rocking.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app_text.dart';
+import 'package:smart_cradle_for_baby_care_app/Widgets/snack_bar.dart';
 import '../../Core/app_colors/app_colors.dart';
 import '../../Core/route_utils/route_utils.dart';
 import '../../Widgets/main_app_bar.dart';
@@ -16,8 +18,23 @@ class MonitorView extends StatefulWidget {
 }
 
 class _MonitorViewState extends State<MonitorView> {
-  bool isPopupNotificationsEnabled = true;
+  bool isPopupNotificationsEnabled = false;
   final String streamUrl = "http://192.168.156.161"; //'http://192.168.1.100/mjpeg'
+  static const _firebasePath = "motor/control";
+  final _databaseRef = FirebaseDatabase.instance.ref(_firebasePath);
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> _updateFirebase(bool value) async {
+    try {
+      await _databaseRef.set(value);
+    } catch (e) {
+      showSnackBar("Failed to update: $e", error: true,);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -164,6 +181,7 @@ class _MonitorViewState extends State<MonitorView> {
                         onChanged: (value) {
                           setState(() {
                             isPopupNotificationsEnabled = value;
+                            _updateFirebase(value);
                           });
                         },
                         activeColor: const Color(0xFF55C76C),
