@@ -16,7 +16,6 @@ class SplashView extends StatefulWidget {
 
 class _SplashViewState extends State<SplashView> {
   double _logoOpacity = 0.0;
-  double _textOpacity = 0.0;
 
   @override
   void initState() {
@@ -29,11 +28,6 @@ class _SplashViewState extends State<SplashView> {
     await Future.delayed(const Duration(seconds: 2));
     setState(() {
       _logoOpacity = 1.0;
-    });
-
-    await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      _textOpacity = 1.0;
     });
   }
 
@@ -68,8 +62,8 @@ class _SplashViewState extends State<SplashView> {
             ),
             const SizedBox(height: 20),
             AnimatedOpacity(
-              opacity: _textOpacity,
-              duration: const Duration(seconds: 1),
+              opacity: _logoOpacity,
+              duration: const Duration(seconds: 2),
               child: Image.asset(
                 'Assets/Images/IntelliNest.png',
                 height: 44.h,

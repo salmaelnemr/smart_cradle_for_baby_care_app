@@ -1,9 +1,8 @@
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/app_colors/app_colors.dart';
@@ -21,10 +20,10 @@ class RecordsView extends StatefulWidget {
 }
 
 class _RecordsViewState extends State<RecordsView> {
-  int mediaNumb = 0;
   List<String> audioPaths = [];
   late SharedPreferences prefs;
   final AudioPlayer player = AudioPlayer();
+  DateTime? _lastTapTime;
 
   @override
   void initState() {
@@ -40,34 +39,57 @@ class _RecordsViewState extends State<RecordsView> {
   }
 
   Future<void> pickAudio() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.audio,
+    );
     if (result != null) {
       String? path = result.files.single.path;
       if (path != null) {
-        Directory appDir = await getApplicationDocumentsDirectory();
-        String fileName = path.split('/').last;
-        File newFile = await File(path).copy('${appDir.path}/$fileName');
-
-        audioPaths.add(newFile.path);
-        await prefs.setStringList('audioPaths', audioPaths);
-        setState(() {});
+        try {
+          Directory appDir = await getApplicationDocumentsDirectory();
+          String fileName = path.split('/').last;
+          File newFile = await File(path).copy('${appDir.path}/$fileName');
+          audioPaths.add(newFile.path);
+          await prefs.setStringList('audioPaths', audioPaths);
+          if (mounted) {
+            setState(() {});
+          }
+        } catch (e) {
+          if (mounted) {
+            showSnackBar('Failed to add audio', error: true);
+          }
+        }
       }
     }
   }
 
-  @override
-  void dispose() {
-    player.dispose();
-    super.dispose();
-  }
+  Future<void> handleTap(String path, int index) async {
+    final now = DateTime.now();
+    if (_lastTapTime != null &&
+        now.difference(_lastTapTime!) < const Duration(milliseconds: 500)) {
+      return;
+    }
+    _lastTapTime = now;
 
-  void playAudio(String path) async {
-    await player.setFilePath(path);
     if (player.playing) {
-      player.pause();
-    } else {
-      player.play();
-      mediaNumb = audioPaths.indexOf(path);
+      await player.pause();
+    }
+    if (mounted) {
+      RouteUtils.push(PlayRecordView(
+        audioPaths: audioPaths,
+        currentIndex: index,
+        player: player,
+      ),);
+    }
+
+    try {
+      await player.setFilePath(path);
+      await player.play();
+    } catch (e) {
+      if (mounted) {
+        showSnackBar('Failed to load audio: ${path.split('/').last}',
+            error: true);
+      }
     }
   }
 
@@ -79,19 +101,19 @@ class _RecordsViewState extends State<RecordsView> {
       }
 
       audioPaths.removeAt(index);
-      await prefs.setStringList(
-        'audioPaths',
-        audioPaths,
-      );
-
-      setState(() {});
+      await prefs.setStringList('audioPaths', audioPaths);
+      if (mounted) {
+        setState(() {});
+      }
     } catch (e) {
-      print("Delete error: $e");
-      showSnackBar(
-        "Failed to delete audio.",
-        error: true,
-      );
+      print(e);
     }
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
   }
 
   @override
@@ -107,6 +129,7 @@ class _RecordsViewState extends State<RecordsView> {
             Expanded(
               child: audioPaths.isEmpty
                   ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const AppText(
                           title: "Empty voices!",
@@ -115,9 +138,7 @@ class _RecordsViewState extends State<RecordsView> {
                           fontWeight: FontWeight.w500,
                           fontFamily: "Roboto",
                         ),
-                        SizedBox(
-                          height: 18.h,
-                        ),
+                        SizedBox(height: 18.h),
                         const AppText(
                           title: "Add your voice or a song you prefer",
                           color: Colors.black,
@@ -132,7 +153,6 @@ class _RecordsViewState extends State<RecordsView> {
                       itemBuilder: (context, index) {
                         String path = audioPaths[index];
                         String name = path.split('/').last;
-
                         return Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: 20.w, vertical: 8.h),
@@ -153,16 +173,7 @@ class _RecordsViewState extends State<RecordsView> {
                                 fontFamily: "Roboto",
                                 color: Colors.white,
                               ),
-                              onTap: () {
-                                playAudio(path);
-                                RouteUtils.push(
-                                  PlayRecordView(
-                                    audioPaths: audioPaths,
-                                    currentIndex: index,
-                                    player: player,
-                                  ),
-                                );
-                              },
+                              onTap: () => handleTap(path, index),
                               trailing: IconButton(
                                 icon: const Icon(
                                   Icons.delete,
@@ -185,9 +196,7 @@ class _RecordsViewState extends State<RecordsView> {
                 onPressed: pickAudio,
               ),
             ),
-            const SizedBox(
-              height: 30,
-            )
+            const SizedBox(height: 30),
           ],
         ),
       ),

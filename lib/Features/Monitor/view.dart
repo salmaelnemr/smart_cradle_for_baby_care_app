@@ -19,7 +19,7 @@ class MonitorView extends StatefulWidget {
 
 class _MonitorViewState extends State<MonitorView> {
   bool isPopupNotificationsEnabled = false;
-  final String streamUrl = "http://192.168.156.161"; //'http://192.168.1.100/mjpeg'
+  final String streamUrl = "http://192.168.156.161/mjpeg"; //'http://192.168.1.100/mjpeg'
   static const _firebasePath = "motor/control";
   final _databaseRef = FirebaseDatabase.instance.ref(_firebasePath);
 
