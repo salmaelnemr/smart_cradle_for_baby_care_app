@@ -573,7 +573,7 @@ class ApiProvider {
       if (token.isEmpty) return "No token found. Please log in again.";
 
       Response response = await Dio().post(
-        "https://0aa1-156-197-85-174.ngrok-free.app/api/v1/chat",
+        "https://8df8-156-197-85-174.ngrok-free.app/api/v1/chat",
         data: jsonEncode({"query": message}),
         options: Options(
           headers: {'Content-Type': 'application/json'},

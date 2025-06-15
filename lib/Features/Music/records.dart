@@ -86,10 +86,11 @@ class _RecordsViewState extends State<RecordsView> {
       await player.setFilePath(path);
       await player.play();
     } catch (e) {
-      if (mounted) {
-        showSnackBar('Failed to load audio: ${path.split('/').last}',
-            error: true);
-      }
+      // if (mounted) {
+      //   showSnackBar('Failed to load audio: ${path.split('/').last}',
+      //       error: true);
+      // }
+      print(e);
     }
   }
 
@@ -106,7 +107,9 @@ class _RecordsViewState extends State<RecordsView> {
         setState(() {});
       }
     } catch (e) {
-      print(e);
+      if (mounted) {
+        showSnackBar('Failed to delete audio', error: true);
+      }
     }
   }
 
