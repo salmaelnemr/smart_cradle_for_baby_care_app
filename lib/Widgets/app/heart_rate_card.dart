@@ -22,12 +22,12 @@ class HeartRateCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(10.r),
       child: Container(
         height: 130.h,
         decoration: BoxDecoration(
           color: AppColors.white2,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(10.r),
         ),
         child: Stack(
           alignment: Alignment.topLeft,
@@ -42,7 +42,7 @@ class HeartRateCard extends StatelessWidget {
                       AppText(
                         title: title,
                         fontFamily: "Roboto",
-                        fontSize: 18,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w700,
                         color: AppColors.black,
                       ),
@@ -50,7 +50,7 @@ class HeartRateCard extends StatelessWidget {
                       AppText(
                         title: value,
                         fontFamily: "Roboto",
-                        fontSize: 13,
+                        fontSize: 13.sp,
                         fontWeight: FontWeight.w400,
                         color: const Color(0xFF8A8A8A),
                       ),
@@ -60,7 +60,7 @@ class HeartRateCard extends StatelessWidget {
                   AppText(
                     title: status,
                     fontFamily: "Roboto",
-                    fontSize: 16,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w400,
                     color: AppColors.greyLight,
                   ),

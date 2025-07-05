@@ -128,24 +128,24 @@ class _RecordsViewState extends State<RecordsView> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             Expanded(
               child: audioPaths.isEmpty
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const AppText(
+                        AppText(
                           title: "Empty voices!",
                           color: Colors.black,
-                          fontSize: 24,
+                          fontSize: 24.sp,
                           fontWeight: FontWeight.w500,
                           fontFamily: "Roboto",
                         ),
                         SizedBox(height: 18.h),
-                        const AppText(
+                        AppText(
                           title: "Add your voice or a song you prefer",
                           color: Colors.black,
-                          fontSize: 20,
+                          fontSize: 20.sp,
                           fontWeight: FontWeight.w400,
                           fontFamily: "Roboto",
                         ),
@@ -158,7 +158,8 @@ class _RecordsViewState extends State<RecordsView> {
                         String name = path.split('/').last;
                         return Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 20.w, vertical: 8.h),
+                              horizontal: 20.w, vertical: 8.h,
+                          ),
                           child: Container(
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
@@ -166,12 +167,12 @@ class _RecordsViewState extends State<RecordsView> {
                                 begin: Alignment.bottomCenter,
                                 end: Alignment.topCenter,
                               ),
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(12.r),
                             ),
                             child: ListTile(
                               title: AppText(
                                 title: name,
-                                fontSize: 20,
+                                fontSize: 20.sp,
                                 fontWeight: FontWeight.w500,
                                 fontFamily: "Roboto",
                                 color: Colors.white,
@@ -191,7 +192,10 @@ class _RecordsViewState extends State<RecordsView> {
                     ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.symmetric(
+                horizontal: 16.w,
+                vertical: 16.h,
+              ),
               child: AppButton(
                 width: 227.w,
                 height: 50.86.h,
@@ -199,7 +203,7 @@ class _RecordsViewState extends State<RecordsView> {
                 onPressed: pickAudio,
               ),
             ),
-            const SizedBox(height: 30),
+            SizedBox(height: 30.h),
           ],
         ),
       ),

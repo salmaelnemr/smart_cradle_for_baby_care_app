@@ -79,11 +79,11 @@ class _BabyInformationViewState extends State<BabyInformationView> {
                 SizedBox(height: 32.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 40.w,),
-                  child: const AppText(
+                  child: AppText(
                     title: "What’s your baby’s name?",
                     fontFamily: "Roboto",
                     fontWeight: FontWeight.w400,
-                    fontSize: 22,
+                    fontSize: 22.sp,
                     color: AppColors.black,
                   ),
                 ),
@@ -97,11 +97,11 @@ class _BabyInformationViewState extends State<BabyInformationView> {
                 SizedBox(height: 34.14.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 40.w,),
-                  child: const AppText(
+                  child: AppText(
                     title: "What’s your baby’s birthdate?",
                     fontFamily: "Roboto",
                     fontWeight: FontWeight.w400,
-                    fontSize: 22,
+                    fontSize: 22.sp,
                     color: AppColors.black,
                   ),
                 ),

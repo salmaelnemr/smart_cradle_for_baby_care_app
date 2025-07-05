@@ -76,9 +76,9 @@ class _OnboardScreenState extends State<OnboardScreen> {
                         );
                       }
                     },
-                    child: const AppText(
+                    child: AppText(
                       title: "Skip",
-                      fontSize: 22,
+                      fontSize: 22.sp,
                       fontWeight: FontWeight.w400,
                       fontFamily: "Roboto",
                       color: AppColors.black,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../core/app_colors/app_colors.dart';
 import 'app_loading_indicator.dart';
 import 'app_text.dart';
@@ -34,7 +35,10 @@ class AppButton extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.all(14),
+              padding: EdgeInsets.symmetric(
+                horizontal: 14.w,
+                vertical: 14.h,
+              ),
               width: width,
               height: height,
               decoration: BoxDecoration(
@@ -43,7 +47,7 @@ class AppButton extends StatelessWidget {
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                 ),
-                borderRadius: BorderRadius.circular(32),
+                borderRadius: BorderRadius.circular(32.r),
               ),
             ),
             AppText(

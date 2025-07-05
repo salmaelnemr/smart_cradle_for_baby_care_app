@@ -89,20 +89,20 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
               horizontal: 15.w,
               vertical: 18.h,
             ),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(35),
-                topRight: Radius.circular(35),
+                topLeft: Radius.circular(35.r),
+                topRight: Radius.circular(35.r),
               ),
             ),
             child: Column(
               children: [
-                const Center(
+                Center(
                   child: AppText(
                     title: "Feeding",
                     fontWeight: FontWeight.w700,
-                    fontSize: 24,
+                    fontSize: 24.sp,
                     color: AppColors.black,
                     fontFamily: "Roboto",
                   ),
@@ -133,7 +133,7 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
                                         EdgeInsets.symmetric(vertical: 10.h),
                                     decoration: BoxDecoration(
                                       color: AppColors.red,
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius: BorderRadius.circular(12.r),
                                     ),
                                     child: const Center(
                                       child: Icon(
@@ -246,7 +246,7 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
-            borderRadius: BorderRadius.circular(27.5),
+            borderRadius: BorderRadius.circular(27.5.r),
             boxShadow: const [
               BoxShadow(
                   color: Colors.black12, blurRadius: 5, offset: Offset(0, 2))
@@ -268,12 +268,12 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
       },
       dayProps: EasyDayProps(
         todayHighlightColor: AppColors.pinkLight,
-        height: 76,
-        width: 67,
+        height: 76.h,
+        width: 67.w,
         activeDayStyle: DayStyle(
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(14),
+            borderRadius: BorderRadius.all(
+              Radius.circular(14.r),
             ),
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -284,8 +284,8 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
         ),
         inactiveDayStyle: DayStyle(
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(14),
+            borderRadius: BorderRadius.all(
+              Radius.circular(14.r),
             ),
             color: Colors.grey[300],
           ),

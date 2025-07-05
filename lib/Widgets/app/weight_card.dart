@@ -32,11 +32,11 @@ class WeightCard extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: AppColors.white2,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: const [
+          borderRadius: BorderRadius.circular(10.r),
+          boxShadow: [
             BoxShadow(
               color: Colors.black12,
-              blurRadius: 2,
+              blurRadius: 2.r,
             ),
           ],
         ),
@@ -49,7 +49,7 @@ class WeightCard extends StatelessWidget {
                 AppText(
                   title: title,
                   fontFamily: "Roboto",
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w700,
                   color: AppColors.black,
                 ),
@@ -57,7 +57,7 @@ class WeightCard extends StatelessWidget {
                   title: value,
                   fontFamily: "Roboto",
                   fontWeight: FontWeight.w400,
-                  fontSize: 13,
+                  fontSize: 13.sp,
                   color: const Color(0xFF8A8A8A),
                 ),
               ],
@@ -66,7 +66,7 @@ class WeightCard extends StatelessWidget {
               title: subtitle,
               fontFamily: "Roboto",
               fontWeight: FontWeight.w400,
-              fontSize: 13,
+              fontSize: 13.sp,
               color: AppColors.greyLight,
             ),
             SizedBox(height: 10.h),
@@ -84,7 +84,7 @@ class WeightCard extends StatelessWidget {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: AppColors.white,
-                        borderRadius: BorderRadius.circular(29),
+                        borderRadius: BorderRadius.circular(29.r),
                       ),
                       child: Container(
                         width: 61.h,
@@ -92,7 +92,7 @@ class WeightCard extends StatelessWidget {
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(colors: AppColors.primaryG),
-                          borderRadius: BorderRadius.circular(29),
+                          borderRadius: BorderRadius.circular(29.r),
                         ),
                         child: Container(
                           width: 58.h,
@@ -100,7 +100,7 @@ class WeightCard extends StatelessWidget {
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             color: AppColors.white,
-                            borderRadius: BorderRadius.circular(29),
+                            borderRadius: BorderRadius.circular(29.r),
                           ),
                           child: FittedBox(
                             child: Image.asset(

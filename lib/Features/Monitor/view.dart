@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mjpeg/flutter_mjpeg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cradle_for_baby_care_app/Features/Rocking%20Guidelines/activate_rocking.dart';
+import 'package:smart_cradle_for_baby_care_app/Widgets/app_loading_indicator.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app_text.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/snack_bar.dart';
 import '../../Core/app_colors/app_colors.dart';
@@ -19,7 +20,7 @@ class MonitorView extends StatefulWidget {
 
 class _MonitorViewState extends State<MonitorView> {
   bool isPopupNotificationsEnabled = false;
-  final String streamUrl = "http://192.168.156.161/mjpeg"; //'http://192.168.1.100/mjpeg'
+  final String streamUrl = "http://192.168.92.161:81/stream"; //'http://192.168.1.100/mjpeg'
   static const _firebasePath = "motor/control";
   final _databaseRef = FirebaseDatabase.instance.ref(_firebasePath);
 
@@ -58,7 +59,7 @@ class _MonitorViewState extends State<MonitorView> {
                   width: 345.w,
                   decoration: BoxDecoration(
                     //color: AppColors.pinkLight,
-                    borderRadius: BorderRadius.circular(25),
+                    borderRadius: BorderRadius.circular(25.r),
                   ),
                   clipBehavior: Clip.hardEdge,
                   child: Stack(
@@ -67,6 +68,7 @@ class _MonitorViewState extends State<MonitorView> {
                         isLive: true,
                         stream: streamUrl,
                         error: (context, error, stack) {
+                          print("MJPEG Error: $error");
                           return const Center(
                             child: AppText(
                               title: 'Error connecting to stream',
@@ -75,6 +77,9 @@ class _MonitorViewState extends State<MonitorView> {
                           );
                         },
                         fit: BoxFit.cover,
+                        loading: (context) => const Center(
+                          child: AppLoadingIndicator(), // Show loading spinner
+                        ),
                       ),
                       Positioned(
                         top: 28.h,
@@ -86,7 +91,7 @@ class _MonitorViewState extends State<MonitorView> {
                           ),
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.6),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(12.r),
                           ),
                           child: Row(
                             children: [
@@ -96,10 +101,10 @@ class _MonitorViewState extends State<MonitorView> {
                                 color: AppColors.green,
                               ),
                               SizedBox(width: 6.w),
-                              const AppText(
+                              AppText(
                                 title: 'Live',
                                 fontWeight: FontWeight.w400,
-                                fontSize: 24,
+                                fontSize: 24.sp,
                                 fontFamily: "Roboto",
                                 color: AppColors.greyLight,
                               ),
@@ -115,8 +120,8 @@ class _MonitorViewState extends State<MonitorView> {
                 height: 15.h,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 12.w,
                 ),
                 child: InkWell(
                   onTap: () {
@@ -134,10 +139,10 @@ class _MonitorViewState extends State<MonitorView> {
                       SizedBox(
                         width: 5.w,
                       ),
-                      const AppText(
+                      AppText(
                         title: "When to rock the cradle?",
                         textAlign: TextAlign.center,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w400,
                         fontFamily: "Roboto",
                         color: AppColors.black,
@@ -152,21 +157,21 @@ class _MonitorViewState extends State<MonitorView> {
               Container(
                 width: 345.w,
                 height: 48.h,
-                padding: const EdgeInsets.only(
-                  right: 12,
-                  left: 14,
+                padding: EdgeInsets.only(
+                  right: 12.w,
+                  left: 14.w,
                 ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFF0F0F0),
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(15.r),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const AppText(
+                    AppText(
                       title: "Soothing",
                       textAlign: TextAlign.center,
-                      fontSize: 22,
+                      fontSize: 22.sp,
                       fontWeight: FontWeight.w400,
                       fontFamily: "Roboto",
                       color: AppColors.black,
@@ -197,6 +202,203 @@ class _MonitorViewState extends State<MonitorView> {
     );
   }
 }
+
+// import 'package:firebase_database/firebase_database.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_mjpeg/flutter_mjpeg.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:smart_cradle_for_baby_care_app/Features/Rocking%20Guidelines/activate_rocking.dart';
+// import 'package:smart_cradle_for_baby_care_app/Widgets/app_text.dart';
+// import 'package:smart_cradle_for_baby_care_app/Widgets/snack_bar.dart';
+// import '../../Core/app_colors/app_colors.dart';
+// import '../../Core/route_utils/route_utils.dart';
+// import '../../Widgets/app_button.dart';
+// import '../../Widgets/main_app_bar.dart';
+//
+// class MonitorView extends StatefulWidget {
+//   const MonitorView({super.key});
+//
+//   @override
+//   State<MonitorView> createState() => _MonitorViewState();
+// }
+//
+// class _MonitorViewState extends State<MonitorView> {
+//   bool isPopupNotificationsEnabled = false;
+//   bool isStreamVisible = false; // New flag to control stream visibility
+//   final String streamUrl = "http://192.168.62.161";
+//   static const _firebasePath = "motor/control";
+//   final _databaseRef = FirebaseDatabase.instance.ref(_firebasePath);
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//   }
+//
+//   Future<void> _updateFirebase(bool value) async {
+//     try {
+//       await _databaseRef.set(value);
+//     } catch (e) {
+//       showSnackBar("Failed to update: $e", error: true);
+//     }
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: AppColors.white,
+//       appBar: const MainAppBar(
+//         title: 'Monitor',
+//       ),
+//       body: SingleChildScrollView(
+//         child: Padding(
+//           padding: EdgeInsets.symmetric(
+//             vertical: 18.h,
+//             horizontal: 24.w,
+//           ),
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.center,
+//             children: [
+//               // Live stream container (shown/hidden based on isStreamVisible)
+//               if (isStreamVisible)
+//                 Center(
+//                   child: Container(
+//                     height: 541.h,
+//                     width: 345.w,
+//                     decoration: BoxDecoration(
+//                       borderRadius: BorderRadius.circular(25),
+//                     ),
+//                     clipBehavior: Clip.hardEdge,
+//                     child: Stack(
+//                       children: [
+//                         Mjpeg(
+//                           isLive: true,
+//                           stream: streamUrl,
+//                           error: (context, error, stack) {
+//                             return const Center(
+//                               child: AppText(
+//                                 title: 'Error connecting to stream',
+//                                 color: AppColors.black,
+//                               ),
+//                             );
+//                           },
+//                           fit: BoxFit.cover,
+//                         ),
+//                         Positioned(
+//                           top: 28.h,
+//                           left: 12.w,
+//                           child: Container(
+//                             padding: EdgeInsets.symmetric(
+//                               horizontal: 8.w,
+//                               vertical: 4.h,
+//                             ),
+//                             decoration: BoxDecoration(
+//                               color: Colors.white.withOpacity(0.6),
+//                               borderRadius: BorderRadius.circular(12),
+//                             ),
+//                             child: Row(
+//                               children: [
+//                                 const Icon(
+//                                   Icons.circle,
+//                                   size: 9,
+//                                   color: AppColors.green,
+//                                 ),
+//                                 SizedBox(width: 6.w),
+//                                 const AppText(
+//                                   title: 'Live',
+//                                   fontWeight: FontWeight.w400,
+//                                   fontSize: 24,
+//                                   fontFamily: "Roboto",
+//                                   color: AppColors.greyLight,
+//                                 ),
+//                               ],
+//                             ),
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 ),
+//               SizedBox(height: 15.h),
+//               // Button to toggle live stream
+//               AppButton(
+//                 width: 250.w,
+//                 height: 50.86.h,
+//                 title: isStreamVisible ? "Hide Camera Stream" : "View Camera Stream",
+//                 onPressed: () {
+//                   setState(() {
+//                     isStreamVisible = !isStreamVisible; // Toggle stream visibility
+//                   });
+//                 },
+//               ),
+//               SizedBox(height: 15.h),
+//               Padding(
+//                 padding: const EdgeInsets.symmetric(horizontal: 12),
+//                 child: InkWell(
+//                   onTap: () {
+//                     RouteUtils.push(const ActivateRockingView());
+//                   },
+//                   child: Row(
+//                     children: [
+//                       Image.asset(
+//                         'Assets/Images/infoIcon.png',
+//                         height: 24.h,
+//                         width: 24.w,
+//                       ),
+//                       SizedBox(width: 5.w),
+//                       const AppText(
+//                         title: "When to rock the cradle?",
+//                         textAlign: TextAlign.center,
+//                         fontSize: 16,
+//                         fontWeight: FontWeight.w400,
+//                         fontFamily: "Roboto",
+//                         color: AppColors.black,
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//               SizedBox(height: 14.h),
+//               Container(
+//                 width: 345.w,
+//                 height: 48.h,
+//                 padding: const EdgeInsets.only(right: 12, left: 14),
+//                 decoration: BoxDecoration(
+//                   color: const Color(0xFFF0F0F0),
+//                   borderRadius: BorderRadius.circular(15),
+//                 ),
+//                 child: Row(
+//                   mainAxisAlignment: MainAxisAlignment.start,
+//                   children: [
+//                     const AppText(
+//                       title: "Soothing",
+//                       textAlign: TextAlign.center,
+//                       fontSize: 22,
+//                       fontWeight: FontWeight.w400,
+//                       fontFamily: "Roboto",
+//                       color: AppColors.black,
+//                     ),
+//                     const Spacer(),
+//                     CupertinoSwitch(
+//                       value: isPopupNotificationsEnabled,
+//                       onChanged: (value) {
+//                         setState(() {
+//                           isPopupNotificationsEnabled = value;
+//                           _updateFirebase(value);
+//                         });
+//                       },
+//                       activeColor: const Color(0xFF55C76C),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 // import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';

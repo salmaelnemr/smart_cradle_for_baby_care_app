@@ -20,14 +20,14 @@ class AppIconButton extends StatelessWidget {
       child: Padding(
         padding: padding,
         child: InkWell(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
           onTap: onTap,
           child: Container(
             width: 50.w,
             height: 50.h,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(15.r),
               color: AppColors.darkGrey,
             ),
             child: Icon(

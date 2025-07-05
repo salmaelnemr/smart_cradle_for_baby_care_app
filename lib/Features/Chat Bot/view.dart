@@ -83,10 +83,13 @@ class _ChatBotViewState extends State<ChatBotView> {
                 itemCount: messages.length + (isLoading ? 1 : 0),
                 itemBuilder: (context, index) {
                   if (isLoading && index == messages.length) {
-                    return const Center(
+                    return Center(
                       child: Padding(
-                        padding: EdgeInsets.all(12.0),
-                        child: AppLoadingIndicator(),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 12.h,
+                        ),
+                        child: const AppLoadingIndicator(),
                       ),
                     );
                   }
@@ -106,20 +109,23 @@ class _ChatBotViewState extends State<ChatBotView> {
                       ),
                       Expanded(
                         child: Container(
-                          margin: const EdgeInsets.only(bottom: 20),
-                          padding: const EdgeInsets.all(12),
+                          margin: EdgeInsets.only(bottom: 20.h),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 12.h,
+                          ),
                           decoration: BoxDecoration(
                             color: isUser ? AppColors.grey : AppColors.pinkLight,
                             borderRadius: isUser
-                                ? const BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              bottomLeft: Radius.circular(15),
-                              bottomRight: Radius.circular(15),
+                                ? BorderRadius.only(
+                              topLeft: Radius.circular(15.r),
+                              bottomLeft: Radius.circular(15.r),
+                              bottomRight: Radius.circular(15.r),
                             )
-                                : const BorderRadius.only(
-                              topRight: Radius.circular(15),
-                              bottomLeft: Radius.circular(15),
-                              bottomRight: Radius.circular(15),
+                                : BorderRadius.only(
+                              topRight: Radius.circular(15.r),
+                              bottomLeft: Radius.circular(15.r),
+                              bottomRight: Radius.circular(15.r),
                             ),
                           ),
                           child: AppText(
@@ -143,17 +149,17 @@ class _ChatBotViewState extends State<ChatBotView> {
                     width: 283.w,
                     padding: EdgeInsets.symmetric(horizontal: 18.w),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10.r),
                       color: AppColors.grey,
                     ),
                     child: TextField(
                       controller: _controller,
                       enabled: !isLoading,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         hintText: "Type a message to chat",
                         hintStyle: TextStyle(
                           color: AppColors.greyLight,
-                          fontSize: 14,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w400,
                           fontFamily: "Roboto",
                         ),
@@ -170,7 +176,7 @@ class _ChatBotViewState extends State<ChatBotView> {
                     width: 53.w,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(colors: AppColors.primaryG),
-                      borderRadius: BorderRadius.circular(50),
+                      borderRadius: BorderRadius.circular(50.r),
                     ),
                     child: Image.asset('Assets/Images/send.png'),
                   ),

@@ -38,19 +38,19 @@ class _PasscodeViewState extends State<PasscodeView> {
                 ),
               ),
               SizedBox(height: 32.h),
-              const AppText(
+              AppText(
                 title: "Enter Cradle Passcode",
                 fontFamily: "Roboto",
                 fontWeight: FontWeight.w400,
-                fontSize: 22,
+                fontSize: 22.sp,
                 color: AppColors.black,
               ),
               SizedBox(height: 8.h),
-              const AppText(
+              AppText(
                 title: "You will find it on the cradle ",
                 fontFamily: "Roboto",
                 fontWeight: FontWeight.w400,
-                fontSize: 14,
+                fontSize: 14.sp,
                 color: AppColors.grey2,
               ),
               SizedBox(height: 40.h),

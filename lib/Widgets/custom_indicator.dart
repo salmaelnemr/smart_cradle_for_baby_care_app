@@ -11,7 +11,7 @@ class CustomIndicator extends StatelessWidget {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(11),
+        borderRadius: BorderRadius.circular(11.r),
         gradient: active
             ? LinearGradient(
                 colors: AppColors.primaryG,
@@ -20,7 +20,7 @@ class CustomIndicator extends StatelessWidget {
               )
             : LinearGradient(
                 colors: AppColors.dGray,
-                transform: const GradientRotation(180),
+                transform: GradientRotation(180.r),
               ),
       ),
       width: active ? 20.w : 9.w,

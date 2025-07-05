@@ -40,7 +40,7 @@ class RateDialog extends StatelessWidget {
     return Dialog(
       backgroundColor: AppColors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -55,7 +55,7 @@ class RateDialog extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 23.height),
               child: AppText(
                 title: message,
-                fontSize: 20,
+                fontSize: 20.sp,
                 textAlign: TextAlign.center,
                 fontFamily: "Roboto",
                 fontWeight: FontWeight.w400,
@@ -68,9 +68,9 @@ class RateDialog extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const AppText(
+                  AppText(
                     title: "Rate the Product",
-                    fontSize: 20,
+                    fontSize: 20.sp,
                     textAlign: TextAlign.center,
                     fontFamily: "Roboto",
                     fontWeight: FontWeight.w400,
@@ -82,7 +82,7 @@ class RateDialog extends StatelessWidget {
                     direction: Axis.horizontal,
                     allowHalfRating: true,
                     itemCount: 5,
-                    itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0.h),
                     itemBuilder: (context, _) => ShaderMask(
                       shaderCallback: (bounds) => LinearGradient(
                         colors: AppColors.primaryG,
@@ -106,7 +106,7 @@ class RateDialog extends StatelessWidget {
                 title: confirmTitle,
                 fontWeight: FontWeight.w400,
                 fontFamily: "Roboto",
-                fontSize: 22,
+                fontSize: 22.sp,
                 color: AppColors.black,
               ),
             ),

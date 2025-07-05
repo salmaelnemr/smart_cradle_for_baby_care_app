@@ -33,16 +33,16 @@ class ContactCard extends StatelessWidget {
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
               ),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10.r),
             ),
           ),
           Container(
             width: 341.w,
             height: 48.h,
-            margin: const EdgeInsets.all(1),
+            margin: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h,),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10.r),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +62,7 @@ class ContactCard extends StatelessWidget {
                   child: AppText(
                     title: title,
                     textAlign: TextAlign.center,
-                    fontSize: 18,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w400,
                     fontFamily: "Roboto",
                   ),

@@ -18,8 +18,8 @@ class MyInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(
-        top: 16,
+      margin: EdgeInsets.only(
+        top: 16.h,
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -29,7 +29,7 @@ class MyInputField extends StatelessWidget {
             AppText(
               title: title,
               color: Colors.grey[800],
-              fontSize: 20,
+              fontSize: 20.sp,
               fontWeight: FontWeight.w500,
               fontFamily: "Roboto",
             ),
@@ -40,7 +40,7 @@ class MyInputField extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 4.w),
               decoration: BoxDecoration(
                 border: Border.all(color: AppColors.greyLight, width: 1.w,),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               child: Row(
                 children: [
@@ -50,19 +50,19 @@ class MyInputField extends StatelessWidget {
                       autofocus: false,
                       cursorColor: AppColors.pink,
                       controller: controller,
-                      style: const TextStyle(
-                        fontSize: 18,
+                      style: TextStyle(
+                        fontSize: 18.sp,
                         color: AppColors.black,
                       ),
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: AppColors.white,
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 12),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.h, horizontal: 12.w,),
                         hintText: hint,
-                        hintStyle: const TextStyle(
+                        hintStyle: TextStyle(
                           color: AppColors.greyLight,
-                          fontSize: 18,
+                          fontSize: 18.sp,
                           fontFamily: "Roboto",
                           fontWeight: FontWeight.w400,
                         ),

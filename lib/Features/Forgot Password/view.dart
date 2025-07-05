@@ -44,11 +44,11 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 SizedBox(
                   height: 61.5.h,
                 ),
-                const AppText(
+                AppText(
                   title: "Please, Enter your email to send you reset code!",
                   fontFamily: "Roboto",
                   fontWeight: FontWeight.w400,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   color: AppColors.black,
                 ),
                 SizedBox(

@@ -16,7 +16,7 @@ class GuidelinesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
+      padding: EdgeInsets.only(bottom: 16.0.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -31,25 +31,25 @@ class GuidelinesCard extends StatelessWidget {
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                   ),
-                  borderRadius: BorderRadius.circular(32),
+                  borderRadius: BorderRadius.circular(32.r),
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8.w),
               Expanded(
                 child: AppText(
                   title: title,
                   fontFamily: "Roboto",
                   fontWeight: FontWeight.w600,
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   color: const Color(0xFF000000),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4.h),
           ...content.map(
             (text) => Padding(
-              padding: const EdgeInsets.only(left: 24.0, bottom: 12.0, top: 24),
+              padding: EdgeInsets.only(left: 24.0.w, bottom: 12.0.h, top: 24.h,),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -61,7 +61,7 @@ class GuidelinesCard extends StatelessWidget {
                       color: AppColors.black,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Baseline(
                       baseline: 0,
@@ -70,7 +70,7 @@ class GuidelinesCard extends StatelessWidget {
                         title: text,
                         fontFamily: "Roboto",
                         fontWeight: FontWeight.w400,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         color: const Color(0xFF000000),
                       ),
                     ),

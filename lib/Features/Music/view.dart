@@ -47,7 +47,7 @@ class _MusicViewState extends State<MusicView> {
                     AppColors.white,
                     local.animationValue,
                   ),
-                  fontSize: 22,
+                  fontSize: 22.sp,
                   fontWeight: FontWeight.w400,
                   fontFamily: "Roboto",
                 ),

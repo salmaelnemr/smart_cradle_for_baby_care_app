@@ -49,9 +49,9 @@ class VitalSignsView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const AppText(
+          AppText(
             title: "Vital Signs",
-            fontSize: 24,
+            fontSize: 24.sp,
             fontFamily: "Roboto",
             fontWeight: FontWeight.w400,
             color: AppColors.black,

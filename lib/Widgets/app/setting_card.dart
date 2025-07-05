@@ -31,12 +31,13 @@ class SettingCard extends StatelessWidget {
       child: Container(
         width: 341.w,
         height: 48.h,
-        padding: const EdgeInsets.all(
-          12,
+        padding: EdgeInsets.symmetric(
+          horizontal: 12.w,
+          vertical: 12.h,
         ),
         decoration: BoxDecoration(
           color: const Color(0xFFF0F0F0),
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(10.r),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -52,7 +53,7 @@ class SettingCard extends StatelessWidget {
             AppText(
               title: title,
               textAlign: TextAlign.center,
-              fontSize: 16,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w400,
               fontFamily: "Roboto",
               color: color,

@@ -84,20 +84,20 @@ class _StickyNotesScheduleState extends State<StickyNotesSchedule> {
               horizontal: 15.w,
               vertical: 18.h,
             ),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(35),
-                topRight: Radius.circular(35),
+                topLeft: Radius.circular(35.r),
+                topRight: Radius.circular(35.r),
               ),
             ),
             child: Column(
               children: [
-                const Center(
+                Center(
                   child: AppText(
                     title: "Sticky notes",
                     fontWeight: FontWeight.w700,
-                    fontSize: 24,
+                    fontSize: 24.sp,
                     color: AppColors.black,
                     fontFamily: "Roboto",
                   ),
@@ -128,7 +128,7 @@ class _StickyNotesScheduleState extends State<StickyNotesSchedule> {
                                         EdgeInsets.symmetric(vertical: 10.h),
                                     decoration: BoxDecoration(
                                       color: AppColors.red,
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius: BorderRadius.circular(12.r),
                                     ),
                                     child: const Center(
                                       child: Icon(
@@ -195,7 +195,7 @@ class _StickyNotesScheduleState extends State<StickyNotesSchedule> {
                                       ),
                                       decoration: BoxDecoration(
                                         color: AppColors.pinkLight,
-                                        borderRadius: BorderRadius.circular(12),
+                                        borderRadius: BorderRadius.circular(12.r),
                                       ),
                                       child: ListTile(
                                         title: AppText(
@@ -229,15 +229,15 @@ class _StickyNotesScheduleState extends State<StickyNotesSchedule> {
           _loadNotes();
         },
         child: Container(
-          width: 55,
-          height: 55,
+          width: 55.w,
+          height: 55.h,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: AppColors.primaryG,
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
-            borderRadius: BorderRadius.circular(27.5),
+            borderRadius: BorderRadius.circular(27.5.r),
             boxShadow: const [
               BoxShadow(
                 color: Colors.black12,
@@ -265,12 +265,12 @@ class _StickyNotesScheduleState extends State<StickyNotesSchedule> {
       },
       dayProps: EasyDayProps(
         todayHighlightColor: AppColors.pinkLight,
-        height: 76,
-        width: 67,
+        height: 76.h,
+        width: 67.w,
         activeDayStyle: DayStyle(
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(14),
+            borderRadius: BorderRadius.all(
+              Radius.circular(14.r),
             ),
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -281,8 +281,8 @@ class _StickyNotesScheduleState extends State<StickyNotesSchedule> {
         ),
         inactiveDayStyle: DayStyle(
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(14),
+            borderRadius: BorderRadius.all(
+              Radius.circular(14.r),
             ),
             color: Colors.grey[300],
           ),

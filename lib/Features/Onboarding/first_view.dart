@@ -17,10 +17,10 @@ class FirstScreen extends StatelessWidget {
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
           ).createShader(bounds),
-          child: const AppText(
+          child: AppText(
             title: "Comfort and\nsafety comined",
             textAlign: TextAlign.center,
-            fontSize: 36,
+            fontSize: 36.sp,
             fontWeight: FontWeight.w400,
             fontFamily: "Poppins",
           ),

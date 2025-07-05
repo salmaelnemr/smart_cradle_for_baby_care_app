@@ -36,7 +36,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: Container(
-        height: 60,
+        height: 60.h,
         decoration: BoxDecoration(
           color: AppColors.pinkLight,
           borderRadius: BorderRadius.only(topLeft: Radius.circular(25.r), topRight: Radius.circular(25.r)),
@@ -76,14 +76,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
             },
             child: Image.asset(
               imagePath,
-              width: 24,
-              height: 24,
+              width: 24.w,
+              height: 24.h,
               color: AppColors.white2,
             ),
           ),
           if (isSelected)
             Container(
-              margin: const EdgeInsets.only(top: 4),
+              margin: EdgeInsets.only(top: 4.h),
               width: 49.w,
               height: 5.h,
               decoration: BoxDecoration(
@@ -92,7 +92,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                 ),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
             ),
         ],

@@ -3,6 +3,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/models/baby_temp_model.dart';
+import 'package:smart_cradle_for_baby_care_app/Core/route_utils/route_utils.dart';
+import 'package:smart_cradle_for_baby_care_app/Features/Warning/view.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/app_loading_indicator.dart';
 import 'package:smart_cradle_for_baby_care_app/Widgets/main_app_bar.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/app_colors/app_colors.dart';
@@ -76,14 +78,19 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
 
   void _startFetchingData() {
     _listenToVitalSigns();
-    _timer = Timer.periodic(_fetchInterval, (_) => _fetchBabyTemperature());
-    _fetchBabyTemperature();
+    _timer = Timer.periodic(_fetchInterval, (_) => _fetchAllData());
+    _fetchAllData();
   }
 
   void _stopFetchingData() {
     _timer.cancel();
     _vitalSignsSubscription?.cancel();
     _vitalSignsSubscription = null;
+  }
+
+  Future<void> _fetchAllData() async {
+    await _fetchBabyTemperature();
+    await _fetchSensorStatus();
   }
 
   Future<void> _fetchBabyTemperature() async {
@@ -110,14 +117,42 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
     }
   }
 
+  Future<void> _fetchSensorStatus() async {
+    try {
+      final status = await _apiProvider.getSensorStatus();
+      if (status != null) {
+        setState(() {
+          _sensorDataStatusModel = status;
+        });
+
+        final tempStatus = status.babyTemp.toLowerCase() ?? '';
+        if (tempStatus.contains('abnormal')) {
+          if (mounted) {
+            RouteUtils.push(const WarningView(),);
+          }
+        }
+      }
+    } catch (e) {
+      setState(() {
+        _sensorDataStatusModel = SensorDataStatusModel(
+          babyTemp: "N/A",
+          roomTemp: "N/A",
+          heartRate: "N/A",
+          sPo2: "N/A",
+          weight: "N/A",
+        );
+      });
+    }
+  }
+
+
   void _listenToVitalSigns() {
     _vitalSignsSubscription = _databaseRef.onValue.listen(
           (DatabaseEvent event) {
         final data = event.snapshot.value as Map<dynamic, dynamic>?;
-        print("Firebase data: $data");
         setState(() {
           if (data != null) {
-            final homeTemp = (data['temperature'] ?? 42).toDouble();
+            final homeTemp = (data['temperature'] ?? 30).toDouble();
             final hr = (data['heartRate'] ?? 78).toDouble();
             final spO2 = (data['spo2'] ?? 95).toDouble();
             final w = (data['weight'] ?? 5).toDouble();
@@ -129,22 +164,19 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
 
             _homeTemperatureRatio = _calculateRatio(homeTemp, min: -10.0, max: 60.0);
             _breathingRatio = _calculateRatio(spO2, min: 0.0, max: 100.0);
-            _weightRatio = _calculateRatio(w, min: 0.0, max: 15.0);
+            _weightRatio = _calculateRatio(w, min: 0.0, max: 20.0);
 
-            _sensorDataStatusModel = SensorDataStatusModel(
-              babyTemp: _determineBabyTempStatus(babyTempModel?.temp?.toDouble() ?? 36.5),
-              roomTemp: _determineRoomTempStatus(homeTemp),
-              heartRate: _determineHeartRateStatus(hr),
-              sPo2: _determineSpO2Status(spO2),
-              weight: _determineWeightStatus(w),
-            );
+            _heartRateSpots.clear();
+            _heartRateSpots.addAll(List.generate(31, (index) {
+              final List<double> values = [
+                20, 25, 40, 50, 35, 40, 30, 20, 25, 40, 50, 35, 50, 60, 40, 50, 20, 25, 40, 50, 35, 80, 30, 20, 25, 40, 50, 35, 50, 60, 40
+              ];
+              return FlSpot(index.toDouble(), values[index]);
+            }));
 
-            print("SensorDataStatusModel: ${_sensorDataStatusModel!.toJson()}");
-            _isLoading = false;
             _errorMessage = null;
           } else {
             _errorMessage = "No data available from Firebase";
-            _isLoading = false;
             _sensorDataStatusModel = SensorDataStatusModel(
               babyTemp: "N/A",
               roomTemp: "N/A",
@@ -152,14 +184,14 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
               sPo2: "N/A",
               weight: "N/A",
             );
+            _heartRateSpots.clear();
+            _heartRateSpots.addAll(List.generate(31, (index) => FlSpot(index.toDouble(), 0)));
           }
         });
       },
       onError: (error) {
-        print("Firebase error: $error");
         setState(() {
           _errorMessage = "Error fetching Firebase data: $error";
-          _isLoading = false;
           _sensorDataStatusModel = SensorDataStatusModel(
             babyTemp: "N/A",
             roomTemp: "N/A",
@@ -167,39 +199,11 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
             sPo2: "N/A",
             weight: "N/A",
           );
+          _heartRateSpots.clear();
+          _heartRateSpots.addAll(List.generate(31, (index) => FlSpot(index.toDouble(), 0)));
         });
       },
     );
-  }
-
-  String _determineBabyTempStatus(double temp) {
-    if (temp < 36.0) return "Low";
-    if (temp > 37.5) return "High";
-    return "Normal";
-  }
-
-  String _determineRoomTempStatus(double temp) {
-    if (temp < 18.0) return "Cold";
-    if (temp > 26.0) return "Hot";
-    return "Normal";
-  }
-
-  String _determineHeartRateStatus(double hr) {
-    if (hr < 60.0) return "Bradycardia";
-    if (hr > 100.0) return "Tachycardia";
-    return "Normal";
-  }
-
-  String _determineSpO2Status(double spO2) {
-    if (spO2 < 85.0) return "Abnormal (Severe Hypoxemia)";
-    if (spO2 < 90.0) return "Abnormal (Moderate Hypoxemia)";
-    return "Normal";
-  }
-
-  String _determineWeightStatus(double weight) {
-    if (weight < 2.5) return "Underweight";
-    if (weight > 4.5) return "Overweight";
-    return "NormalWeight";
   }
 
   double _calculateRatio(double value, {required double min, required double max}) {
@@ -232,13 +236,14 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
         breathingRatio: _breathingRatio,
         weightRatio: _weightRatio,
         heartRateSpots: _heartRateSpots,
-        sensorDataStatusModel: _sensorDataStatusModel ?? SensorDataStatusModel(
-          babyTemp: "Normal",
-          roomTemp: "Hot",
-          heartRate: "Bradycardia",
-          sPo2: "Abnormal (Moderate Hypoxemia)",
-          weight: "NormalWeight",
-        ),
+        sensorDataStatusModel: _sensorDataStatusModel ??
+            SensorDataStatusModel(
+              babyTemp: "Normal",
+              roomTemp: "Hot",
+              heartRate: "Bradycardia",
+              sPo2: "Abnormal (Moderate Hypoxemia)",
+              weight: "NormalWeight",
+            ),
       ),
     );
   }

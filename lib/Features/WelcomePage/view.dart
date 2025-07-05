@@ -29,10 +29,10 @@ class WelcomePageView extends StatelessWidget {
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
               ).createShader(bounds),
-              child: const AppText(
+              child: AppText(
                 title: "Welcome to the app",
                 fontFamily: "Roboto",
-                fontSize: 24,
+                fontSize: 24.sp,
                 fontWeight: FontWeight.w400,
                 textAlign: TextAlign.center,
               ),

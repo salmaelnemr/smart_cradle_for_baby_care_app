@@ -22,7 +22,7 @@ class SectionCard extends StatelessWidget {
         width: 345.w,
         decoration: BoxDecoration(
           color: AppColors.pinkLight,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(10.r),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -38,7 +38,7 @@ class SectionCard extends StatelessWidget {
             AppText(
               title: title,
               fontFamily: "Roboto",
-              fontSize: 20,
+              fontSize: 20.sp,
               color: AppColors.black,
               fontWeight: FontWeight.w400,
               textAlign: TextAlign.center,

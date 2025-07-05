@@ -81,7 +81,7 @@ class _ProfileAvatarState extends State<ProfileAvatar> {
             FittedBox(
               fit: BoxFit.fill,
               child: CircleAvatar(
-                radius: 50,
+                radius: 50.r,
                 backgroundImage: _getProfileImage(),
                 backgroundColor: const Color(0xFFdee1e6),
                 child: _getProfileImage() == null
@@ -96,9 +96,9 @@ class _ProfileAvatarState extends State<ProfileAvatar> {
             GestureDetector(
               onTap: _uploadProfileImage,
               child: Padding(
-                padding: const EdgeInsetsDirectional.only(bottom: 3, end: 3),
+                padding: EdgeInsetsDirectional.only(bottom: 3.h, end: 3.w),
                 child: CircleAvatar(
-                  radius: 12,
+                  radius: 12.r,
                   backgroundColor: const Color(0xFFF1ABBB),
                   child: Image.asset(
                     'Assets/Images/editProfile.png',
@@ -121,7 +121,7 @@ class _ProfileAvatarState extends State<ProfileAvatar> {
                 title: _userModel!.fullName ?? 'User',
                 fontFamily: "Roboto",
                 fontWeight: FontWeight.w500,
-                fontSize: 24,
+                fontSize: 24.sp,
                 color: AppColors.black,
               ),
               SizedBox(height: 3.h),
@@ -129,7 +129,7 @@ class _ProfileAvatarState extends State<ProfileAvatar> {
                 title: _userModel!.email ?? '',
                 fontFamily: "Roboto",
                 fontWeight: FontWeight.w400,
-                fontSize: 16,
+                fontSize: 16.sp,
                 color: AppColors.grey2,
               ),
             ],

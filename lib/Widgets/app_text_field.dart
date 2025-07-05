@@ -68,7 +68,10 @@ class _AppTextFieldState extends State<AppTextField> {
           decoration: InputDecoration(
             filled: true,
             fillColor: AppColors.white,
-            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+            contentPadding: EdgeInsets.symmetric(
+              vertical: 10.h,
+              horizontal: 12.w,
+            ),
             hintText: widget.hint,
             hintStyle: TextStyle(
               color: AppColors.greyLight,
@@ -77,40 +80,45 @@ class _AppTextFieldState extends State<AppTextField> {
               fontWeight: FontWeight.w400,
             ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
               borderSide: const BorderSide(color: AppColors.greyLight),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
               borderSide: const BorderSide(color: AppColors.greyLight),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
               borderSide: const BorderSide(color: AppColors.pink),
             ),
             prefixIcon: widget.prefixIcon != null
                 ? Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Image.asset(
-                widget.prefixIcon!,
-                width: 20,
-                height: 20,
-              ),
-            )
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 10.h,
+                    ),
+                    child: Image.asset(
+                      widget.prefixIcon!,
+                      width: 20.w,
+                      height: 20.h,
+                    ),
+                  )
                 : null,
             suffixIcon: widget.suffixIcon != null
                 ? IconButton(
-              onPressed: () {
-                setState(() {
-                  visible = !visible;
-                });
-              },
-              icon: Icon(
-                visible ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye,
-                color: AppColors.greyLight,
-                size: 17,
-              ),
-            )
+                    onPressed: () {
+                      setState(() {
+                        visible = !visible;
+                      });
+                    },
+                    icon: Icon(
+                      visible
+                          ? FontAwesomeIcons.eyeSlash
+                          : FontAwesomeIcons.eye,
+                      color: AppColors.greyLight,
+                      size: 17,
+                    ),
+                  )
                 : null,
           ),
         ),

@@ -17,10 +17,10 @@ class SecondScreen extends StatelessWidget {
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
           ).createShader(bounds),
-          child: const AppText(
+          child: AppText(
             title: "More rest for\nthe entire family",
             textAlign: TextAlign.center,
-            fontSize: 36,
+            fontSize: 36.sp,
             fontWeight: FontWeight.w400,
             fontFamily: "Poppins",
           ),

@@ -51,9 +51,12 @@ class _ProfileViewState extends State<ProfileView> {
             Container(
               height: 138.h,
               width: 358.w,
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.symmetric(
+                horizontal: 10.w,
+                vertical: 10.h,
+              ),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.r),
                 border: Border.all(
                   color: const Color(0xFFEAEAEA),
                   width: 1,
@@ -89,9 +92,12 @@ class _ProfileViewState extends State<ProfileView> {
             Container(
               height: 272.h,
               width: 358.w,
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.symmetric(
+                horizontal: 10.w,
+                vertical: 10.h,
+              ),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.r),
                 border: Border.all(
                   color: const Color(0xFFEAEAEA),
                   width: 1,
@@ -142,7 +148,10 @@ class _ProfileViewState extends State<ProfileView> {
             ),
             SizedBox(height: 12.h),
             Padding(
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.symmetric(
+                horizontal: 10.w,
+                vertical: 10.h,
+              ),
               child: SettingCard(
                 title: "Log out",
                 image: "Assets/Images/logOutIcon.png",

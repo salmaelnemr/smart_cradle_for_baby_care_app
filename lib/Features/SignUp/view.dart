@@ -53,11 +53,11 @@ class _SignUpViewState extends State<SignUpView> {
                 width: 146.w,
               ),
               SizedBox(height: 4.h),
-              const AppText(
+              AppText(
                 title: "Create Account!",
                 fontFamily: "Poppins",
                 fontWeight: FontWeight.w400,
-                fontSize: 32,
+                fontSize: 32.sp,
                 color: AppColors.black,
               ),
               SizedBox(height: 40.86.h),
@@ -131,10 +131,10 @@ class _SignUpViewState extends State<SignUpView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const AppText(
+                  AppText(
                     title: "Already have an account?",
                     fontFamily: "Roboto",
-                    fontSize: 16,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w400,
                     color: AppColors.greyLight,
                   ),
@@ -150,10 +150,10 @@ class _SignUpViewState extends State<SignUpView> {
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                       ).createShader(bounds),
-                      child: const AppText(
+                      child: AppText(
                         title: "Login",
                         fontWeight: FontWeight.w700,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontFamily: "Roboto",
                       ),
                     ),

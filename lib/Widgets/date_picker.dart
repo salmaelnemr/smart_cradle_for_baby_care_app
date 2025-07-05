@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cradle_for_baby_care_app/Core/app_colors/app_colors.dart';
 
 class DatePicker {
@@ -21,14 +22,14 @@ class DatePicker {
               onPrimary: AppColors.white,
               onSurface: AppColors.black,
             ),
-            textTheme: const TextTheme(
+            textTheme: TextTheme(
               headlineLarge: TextStyle(
-                fontSize: 24,
+                fontSize: 24.sp,
                 fontWeight: FontWeight.bold,
                 color: AppColors.white,
               ),
               titleMedium: TextStyle(
-                fontSize: 18,
+                fontSize: 18.sp,
                 color: AppColors.black,
               ),
             ),
@@ -43,7 +44,7 @@ class DatePicker {
               todayForegroundColor: WidgetStateProperty.all(AppColors.white),
               yearForegroundColor: WidgetStateProperty.all(Colors.black),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
               ),
             ),
           ),

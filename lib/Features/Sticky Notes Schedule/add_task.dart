@@ -73,17 +73,17 @@ class _AddTaskPageState extends State<AddTaskPage> {
             ];
           },
           body: Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(35),
-                topRight: Radius.circular(35),
+                topLeft: Radius.circular(35.r),
+                topRight: Radius.circular(35.r),
               ),
             ),
             child: Scaffold(
               backgroundColor: Colors.transparent,
               body: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -93,7 +93,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                           title: widget.note == null
                               ? 'Add Reminder'
                               : 'Edit Reminder',
-                          fontSize: 24,
+                          fontSize: 24.sp,
                           fontWeight: FontWeight.w700,
                           fontFamily: "Roboto",
                           color: AppColors.black,

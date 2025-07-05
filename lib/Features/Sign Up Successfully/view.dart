@@ -34,9 +34,9 @@ class _SignUpSuccessfullyState extends State<SignUpSuccessfully> {
               SizedBox(
                 height: 33.25.h,
               ),
-              const AppText(
+              AppText(
                 title: "Congratulations",
-                fontSize: 24,
+                fontSize: 24.sp,
                 fontFamily: "Roboto",
                 fontWeight: FontWeight.w500,
                 color: AppColors.black,
@@ -45,9 +45,9 @@ class _SignUpSuccessfullyState extends State<SignUpSuccessfully> {
               SizedBox(
                 height: 9.h,
               ),
-              const AppText(
+              AppText(
                 title: "You have signed in successfully",
-                fontSize: 18,
+                fontSize: 18.sp,
                 fontFamily: "Roboto",
                 fontWeight: FontWeight.w400,
                 color: AppColors.black,

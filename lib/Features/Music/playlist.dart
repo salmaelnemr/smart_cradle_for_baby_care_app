@@ -77,9 +77,9 @@ class _PlaylistViewState extends State<PlaylistView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const AppText(
+            AppText(
               title: "Nature",
-              fontSize: 24,
+              fontSize: 24.sp,
               fontWeight: FontWeight.w400,
               fontFamily: "Roboto",
               color: AppColors.black,
@@ -102,9 +102,9 @@ class _PlaylistViewState extends State<PlaylistView> {
             ),
             Padding(
               padding: EdgeInsets.only(top: 20.h),
-              child: const AppText(
+              child: AppText(
                 title: "Transport",
-                fontSize: 24,
+                fontSize: 24.sp,
                 fontWeight: FontWeight.w400,
                 fontFamily: "Roboto",
                 color: AppColors.black,
@@ -128,9 +128,9 @@ class _PlaylistViewState extends State<PlaylistView> {
             ),
             Padding(
               padding: EdgeInsets.only(top: 20.h),
-              child: const AppText(
+              child: AppText(
                 title: "House",
-                fontSize: 24,
+                fontSize: 24.sp,
                 fontWeight: FontWeight.w400,
                 fontFamily: "Roboto",
                 color: AppColors.black,
@@ -154,9 +154,9 @@ class _PlaylistViewState extends State<PlaylistView> {
             ),
             Padding(
               padding: EdgeInsets.only(top: 20.h),
-              child: const AppText(
+              child: AppText(
                 title: "White noise",
-                fontSize: 24,
+                fontSize: 24.sp,
                 fontWeight: FontWeight.w400,
                 fontFamily: "Roboto",
                 color: AppColors.black,

@@ -60,7 +60,7 @@ class _SplashViewState extends State<SplashView> {
                 width: 278.w,
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             AnimatedOpacity(
               opacity: _logoOpacity,
               duration: const Duration(seconds: 2),

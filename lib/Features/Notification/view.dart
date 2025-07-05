@@ -33,7 +33,8 @@ class _NotificationViewState extends State<NotificationView> {
           .map((notify) => jsonDecode(notify) as Map<String, dynamic>)
           .toList();
 
-      notifications.sort((a, b) => DateTime.parse(b['timestamp']).compareTo(DateTime.parse(a['timestamp'])));
+      notifications.sort((a, b) => DateTime.parse(b['timestamp'])
+          .compareTo(DateTime.parse(a['timestamp'])));
     });
   }
 
@@ -54,61 +55,61 @@ class _NotificationViewState extends State<NotificationView> {
         child: notifications.isEmpty
             ? const Center(child: AppText(title: "No Notifications"))
             : ListView.builder(
-          itemCount: groupedNotifications.keys.length,
-          itemBuilder: (context, index) {
-            String date = groupedNotifications.keys.elementAt(index);
-            List<Map<String, dynamic>> dailyNotifications =
-            groupedNotifications[date]!;
+                itemCount: groupedNotifications.keys.length,
+                itemBuilder: (context, index) {
+                  String date = groupedNotifications.keys.elementAt(index);
+                  List<Map<String, dynamic>> dailyNotifications =
+                      groupedNotifications[date]!;
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppText(
-                  title: date,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: "Roboto",
-                  fontSize: 16.sp,
-                  color: AppColors.black,
-                ),
-                SizedBox(height: 8.h),
-                ...dailyNotifications.map((notification) {
-                  return Container(
-                    margin: EdgeInsets.only(bottom: 18.14.h),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 16.w, vertical: 10.h),
-                    decoration: BoxDecoration(
-                      color: AppColors.pinkLight,
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: AppText(
-                            title: notification["body"],
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "Roboto",
-                            fontSize: 16.sp,
-                            color: AppColors.black,
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppText(
+                        title: date,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: "Roboto",
+                        fontSize: 16.sp,
+                        color: AppColors.black,
+                      ),
+                      SizedBox(height: 8.h),
+                      ...dailyNotifications.map((notification) {
+                        return Container(
+                          margin: EdgeInsets.only(bottom: 18.14.h),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16.w, vertical: 10.h),
+                          decoration: BoxDecoration(
+                            color: AppColors.pinkLight,
+                            borderRadius: BorderRadius.circular(10.r),
                           ),
-                        ),
-                        AppText(
-                          title: _formatTime(
-                              DateTime.parse(notification["timestamp"])),
-                          fontWeight: FontWeight.w400,
-                          fontFamily: "Roboto",
-                          fontSize: 16.sp,
-                          color: AppColors.black,
-                        ),
-                      ],
-                    ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: AppText(
+                                  title: notification["body"],
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: "Roboto",
+                                  fontSize: 16.sp,
+                                  color: AppColors.black,
+                                ),
+                              ),
+                              AppText(
+                                title: _formatTime(
+                                    DateTime.parse(notification["timestamp"])),
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "Roboto",
+                                fontSize: 16.sp,
+                                color: AppColors.black,
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+                      SizedBox(height: 18.14.h),
+                    ],
                   );
-                }),
-                SizedBox(height: 18.14.h),
-              ],
-            );
-          },
-        ),
+                },
+              ),
       ),
     );
   }
@@ -148,7 +149,8 @@ class _NotificationViewState extends State<NotificationView> {
 
     if (DateUtils.isSameDay(date, now)) {
       return "Today, $formattedDayMonth";
-    } else if (DateUtils.isSameDay(date, now.subtract(const Duration(days: 1)))) {
+    } else if (DateUtils.isSameDay(
+        date, now.subtract(const Duration(days: 1)))) {
       return "Yesterday, $formattedDayMonth";
     } else {
       final dayOfWeek = DateFormat('EEEE').format(date);

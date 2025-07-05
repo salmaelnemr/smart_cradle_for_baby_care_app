@@ -52,11 +52,11 @@ class _LoginViewState extends State<LoginView> {
               SizedBox(
                 height: 4.h,
               ),
-              const AppText(
+              AppText(
                 title: "Welcome Back!",
                 fontFamily: "Poppins",
                 fontWeight: FontWeight.w400,
-                fontSize: 32,
+                fontSize: 32.sp,
                 color: AppColors.black,
               ),
               SizedBox(
@@ -101,10 +101,10 @@ class _LoginViewState extends State<LoginView> {
                           begin: Alignment.bottomCenter,
                           end: Alignment.topCenter,
                         ).createShader(bounds),
-                        child: const AppText(
+                        child: AppText(
                           title: "Forgot Password?",
                           fontWeight: FontWeight.w400,
-                          fontSize: 14,
+                          fontSize: 14.sp,
                           fontFamily: "Roboto",
                         ),
                       ),
@@ -145,10 +145,10 @@ class _LoginViewState extends State<LoginView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const AppText(
+                  AppText(
                     title: "Don’t have an account?",
                     fontFamily: "Roboto",
-                    fontSize: 16,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w400,
                     color: AppColors.greyLight,
                   ),
@@ -164,10 +164,10 @@ class _LoginViewState extends State<LoginView> {
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                       ).createShader(bounds),
-                      child: const AppText(
+                      child: AppText(
                         title: "Sign Up",
                         fontWeight: FontWeight.w700,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontFamily: "Roboto",
                       ),
                     ),

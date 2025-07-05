@@ -137,7 +137,7 @@ class _PlayRecordViewState extends State<PlayRecordView> {
               ).createShader(bounds),
               child: AppText(
                 title: name,
-                fontSize: 24,
+                fontSize: 24.sp,
                 fontWeight: FontWeight.w500,
                 fontFamily: "Roboto",
                 color: Colors.white,
@@ -149,7 +149,10 @@ class _PlayRecordViewState extends State<PlayRecordView> {
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 8.w,
+                    vertical: 8.h,
+                  ),
                   child: AppImageButton(
                     imagePath: "Assets/Images/prev.png",
                     onPressed: currentIndex > 0 ? previousTrack : () {},
@@ -160,7 +163,10 @@ class _PlayRecordViewState extends State<PlayRecordView> {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 8.w,
+                    vertical: 8.h,
+                  ),
                   child: AppImageButton(
                     imagePath: player.playing
                         ? "Assets/Images/pause.png"
@@ -173,7 +179,10 @@ class _PlayRecordViewState extends State<PlayRecordView> {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 8.w,
+                    vertical: 8.h,
+                  ),
                   child: AppImageButton(
                     imagePath: "Assets/Images/next.png",
                     onPressed: currentIndex < widget.audioPaths.length - 1

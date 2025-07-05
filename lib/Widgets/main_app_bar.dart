@@ -42,7 +42,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
             ).createShader(bounds),
             child: AppText(
               title: appName!,
-              fontSize: 32,
+              fontSize: 32.sp,
               fontWeight: FontWeight.w500,
               fontFamily: "Poppins",
             ),
@@ -50,7 +50,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
           if (title != null)
           AppText(
             title: title!,
-            fontSize: 32,
+            fontSize: 32.sp,
             fontFamily: "Poppins",
             fontWeight: FontWeight.w500,
             color: AppColors.black,

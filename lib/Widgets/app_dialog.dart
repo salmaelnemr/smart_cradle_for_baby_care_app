@@ -43,7 +43,7 @@ class AppDialog extends StatelessWidget {
     return Dialog(
       backgroundColor: AppColors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -58,7 +58,7 @@ class AppDialog extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 23.height),
               child: AppText(
                 title: message,
-                fontSize: 20,
+                fontSize: 20.sp,
                 textAlign: TextAlign.center,
                 fontFamily: "Roboto",
                 fontWeight: FontWeight.w400,
@@ -74,7 +74,7 @@ class AppDialog extends StatelessWidget {
                       title: confirmTitle,
                       fontWeight: FontWeight.w400,
                       fontFamily: "Roboto",
-                      fontSize: 22,
+                      fontSize: 22.sp,
                       color: AppColors.greyLight,
                     ),
                   ),
@@ -95,11 +95,11 @@ class AppDialog extends StatelessWidget {
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                       ).createShader(bounds),
-                      child: const AppText(
+                      child: AppText(
                         title: "Cancel",
                         fontWeight: FontWeight.w400,
                         fontFamily: "Roboto",
-                        fontSize: 22,
+                        fontSize: 22.sp,
                       ),
                     ),
                   ),

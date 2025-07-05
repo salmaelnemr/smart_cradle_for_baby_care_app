@@ -37,7 +37,7 @@ class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget{
           SizedBox(width: 7.62.w),
           AppText(
             title: title,
-            fontSize: 24,
+            fontSize: 24.sp,
             fontFamily: "Roboto",
             fontWeight: FontWeight.w500,
             color: AppColors.black,

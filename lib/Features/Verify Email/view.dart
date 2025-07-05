@@ -44,9 +44,9 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                 SizedBox(
                   height: 54.72.h,
                 ),
-                const AppText(
+                AppText(
                   title: "Enter the 4 digit code that send to your email\naddress",
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   fontFamily: "Roboto",
                   fontWeight: FontWeight.w400,
                   color: AppColors.black,
@@ -58,7 +58,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                 Center(
                   child: PasscodeInput(
                     onCompleted: (passcode) {
-                      print('Entered Passcode: $passcode');
+
                     },
                     color: AppColors.pinkLight,
                   ),
@@ -67,29 +67,25 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const AppText(
+                    AppText(
                       title: "Don’t receive code?",
                       fontFamily: "Roboto",
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
                       color: AppColors.greyLight,
                     ),
                     TextButton(
-                      onPressed: () {
-                        // RouteUtils.push(
-                        //   const LoginView(),
-                        // );
-                      },
+                      onPressed: () {},
                       child: ShaderMask(
                         shaderCallback: (bounds) => LinearGradient(
                           colors: AppColors.primaryG,
                           begin: Alignment.bottomCenter,
                           end: Alignment.topCenter,
                         ).createShader(bounds),
-                        child: const AppText(
+                        child: AppText(
                           title: "Resend",
                           fontWeight: FontWeight.w700,
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           fontFamily: "Roboto",
                         ),
                       ),

@@ -73,7 +73,7 @@ class _PasscodeInputState extends State<PasscodeInput> {
               decoration: BoxDecoration(
                 color: widget.color,
                 borderRadius: BorderRadius.circular(12.r),
-                border: Border.all(color: Colors.grey.shade300, width: 1.5),
+                border: Border.all(color: Colors.grey.shade300, width: 1.5.w),
               ),
               child: TextField(
                 controller: controllers[index],

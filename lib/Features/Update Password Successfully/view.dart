@@ -32,9 +32,9 @@ class _UpdatePasswordSuccessfullyState extends State<UpdatePasswordSuccessfully>
               SizedBox(
                 height: 21.2.h,
               ),
-              const AppText(
+              AppText(
                 title: "Congratulations",
-                fontSize: 24,
+                fontSize: 24.sp,
                 fontFamily: "Roboto",
                 fontWeight: FontWeight.w500,
                 color: AppColors.black,
@@ -43,9 +43,9 @@ class _UpdatePasswordSuccessfullyState extends State<UpdatePasswordSuccessfully>
               SizedBox(
                 height: 18.h,
               ),
-              const AppText(
+              AppText(
                 title: "You have updated the password. Please,\nLogin again with your latest password.",
-                fontSize: 18,
+                fontSize: 18.sp,
                 fontFamily: "Roboto",
                 fontWeight: FontWeight.w400,
                 color: AppColors.black,

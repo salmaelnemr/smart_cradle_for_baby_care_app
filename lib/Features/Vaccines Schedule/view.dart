@@ -74,12 +74,12 @@ class _VaccineScheduleState extends State<VaccineSchedule> {
             ];
           },
           body: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            decoration: const BoxDecoration(
+            padding: EdgeInsets.symmetric(horizontal: 15.w),
+            decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(35),
-                topRight: Radius.circular(35),
+                topLeft: Radius.circular(35.r),
+                topRight: Radius.circular(35.r),
               ),
             ),
             child: Expanded(
@@ -88,10 +88,10 @@ class _VaccineScheduleState extends State<VaccineSchedule> {
                       child: AppLoadingIndicator(),
                     )
                   : vaccines.isEmpty
-                      ? const Center(
+                      ? Center(
                           child: AppText(
                             title: "No vaccines available.",
-                            fontSize: 18,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
                             fontFamily: "Roboto",
                             color: AppColors.black,
@@ -103,11 +103,11 @@ class _VaccineScheduleState extends State<VaccineSchedule> {
                           ),
                           child: Column(
                             children: [
-                              const Center(
+                              Center(
                                 child: AppText(
                                   title: "Vaccines",
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 24,
+                                  fontSize: 24.sp,
                                   color: AppColors.black,
                                   fontFamily: "Roboto",
                                 ),
@@ -120,17 +120,18 @@ class _VaccineScheduleState extends State<VaccineSchedule> {
                                     final vaccine = vaccines[index];
                                     return Card(
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
+                                        borderRadius: BorderRadius.circular(15.r),
                                       ),
                                       color: AppColors.pinkLight,
                                       elevation: 4,
-                                      margin: const EdgeInsets.symmetric(
-                                          vertical: 8),
+                                      margin: EdgeInsets.symmetric(
+                                          vertical: 8.h,
+                                      ),
                                       child: ListTile(
                                         title: AppText(
                                           title:
                                               vaccine.vaccineName ?? 'No Name',
-                                          fontSize: 18,
+                                          fontSize: 18.sp,
                                           fontWeight: FontWeight.bold,
                                           color: AppColors.black,
                                         ),
@@ -138,18 +139,18 @@ class _VaccineScheduleState extends State<VaccineSchedule> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            const SizedBox(height: 5),
+                                            SizedBox(height: 5.h),
                                             AppText(
                                               title: vaccine.content ?? '',
-                                              fontSize: 14,
+                                              fontSize: 14.sp,
                                               color: AppColors.black,
                                             ),
-                                            const SizedBox(height: 5),
+                                            SizedBox(height: 5.h),
                                             AppText(
                                               title: vaccine.date != null
                                                   ? "Date: ${vaccine.date!.toLocal().toString().split(' ')[0]}"
                                                   : "No Date",
-                                              fontSize: 12,
+                                              fontSize: 12.sp,
                                               color: AppColors.greyLight,
                                             ),
                                           ],

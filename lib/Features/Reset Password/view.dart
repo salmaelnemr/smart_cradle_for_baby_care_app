@@ -44,11 +44,11 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                 SizedBox(
                   height: 30.h,
                 ),
-                const AppText(
+                AppText(
                   title: "Please, Enter your new password!",
                   fontFamily: "Roboto",
                   fontWeight: FontWeight.w400,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   color: AppColors.black,
                 ),
                 SizedBox(

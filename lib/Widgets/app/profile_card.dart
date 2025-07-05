@@ -28,7 +28,7 @@ class ProfileCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.pinkLight,
           borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(color: Colors.grey.shade300, width: 1.5),
+          border: Border.all(color: Colors.grey.shade300, width: 1.5.w,),
         ),
         child: Padding(
           padding: EdgeInsets.only(top: 15.h, left: 12.w),
@@ -50,7 +50,7 @@ class ProfileCard extends StatelessWidget {
                     AppText(
                       title: title,
                       fontFamily: "Roboto",
-                      fontSize: 22,
+                      fontSize: 22.sp,
                       fontWeight: FontWeight.w400,
                       color: AppColors.black,
                     ),
@@ -60,7 +60,7 @@ class ProfileCard extends StatelessWidget {
                     AppText(
                       title: subtitle,
                       fontFamily: "Roboto",
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
                       color: AppColors.greyLight,
                     ),

@@ -135,7 +135,7 @@ class _PlaySongViewState extends State<PlaySongView> {
               ).createShader(bounds),
               child: AppText(
                 title: widget.musicNames[currentSoundNumber],
-                fontSize: 24,
+                fontSize: 24.sp,
                 fontWeight: FontWeight.w500,
                 fontFamily: "Roboto",
                 color: Colors.white,
@@ -147,7 +147,10 @@ class _PlaySongViewState extends State<PlaySongView> {
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 8.w,
+                    vertical: 8.h,
+                  ),
                   child: AppImageButton(
                     imagePath: "Assets/Images/prev.png",
                     onPressed: currentSoundNumber > 0 ? playPrevious : () {},
@@ -158,7 +161,10 @@ class _PlaySongViewState extends State<PlaySongView> {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 8.w,
+                    vertical: 8.h,
+                  ),
                   child: AppImageButton(
                     imagePath: player.playing
                         ? "Assets/Images/pause.png"
@@ -171,7 +177,10 @@ class _PlaySongViewState extends State<PlaySongView> {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 8.w,
+                    vertical: 8.h,
+                  ),
                   child: AppImageButton(
                     imagePath: "Assets/Images/next.png",
                     onPressed: currentSoundNumber < widget.musicNames.length - 1

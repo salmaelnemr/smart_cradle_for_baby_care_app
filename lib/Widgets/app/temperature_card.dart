@@ -34,11 +34,11 @@ class TemperatureCard extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: AppColors.white2,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: const [
+        borderRadius: BorderRadius.circular(10.r),
+        boxShadow: [
           BoxShadow(
             color: Colors.black12,
-            blurRadius: 2,
+            blurRadius: 2.r,
           ),
         ],
       ),
@@ -49,14 +49,14 @@ class TemperatureCard extends StatelessWidget {
             title: title,
             fontFamily: "Roboto",
             fontWeight: FontWeight.w700,
-            fontSize: 18,
+            fontSize: 18.sp,
             color: AppColors.black,
           ),
           AppText(
             title: status,
             fontFamily: "Roboto",
             fontWeight: FontWeight.w400,
-            fontSize: 13,
+            fontSize: 13.sp,
             color: AppColors.greyLight,
           ),
           SizedBox(height: 15.h),
@@ -72,7 +72,7 @@ class TemperatureCard extends StatelessWidget {
                 direction: Axis.vertical,
                 curve: Curves.fastLinearToSlowEaseIn,
                 duration: const Duration(seconds: 3),
-                borderRadius: BorderRadius.circular(35),
+                borderRadius: BorderRadius.circular(35.r),
                 gradientColor: LinearGradient(
                   colors: AppColors.primaryG,
                   begin: Alignment.bottomCenter,
@@ -93,7 +93,7 @@ class TemperatureCard extends StatelessWidget {
                     title: degree,
                     fontFamily: "Roboto",
                     fontWeight: FontWeight.w400,
-                    fontSize: 24,
+                    fontSize: 24.sp,
                     color: AppColors.black,
                   ),
                 ],
